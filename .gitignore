@@ -1,6 +1,11 @@
-INSTALL.txt
-LICENSE.txt
-README.txt
-demos/
-extras/documentation
-
+.buildpath
+.DS_Store
+.idea
+.project
+.settings/
+.*.sw*
+.*.un~
+build/
+composer.lock
+nbproject
+tmp/

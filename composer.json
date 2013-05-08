@@ -1,0 +1,19 @@
+{
+    "name": "thinkscape/phpdiagnostics",
+    "description": "An universal set of diagnostic tests for PHP applications",
+    "keywords": [
+        "php",
+        "diagnostics",
+        "test"
+    ],
+    "homepage": "https://github.com/Thinkscape/PHPDiagnostics",
+    "license": "BSD-3-Clause",
+    "autoload": {
+        "psr-0": {
+            "PHPDiagnostics\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
