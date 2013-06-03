@@ -13,4 +13,11 @@ interface CheckInterface
      * @return ResultInterface
      */
     public function check();
+
+    /**
+     * Return a label describing this test instance.
+     *
+     * @return string
+     */
+    public function getLabel();
 }
