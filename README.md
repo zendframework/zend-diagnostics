@@ -37,7 +37,7 @@ which implements one of the following result interfaces:
 
  * [Success](src/ZendDiagnostics/Result/SuccessInterface.php).
  * [Warning](src/ZendDiagnostics/Result/WarningInterface.php) - in case there might be something wrong.
- * [Failure](src/ZendDiagnostics/Result/WarningInterface.php) - when the test failed and an intervention is required.
+ * [Failure](src/ZendDiagnostics/Result/FailureInterface.php) - when the test failed and an intervention is required.
 
 Each test [Result](src/ZendDiagnostics/Result/ResultInterface.php) can additionally return:
 
