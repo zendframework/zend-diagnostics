@@ -14,6 +14,13 @@
     <listeners>
     </listeners>
 
+    <filter>
+        <blacklist>
+            <directory suffix=".php">./ZendDiagnosticsTest</directory>
+            <directory>../vendor</directory>
+        </blacklist>
+    </filter>
+
     <php>
     </php>
 
