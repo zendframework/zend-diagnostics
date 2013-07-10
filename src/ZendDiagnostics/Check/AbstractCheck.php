@@ -5,15 +5,8 @@
 
 namespace ZendDiagnostics\Check;
 
-use ZendDiagnostics\Result\ResultInterface;
-
 abstract class AbstractCheck implements CheckInterface
 {
-    /**
-     * @return ResultInterface
-     */
-    abstract public function check();
-
     /**
      * Return a label describing this test instance.
      *
