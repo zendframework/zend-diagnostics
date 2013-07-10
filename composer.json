@@ -10,10 +10,15 @@
     "license": "BSD-3-Clause",
     "autoload": {
         "psr-0": {
-            "ZendDiagnostics\\": "src/"
+            "ZendDiagnostics\\": "src/",
+            "ZendDiagnosticsTest\\": "tests/"
         }
     },
     "require": {
         "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "zendframework/zend-loader": "2.*",
+        "phpunit/phpunit": "3.7.*"
     }
 }

@@ -1,0 +1,20 @@
+<phpunit bootstrap="./Bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="ZendDiagnostics Test Suite">
+            <directory>./ZendDiagnosticsTest</directory>
+            <exclude>./ZendTest/_assets/</exclude>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <exclude>
+        </exclude>
+    </groups>
+
+    <listeners>
+    </listeners>
+
+    <php>
+    </php>
+
+</phpunit>
