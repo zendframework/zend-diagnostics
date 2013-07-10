@@ -35,7 +35,7 @@ test on the application or environment.
 It must return a [Result](src/ZendDiagnostics/Result/ResultInterface.php)
 which implements one of the following result interfaces:
 
- * [Success](src/ZendDiagnostics/Result/SuccessInterface.php).
+ * [Success](src/ZendDiagnostics/Result/SuccessInterface.php) - in case the check ran through without any issue.
  * [Warning](src/ZendDiagnostics/Result/WarningInterface.php) - in case there might be something wrong.
  * [Failure](src/ZendDiagnostics/Result/FailureInterface.php) - when the test failed and an intervention is required.
 
