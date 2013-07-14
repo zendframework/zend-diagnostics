@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendDiagnostics\Reporter;
+namespace ZendDiagnostics\Runner\Reporter;
 
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\Failure;
@@ -16,13 +16,14 @@ use ZendDiagnostics\Result\Warning;
 use ZendDiagnostics\Runner\Reporter\ConsoleColor as Color;
 use ZendDiagnostics\Check\CheckInterface as Check;
 use ZendDiagnostics\Result\ResultInterface as Result;
+use \ArrayObject;
 
 /**
  * A simple reporter for displaying Runner results in console window.
  *
  * @package ZendDiagnostics\Reporter
  */
-class BasicConsole extends AbstractReporter
+class BasicConsole implements ReporterInterface
 {
     protected $width = 80;
     protected $consoleColor = false;
@@ -45,7 +46,7 @@ class BasicConsole extends AbstractReporter
         $this->consoleColor = (bool)$useColor;
     }
 
-    public function onStart($checks, $runnerConfig)
+    public function onStart(ArrayObject $checks, $runnerConfig)
     {
         $this->stopped = false;
         $this->iteration = 1;
@@ -63,6 +64,8 @@ class BasicConsole extends AbstractReporter
         $this->consoleWriteLn('Starting diagnostics:');
         $this->consoleWriteLn('');
     }
+
+    public function onBeforeRun(Check $check){}
 
     public function onAfterRun(Check $check, Result $result)
     {

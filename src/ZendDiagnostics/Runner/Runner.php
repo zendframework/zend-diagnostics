@@ -42,7 +42,7 @@ class Runner
      *
      * @var array|\traversable
      */
-    protected $reporters;
+    protected $reporters = array();
 
     /**
      * The results from last run()
@@ -124,7 +124,7 @@ class Runner
                 );
             } catch (\Exception $e) {
                 $this->stopErrorHandler();
-                return new Failure(
+                $result = new Failure(
                     'Uncaught ' . get_class($e) . ': ' . $e->getMessage(),
                     $e
                 );
@@ -138,8 +138,6 @@ class Runner
                         $result
                     );
                 }
-
-                return $result;
 
             } elseif (is_bool($result)) {
                 // Interpret boolean as a failure or success
@@ -179,6 +177,8 @@ class Runner
 
         // trigger FINISH event
         $this->triggerReporters('onFinish', $results);
+
+        $this->lastResults = $results;
 
         return $results;
     }
@@ -221,7 +221,8 @@ class Runner
     public function getConfig()
     {
         return array(
-            'break_on_failure' => $this->getBreakOnFailure()
+            'break_on_failure'     => $this->getBreakOnFailure(),
+            'catch_error_severity' => $this->getCatchErrorSeverity(),
         );
     }
 
@@ -352,9 +353,10 @@ class Runner
      */
     protected function triggerReporters($eventType)
     {
-        $args = array_splice(func_get_args(), 1);
+        $args = func_get_args();
+        array_shift($args);
         foreach($this->reporters as $reporter){
-            if(!call_user_func_array(array($reporter, $eventType), $args)){
+            if(call_user_func_array(array($reporter, $eventType), $args) === false){
                 return false;
             }
         }
@@ -386,10 +388,11 @@ class Runner
     public static function getSeverityDescription($severity)
     {
         switch ($severity) {
-            case E_ERROR: // 1 //
-                return 'ERROR';
             case E_WARNING: // 2 //
                 return 'WARNING';
+            // @codeCoverageIgnoreStart
+            case E_ERROR: // 1 //
+                return 'ERROR';
             case E_PARSE: // 4 //
                 return 'PARSE';
             case E_NOTICE: // 8 //
@@ -419,6 +422,7 @@ class Runner
             default:
                 return 'error severity ' . $severity;
         }
+        // @codeCoverageIgnoreEnd
     }
 }
 

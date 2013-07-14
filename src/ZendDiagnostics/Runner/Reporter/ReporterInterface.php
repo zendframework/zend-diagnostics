@@ -4,6 +4,7 @@ namespace ZendDiagnostics\Runner\Reporter;
 use ZendDiagnostics\Check\CheckInterface as Check;
 use ZendDiagnostics\Result\ResultInterface as Result;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
+use \ArrayObject;
 
 /**
  * Interface for a Reporter that can be attached to Runner.
@@ -16,7 +17,7 @@ use ZendDiagnostics\Result\Collection as ResultsCollection;
  */
 interface ReporterInterface
 {
-    public function onStart($checks, $runnerConfig);
+    public function onStart(ArrayObject $checks, $runnerConfig);
     public function onBeforeRun(Check $check);
     public function onAfterRun(Check $check, Result $result);
     public function onStop(ResultsCollection $results);
