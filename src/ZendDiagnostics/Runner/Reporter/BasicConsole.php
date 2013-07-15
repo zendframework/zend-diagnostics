@@ -105,7 +105,7 @@ class BasicConsole implements ReporterInterface
         // Display a summary line
         if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
-            $this->consoleWriteLn(
+            $this->consoleWrite(
                 str_pad($line, $this->width-1, ' ', STR_PAD_RIGHT),
                 Color::NORMAL, Color::GREEN
             );
@@ -119,7 +119,7 @@ class BasicConsole implements ReporterInterface
 
             $line .= '.';
 
-            $this->consoleWriteLn(
+            $this->consoleWrite(
                 str_pad($line, $this->width-1, ' ', STR_PAD_RIGHT),
                 Color::NORMAL, Color::YELLOW
             );
@@ -134,12 +134,13 @@ class BasicConsole implements ReporterInterface
 
             $line .= '.';
 
-            $this->consoleWriteLn(
+            $this->consoleWrite(
                 str_pad($line, $this->width, ' ', STR_PAD_RIGHT),
                 Color::NORMAL, Color::RED
             );
         }
 
+        $this->consoleWriteLn();
         $this->consoleWriteLn();
 
         // Display a list of failures and warnings
@@ -210,7 +211,7 @@ class BasicConsole implements ReporterInterface
                 $bgColor = Color::$ansiColorMap['bg'][$bgColor];
             }
 
-            return  ($color !== null ? "\x1b[" . $color   . 'm' : '')
+            echo ($color !== null ? "\x1b[" . $color   . 'm' : '')
             . ($bgColor !== null ? "\x1b[" . $bgColor . 'm' : '')
             . $text
             . "\x1b[22;39m\x1b[0;49m";
