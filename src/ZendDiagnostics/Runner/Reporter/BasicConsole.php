@@ -87,7 +87,7 @@ class BasicConsole implements ReporterInterface
             $this->consoleWrite(
                 str_pad(
                     str_pad($this->iteration, $this->countLength, ' ', STR_PAD_LEFT) . ' / ' . $this->total .
-                    ' (' . str_pad(round($this->iteration / $this->total * 100), 3, ' ', STR_PAD_LEFT) . '%)'
+                        ' (' . str_pad(round($this->iteration / $this->total * 100), 3, ' ', STR_PAD_LEFT) . '%)'
                     , $this->gutter, ' ', STR_PAD_LEFT
                 )
             );
@@ -106,7 +106,7 @@ class BasicConsole implements ReporterInterface
         if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
             $this->consoleWrite(
-                str_pad($line, $this->width-1, ' ', STR_PAD_RIGHT),
+                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
                 Color::NORMAL, Color::GREEN
             );
         } elseif ($results->getFailureCount() == 0) {
@@ -120,7 +120,7 @@ class BasicConsole implements ReporterInterface
             $line .= '.';
 
             $this->consoleWrite(
-                str_pad($line, $this->width-1, ' ', STR_PAD_RIGHT),
+                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
                 Color::NORMAL, Color::YELLOW
             );
         } else {
@@ -142,7 +142,6 @@ class BasicConsole implements ReporterInterface
 
         $this->consoleWriteLn();
         $this->consoleWriteLn();
-
         // Display a list of failures and warnings
         foreach ($results as $check) {
             /* @var $check  \ZendDiagnostics\Check\CheckInterface */
@@ -184,25 +183,27 @@ class BasicConsole implements ReporterInterface
         $this->stopped = true;
     }
 
+
     protected function consoleWrite($text, $color = null, $bgColor = null)
     {
-        if(!$this->consoleColor || ($color === null && $bgColor === null)){
+        if (!$this->consoleColor || ($color === null && $bgColor === null)) {
             // raw output
             echo $text;
 
-        }else{
+        } else {
             // use ANSI colorization
-            if ($color !== null){
-                if(!isset(Color::$ansiColorMap['fg'][$color])) {
+            // @codeCoverageIgnoreStart
+            if ($color !== null) {
+                if (!isset(Color::$ansiColorMap['fg'][$color])) {
                     throw new \BadMethodCallException(sprintf(
                         'Unknown color "%s". Please use one of the ColorInterface constants.',
                         $color
                     ));
                 }
-                $color   = Color::$ansiColorMap['fg'][$color];
+                $color = Color::$ansiColorMap['fg'][$color];
             }
-            if ($bgColor !== null){
-                if(!isset(Color::$ansiColorMap['bg'][$bgColor])) {
+            if ($bgColor !== null) {
+                if (!isset(Color::$ansiColorMap['bg'][$bgColor])) {
                     throw new \BadMethodCallException(sprintf(
                         'Unknown color "%s". Please use one of the ColorInterface constants.',
                         $bgColor
@@ -211,10 +212,11 @@ class BasicConsole implements ReporterInterface
                 $bgColor = Color::$ansiColorMap['bg'][$bgColor];
             }
 
-            echo ($color !== null ? "\x1b[" . $color   . 'm' : '')
-            . ($bgColor !== null ? "\x1b[" . $bgColor . 'm' : '')
-            . $text
-            . "\x1b[22;39m\x1b[0;49m";
+            echo ($color !== null ? "\x1b[" . $color . 'm' : '')
+                . ($bgColor !== null ? "\x1b[" . $bgColor . 'm' : '')
+                . $text
+                . "\x1b[22;39m\x1b[0;49m";
+            // @codeCoverageIgnoreEnd
         }
     }
 
