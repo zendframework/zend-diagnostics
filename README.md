@@ -65,7 +65,7 @@ OK (2 diagnostic tests)
 ````
 
 
-## Using ResultCollection
+## Using Result Collection
 
 The Runner will always return a [Result\Collection](src/ZendDiagnostics/Result/Collection.php) (even without any
 attached Reporter). This collection contains results for all tests and failure counters.
