@@ -24,7 +24,7 @@ Simple component for performing diagnostic tests in real-world PHP applications.
 3. Create an instance of `ZendDiagnostics\Runner`
 4. Add tests using `Runner::addTest()`
 5. Optionally add a reporter to display progress using `Runner::addReporter()`
-6. Run diagnostics `Runner::run()`;
+6. Run diagnostics `Runner::run()`
 
 For example:
 
@@ -86,11 +86,11 @@ echo "Number of successful tests: " . $results->getSuccessCount() . "\n";
 echo "Number of failed tests:     " . $results->getFailureCount() . "\n";
 
 if($results[$checkSpace] instanceof \ZendDiagnostics\Result\FailureInterface) {
-    echo "Oooops! We're running out of space on temp. We have to do something about it\n";
+    echo "Oooops! We're running out of space on temp.\n";
 }
 
 if($results[$checkTemp] instanceof \ZendDiagnostics\Result\FailureInterface) {
-    echo "It seems that /tmp is not writable - this is a serious problem\n";
+    echo "It seems that /tmp is not writable - this is a serious problem!\n";
 }
 
 ````
