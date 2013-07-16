@@ -27,4 +27,5 @@ interface ReporterInterface
     public function onAfterRun(CheckInterface $check, ResultInterface $result);
     public function onStop(ResultsCollection $results);
     public function onFinish(ResultsCollection $results);
+    public function setVerbose($verbose);
 }
