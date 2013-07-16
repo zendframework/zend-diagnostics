@@ -217,7 +217,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->runner->addCheck($check);
         $results = $this->runner->run();
 
-        if(is_string($expectedResult)){
+        if (is_string($expectedResult)){
             $this->assertInstanceOf($expectedResult, $results[$check]);
         } else {
             $this->assertSame($expectedResult, $results[$check]);

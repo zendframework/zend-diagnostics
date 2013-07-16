@@ -10,7 +10,7 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
 {
     public function testCoreClassTree()
     {
-        foreach(array(
+        foreach (array(
             '\ZendDiagnostics\Check\CheckInterface',
             '\ZendDiagnostics\Result\SuccessInterface',
             '\ZendDiagnostics\Result\FailureInterface',
@@ -19,7 +19,7 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue(interface_exists($class, true), 'Class "'.$class.'" exists.');
         }
 
-        foreach(array(
+        foreach (array(
             '\ZendDiagnostics\Check\AbstractCheck',
             '\ZendDiagnostics\Result\AbstractResult',
             '\ZendDiagnostics\Result\Success',
@@ -28,7 +28,7 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
         ) as $class){
             $this->assertTrue(class_exists($class, true), 'Class "'.$class.'" exists.');
         }
-        foreach(array(
+        foreach (array(
             '\ZendDiagnostics\Result\Success',
             '\ZendDiagnostics\Result\Failure',
             '\ZendDiagnostics\Result\Warning',
