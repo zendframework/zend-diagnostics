@@ -85,11 +85,11 @@ $results = $runner->run();
 echo "Number of successful tests: " . $results->getSuccessCount() . "\n";
 echo "Number of failed tests:     " . $results->getFailureCount() . "\n";
 
-if($results[$checkSpace] instanceof \ZendDiagnostics\Result\FailureInterface) {
+if ($results[$checkSpace] instanceof \ZendDiagnostics\Result\FailureInterface) {
     echo "Oooops! We're running out of space on temp.\n";
 }
 
-if($results[$checkTemp] instanceof \ZendDiagnostics\Result\FailureInterface) {
+if ($results[$checkTemp] instanceof \ZendDiagnostics\Result\FailureInterface) {
     echo "It seems that /tmp is not writable - this is a serious problem!\n";
 }
 
@@ -161,7 +161,7 @@ class TimezoneSetToUTC implements CheckInterface
     {
         $tz = date_default_timezone_get();
 
-        if($tz == 'UTC') {
+        if ($tz == 'UTC') {
             return new Success('Default timezone is UTC');
         } else {
             return new Failure('Default timezone is not UTC! It is actually ' . $tz);

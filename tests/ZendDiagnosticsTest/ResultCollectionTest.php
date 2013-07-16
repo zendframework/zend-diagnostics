@@ -249,7 +249,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 
         $x = 0;
         $this->collection->rewind();
-        foreach($this->collection as $test){
+        foreach ($this->collection as $test){
             $this->assertSame($tests[$x], $test);
             $this->assertSame($results[$x], $this->collection[$test]);
             $x++;

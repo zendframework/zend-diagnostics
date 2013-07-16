@@ -9,13 +9,17 @@
 
 namespace ZendDiagnostics\Runner\Reporter;
 
-use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Check\CheckInterface;
+use ZendDiagnostics\Result\SuccessInterface;
 use ZendDiagnostics\Result\Success;
+use ZendDiagnostics\Result\WarningInterface;
 use ZendDiagnostics\Result\Warning;
+use ZendDiagnostics\Result\FailureInterface;
+use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Result\ResultInterface;
+use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Runner\Reporter\ConsoleColor as Color;
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\ResultInterface as Result;
+
 use \ArrayObject;
 
 /**
@@ -26,13 +30,14 @@ use \ArrayObject;
 class BasicConsole implements ReporterInterface
 {
     protected $width = 80;
-    protected $consoleColor = false;
+    protected $consoleColor;
     protected $total = 0;
     protected $iteration = 1;
     protected $pos = 1;
     protected $countLength;
     protected $gutter;
     protected $stopped = false;
+    protected $verbose = false;
 
     /**
      * Create new BasicConsole reporter.
@@ -42,8 +47,13 @@ class BasicConsole implements ReporterInterface
      */
     public function __construct($width = 80, $useColor = false)
     {
-        $this->width = (int)$width;
-        $this->consoleColor = (bool)$useColor;
+        $this->width = (int) $width;
+        $this->consoleColor = (bool) $useColor;
+    }
+
+    public function setVerbose($verbose)
+    {
+        $this->verbose = (bool) $verbose;
     }
 
     public function onStart(ArrayObject $checks, $runnerConfig)
@@ -65,19 +75,19 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn('');
     }
 
-    public function onBeforeRun(Check $check){}
+    public function onBeforeRun(CheckInterface $check){}
 
-    public function onAfterRun(Check $check, Result $result)
+    public function onAfterRun(CheckInterface $check, ResultInterface $result)
     {
         // Draw a symbol for each result
-        if ($result instanceof Success) {
-            $this->consoleWrite('.', Color::GREEN);
-        } elseif ($result instanceof Failure) {
-            $this->consoleWrite('F', Color::WHITE, Color::RED);
-        } elseif ($result instanceof Warning) {
-            $this->consoleWrite('!', Color::YELLOW);
+        if ($result instanceof SuccessInterface) {
+            $this->consoleWrite('.', $result);
+        } elseif ($result instanceof FailureInterface) {
+            $this->consoleWrite('F', $result);
+        } elseif ($result instanceof WarningInterface) {
+            $this->consoleWrite('!', $result);
         } else {
-            $this->consoleWrite('?', Color::YELLOW);
+            $this->consoleWrite('?', $result);
         }
 
         $this->pos++;
@@ -105,13 +115,10 @@ class BasicConsole implements ReporterInterface
         // Display a summary line
         if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
-            $this->consoleWrite(
-                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::GREEN
-            );
+            $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT), new Success());
         } elseif ($results->getFailureCount() == 0) {
-            $line = $results->getWarningCount() . ' warnings, ';
-            $line .= $results->getSuccessCount() . ' successful tests';
+            $line = $results->getWarningCount() . ' warning(s), ';
+            $line .= $results->getSuccessCount() . ' successful test(s)';
 
             if ($results->getUnknownCount() > 0) {
                 $line .= ', ' . $results->getUnknownCount() . ' unknown test results';
@@ -120,61 +127,57 @@ class BasicConsole implements ReporterInterface
             $line .= '.';
 
             $this->consoleWrite(
-                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::YELLOW
-            );
+                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT), new Warning());
         } else {
-            $line = $results->getFailureCount() . ' failures, ';
-            $line .= $results->getWarningCount() . ' warnings, ';
-            $line .= $results->getSuccessCount() . ' successful tests';
+            $line = $results->getFailureCount() . ' failure(s), ';
+            $line .= $results->getWarningCount() . ' warning(s), ';
+            $line .= $results->getSuccessCount() . ' successful test(s)';
 
             if ($results->getUnknownCount() > 0) {
-                $line .= ', ' . $results->getUnknownCount() . ' unknown test results';
+                $line .= ', ' . $results->getUnknownCount() . ' unknown test result(s)';
             }
 
             $line .= '.';
 
             $this->consoleWrite(
-                str_pad($line, $this->width, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::RED
-            );
+                str_pad($line, $this->width, ' ', STR_PAD_RIGHT), new Failure());
         }
 
         $this->consoleWriteLn();
-        $this->consoleWriteLn();
-        // Display a list of failures and warnings
-        foreach ($results as $check) {
-            /* @var $check  \ZendDiagnostics\Check\CheckInterface */
-            /* @var $result \ZendDiagnostics\Result\ResultInterface */
-            $result = $results[$check];
 
-            if ($result instanceof Failure) {
-                $this->consoleWriteLn('Failure: ' . $check->getLabel(), Color::RED);
-                $message = $result->getMessage();
-                if ($message) {
-                    $this->consoleWriteLn($message, Color::RED);
+        if ($this->verbose) {
+            $this->consoleWriteLn();
+            // Display a list of failures and warnings
+            foreach ($results as $check) {
+                /* @var $check  \ZendDiagnostics\Check\CheckInterface */
+                /* @var $result \ZendDiagnostics\Result\ResultInterface */
+                $result = $results[$check];
+
+                $msg = '';
+                if ($result instanceof FailureInterface) {
+                    $msg = 'Failure';
+                } elseif ($result instanceof WarningInterface) {
+                    $msg = 'Warning';
+                } elseif ($result instanceof Success && $this->verbose) {
+                    $msg = 'Success';
+                } elseif (!$result instanceof SuccessInterface) {
+                    $msg = 'Unknown result ' . get_class($result);
                 }
-                $this->consoleWriteLn();
-            } elseif ($result instanceof Warning) {
-                $this->consoleWriteLn('Warning: ' . $check->getLabel(), Color::YELLOW);
-                $message = $result->getMessage();
-                if ($message) {
-                    $this->consoleWriteLn($message, Color::YELLOW);
+
+                if ($msg) {
+                    $this->consoleWriteLn($msg . ': ' . $check->getLabel(), $result);
+                    $message = $result->getMessage();
+                    if ($message) {
+                        $this->consoleWriteLn($message, $result);
+                    }
+                    $this->consoleWriteLn();
                 }
-                $this->consoleWriteLn();
-            } elseif (!$result instanceof Success) {
-                $this->consoleWriteLn('Unknown result ' . get_class($result) . ': ' . $check->getLabel(), Color::YELLOW);
-                $message = $result->getMessage();
-                if ($message) {
-                    $this->consoleWriteLn($message, Color::YELLOW);
-                }
-                $this->consoleWriteLn();
             }
         }
 
         // Display information that the test has been aborted.
         if ($this->stopped) {
-            $this->consoleWriteLn('Diagnostics aborted because of a failure.', Color::RED);
+            $this->consoleWriteLn('Diagnostics aborted because of a failure.', new Failure());
         }
     }
 
@@ -183,13 +186,23 @@ class BasicConsole implements ReporterInterface
         $this->stopped = true;
     }
 
-
-    protected function consoleWrite($text, $color = null, $bgColor = null)
+    protected function consoleWrite($text, ResultInterface $result = null)
     {
+        if ($result instanceof FailureInterface) {
+            $color = Color::RED;
+        } elseif ($result instanceof WarningInterface) {
+            $color = Color::YELLOW;
+        } elseif ($result instanceof SuccessInterface) {
+            $color = Color::GREEN;
+        } else {
+            $color = Color::YELLOW;
+        }
+
+        $bgColor = null;
+
         if (!$this->consoleColor || ($color === null && $bgColor === null)) {
             // raw output
             echo $text;
-
         } else {
             // use ANSI colorization
             // @codeCoverageIgnoreStart
@@ -220,9 +233,8 @@ class BasicConsole implements ReporterInterface
         }
     }
 
-    protected function consoleWriteLn($text = '', $color = null, $bgColor = null)
+    protected function consoleWriteLn($text = '', ResultInterface $result = null)
     {
-        $this->consoleWrite($text . PHP_EOL, $color, $bgColor);
+        $this->consoleWrite($text . PHP_EOL, $result);
     }
-
 }
