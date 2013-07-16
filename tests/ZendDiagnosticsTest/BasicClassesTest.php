@@ -76,6 +76,11 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
         $alwaysSuccess = new AlwaysSuccess();
         $this->assertNotNull($alwaysSuccess->getLabel());
         $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
+        $this->assertSame(trim($alwaysSuccess->getLabel()), 'Always Success', 'Class-deferred label');
+        $alwaysSuccess->setLabel('foobar');
+        $this->assertSame($alwaysSuccess, 'foobar', 'Explicitly set label');
+        $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
+
         $result = $alwaysSuccess->check();
         $this->assertInstanceOf('\ZendDiagnostics\Result\ResultInterface', $result);
         $this->assertNotNull($result->getMessage());
