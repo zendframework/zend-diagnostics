@@ -35,7 +35,7 @@ class Callback extends AbstractCheck implements CheckInterface
             throw new \InvalidArgumentException('Invalid callback provided; not callable');
         }
 
-        $this->callback = new CallbackHandler($callback);
+        $this->callback = $callback;
         $this->params = $params;
     }
 

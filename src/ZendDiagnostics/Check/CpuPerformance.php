@@ -50,14 +50,16 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
         $performance = $duration / $this->baseline;
 
         if ($result != $this->expectedResult) {
+            // Ignore code coverage here because it's impractical to test against faulty calculations.
+            // @codeCoverageIgnoreStart
             return new Warning('PI calculation failed. This might mean CPU or RAM failure', $result);
+            // @codeCoverageIgnoreEnd
         } elseif ($performance > $this->minPerformance) {
             return new Success(null, $performance);
         } else {
             return new Failure(null, $performance);
         }
     }
-
 
     /**
      * Get decimal expansion of PI using Gauss-Lagendre algorithm.
