@@ -9,13 +9,15 @@
 
 namespace ZendDiagnostics\Runner;
 
-use ZendDiagnostics\Check\CheckInterface as Check;
+use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Result\FailureInterface;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 use ZendDiagnostics\Runner\Reporter\ReporterInterface as Reporter;
+
 use \ErrorException;
 use \ArrayObject;
 use \InvalidArgumentException;
@@ -85,7 +87,7 @@ class Runner
             $this->addChecks($checks);
         }
 
-        if($reporter !== null) {
+        if ($reporter !== null) {
             $this->addReporter($reporter);
         }
     }
@@ -116,7 +118,6 @@ class Runner
                 $this->startErrorHandler();
                 $result = $check->check();
                 $this->stopErrorHandler();
-
             } catch (ErrorException $e) {
                 $result = new Failure(
                     'PHP ' . static::getSeverityDescription($e->getSeverity()) . ': ' . $e->getMessage(),
@@ -141,16 +142,10 @@ class Runner
 
             } elseif (is_bool($result)) {
                 // Interpret boolean as a failure or success
-                if ($result) {
-                    $result = new Success();
-                } else {
-                    $result = new Failure();
-                }
-
+                $result = $result ? new Success() : new Failure();
             } elseif (is_scalar($result)) {
                 // Convert scalars to a warning
                 $result = new Warning('Test returned unexpected '.gettype($result), $result);
-
             } else {
                 // Otherwise interpret as failure
                 $result = new Failure(
@@ -169,7 +164,7 @@ class Runner
             }
 
             // Stop Checking on first failure
-            if ($this->breakOnFailure && $result instanceof Failure) {
+            if ($this->breakOnFailure && $result instanceof FailureInterface) {
                 $this->triggerReporters('onStop', $results);
                 break;
             }
@@ -203,11 +198,11 @@ class Runner
                 return ucfirst($value);
             }, explode('_', $key)));
 
-            if (is_callable(array($this, $methodName))) {
-                $this->$methodName($val);
-            } else {
+            if (!is_callable(array($this, $methodName))) {
                 throw new \BadMethodCallException('Unknown config parameter ' . $key);
             }
+
+            $this->$methodName($val);
         }
 
         return $this;
@@ -229,9 +224,9 @@ class Runner
     /**
      * Add diagnostic Check to run.
      *
-     * @param Check $check
+     * @param CheckInterface $check
      */
-    public function addCheck(Check $check)
+    public function addCheck(CheckInterface $check)
     {
         $this->checks[] = $check;
     }
@@ -250,7 +245,7 @@ class Runner
         }
 
         foreach ($checks as $check) {
-            if (!$check instanceof Check) {
+            if (!$check instanceof CheckInterface) {
                 $what = is_object($check) ? 'object of class ' . get_class($check) : gettype($check);
                 throw new InvalidArgumentException(
                     'Cannot use ' . $what . ' as Check - expected ZendDiagnostics\Check\CheckInterface'
@@ -355,8 +350,8 @@ class Runner
     {
         $args = func_get_args();
         array_shift($args);
-        foreach($this->reporters as $reporter){
-            if(call_user_func_array(array($reporter, $eventType), $args) === false){
+        foreach ($this->reporters as $reporter){
+            if (call_user_func_array(array($reporter, $eventType), $args) === false){
                 return false;
             }
         }

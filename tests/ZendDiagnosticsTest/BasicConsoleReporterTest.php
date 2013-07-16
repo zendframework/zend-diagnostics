@@ -37,7 +37,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -53,7 +53,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Warning();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -69,7 +69,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Failure();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -86,7 +86,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Unknown();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -104,7 +104,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -122,7 +122,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -145,7 +145,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach($checks as $check){
+        foreach ($checks as $check){
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }

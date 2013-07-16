@@ -1,9 +1,14 @@
 <?php
+/**
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
 namespace ZendDiagnostics\Runner\Reporter;
 
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\ResultInterface as Result;
+use ZendDiagnostics\Check\CheckInterface;
+use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
+
 use \ArrayObject;
 
 /**
@@ -18,8 +23,8 @@ use \ArrayObject;
 interface ReporterInterface
 {
     public function onStart(ArrayObject $checks, $runnerConfig);
-    public function onBeforeRun(Check $check);
-    public function onAfterRun(Check $check, Result $result);
+    public function onBeforeRun(CheckInterface $check);
+    public function onAfterRun(CheckInterface $check, ResultInterface $result);
     public function onStop(ResultsCollection $results);
     public function onFinish(ResultsCollection $results);
 }

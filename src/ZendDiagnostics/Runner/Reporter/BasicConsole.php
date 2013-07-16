@@ -9,13 +9,14 @@
 
 namespace ZendDiagnostics\Runner\Reporter;
 
+use ZendDiagnostics\Check\CheckInterface;
+use ZendDiagnostics\Result\SuccessInterface;
+use ZendDiagnostics\Result\WarningInterface;
+use ZendDiagnostics\Result\FailureInterface;
+use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
 use ZendDiagnostics\Runner\Reporter\ConsoleColor as Color;
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\ResultInterface as Result;
+
 use \ArrayObject;
 
 /**
@@ -65,16 +66,16 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn('');
     }
 
-    public function onBeforeRun(Check $check){}
+    public function onBeforeRun(CheckInterface $check){}
 
-    public function onAfterRun(Check $check, Result $result)
+    public function onAfterRun(CheckInterface $check, ResultInterface $result)
     {
         // Draw a symbol for each result
-        if ($result instanceof Success) {
+        if ($result instanceof SuccessInterface) {
             $this->consoleWrite('.', Color::GREEN);
-        } elseif ($result instanceof Failure) {
+        } elseif ($result instanceof FailureInterface) {
             $this->consoleWrite('F', Color::WHITE, Color::RED);
-        } elseif ($result instanceof Warning) {
+        } elseif ($result instanceof WarningInterface) {
             $this->consoleWrite('!', Color::YELLOW);
         } else {
             $this->consoleWrite('?', Color::YELLOW);
@@ -148,21 +149,21 @@ class BasicConsole implements ReporterInterface
             /* @var $result \ZendDiagnostics\Result\ResultInterface */
             $result = $results[$check];
 
-            if ($result instanceof Failure) {
+            if ($result instanceof FailureInterface) {
                 $this->consoleWriteLn('Failure: ' . $check->getLabel(), Color::RED);
                 $message = $result->getMessage();
                 if ($message) {
                     $this->consoleWriteLn($message, Color::RED);
                 }
                 $this->consoleWriteLn();
-            } elseif ($result instanceof Warning) {
+            } elseif ($result instanceof WarningInterface) {
                 $this->consoleWriteLn('Warning: ' . $check->getLabel(), Color::YELLOW);
                 $message = $result->getMessage();
                 if ($message) {
                     $this->consoleWriteLn($message, Color::YELLOW);
                 }
                 $this->consoleWriteLn();
-            } elseif (!$result instanceof Success) {
+            } elseif (!$result instanceof SuccessInterface) {
                 $this->consoleWriteLn('Unknown result ' . get_class($result) . ': ' . $check->getLabel(), Color::YELLOW);
                 $message = $result->getMessage();
                 if ($message) {
@@ -182,7 +183,6 @@ class BasicConsole implements ReporterInterface
     {
         $this->stopped = true;
     }
-
 
     protected function consoleWrite($text, $color = null, $bgColor = null)
     {
