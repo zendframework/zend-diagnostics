@@ -48,16 +48,41 @@ class DirWritable extends AbstractCheck implements CheckInterface
 
     public function check()
     {
+        $nonDirs = $unwritable = array();
+
+        // Check each path if it's a dir and is writable
         foreach ($this->dir as $dir) {
             if (!is_dir($dir)) {
-                return new Failure('"'.$dir . '" is not a directory.');
+                $nonDirs[] = $dir;
             }
 
             if (!is_writable($dir)) {
-                return new Failure('"' . $dir . '" directory is not writable.');
+                $unwritable[] = $dir;
             }
         }
 
-        return new Success('',$this->dir);
+        // Construct failure message
+        $failureString = '';
+        if (count($nonDirs) > 1) {
+            $failureString .= 'The following paths are not valid directories: ' . join(', ', $nonDirs).' ';
+        } elseif (count($nonDirs) == 1) {
+            $failureString .= current($nonDirs) . ' is not a valid directory. ';
+        }
+
+        if (count($unwritable) > 1) {
+            $failureString .= 'The following directories are not writable: ' . join(', ', $unwritable);
+        } elseif (count($unwritable) == 1) {
+            $failureString .= current($unwritable) . ' directory is not writable.';
+        }
+
+        // Return success or failure
+        if ($failureString) {
+            return new Failure(trim($failureString), array('nonDirs' => $nonDirs, 'unwritable' => $unwritable));
+        } else {
+            return new Success(
+                count($this->dir) > 1 ? 'All paths are writable directories.' : 'The path is a a writable directory.',
+                $this->dir
+            );
+        }
     }
 }
