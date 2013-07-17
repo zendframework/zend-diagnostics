@@ -135,7 +135,7 @@ class Collection extends \SplObjectStorage
      */
     protected function validateIndex($index)
     {
-        if (!is_object($index) || !$index instanceof CheckInterface) {
+        if (!$index instanceof CheckInterface) {
             $what = is_object($index) ? 'object of type ' . get_class($index) : gettype($index);
             throw new InvalidArgumentException(
                 'Cannot use ' . $what . ' as index for this collection. Expected instance of CheckInterface.'

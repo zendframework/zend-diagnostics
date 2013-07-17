@@ -10,12 +10,11 @@
 namespace ZendDiagnostics\Runner\Reporter;
 
 use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
-use ZendDiagnostics\Runner\Reporter\ConsoleColor as Color;
-use ZendDiagnostics\Check\CheckInterface as Check;
-use ZendDiagnostics\Result\ResultInterface as Result;
+use ZendDiagnostics\Result\FailureInterface;
+use ZendDiagnostics\Result\SuccessInterface;
+use ZendDiagnostics\Result\WarningInterface;
+use ZendDiagnostics\Check\CheckInterface;
+use ZendDiagnostics\Result\ResultInterface;
 use \ArrayObject;
 
 /**
@@ -26,7 +25,6 @@ use \ArrayObject;
 class BasicConsole implements ReporterInterface
 {
     protected $width = 80;
-    protected $consoleColor = false;
     protected $total = 0;
     protected $iteration = 1;
     protected $pos = 1;
@@ -38,12 +36,10 @@ class BasicConsole implements ReporterInterface
      * Create new BasicConsole reporter.
      *
      * @param int  $width       Max console window width (defaults to 80 chars)
-     * @param bool $useColor    Use ANSI colors ? (defaults to false)
      */
-    public function __construct($width = 80, $useColor = false)
+    public function __construct($width = 80)
     {
         $this->width = (int)$width;
-        $this->consoleColor = (bool)$useColor;
     }
 
     public function onStart(ArrayObject $checks, $runnerConfig)
@@ -65,24 +61,26 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn('');
     }
 
-    public function onBeforeRun(Check $check){}
+    public function onBeforeRun(CheckInterface $check)
+    {
+    }
 
-    public function onAfterRun(Check $check, Result $result)
+    public function onAfterRun(CheckInterface $check, ResultInterface $result)
     {
         // Draw a symbol for each result
-        if ($result instanceof Success) {
-            $this->consoleWrite('.', Color::GREEN);
-        } elseif ($result instanceof Failure) {
-            $this->consoleWrite('F', Color::WHITE, Color::RED);
-        } elseif ($result instanceof Warning) {
-            $this->consoleWrite('!', Color::YELLOW);
+        if ($result instanceof SuccessInterface) {
+            $this->consoleWrite('.');
+        } elseif ($result instanceof FailureInterface) {
+            $this->consoleWrite('F');
+        } elseif ($result instanceof WarningInterface) {
+            $this->consoleWrite('!');
         } else {
-            $this->consoleWrite('?', Color::YELLOW);
+            $this->consoleWrite('?');
         }
 
         $this->pos++;
 
-        // Check if we need to move to the next line
+        // CheckInterface if we need to move to the next line
         if ($this->gutter > 0 && $this->pos > $this->width - $this->gutter) {
             $this->consoleWrite(
                 str_pad(
@@ -105,10 +103,8 @@ class BasicConsole implements ReporterInterface
         // Display a summary line
         if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
-            $this->consoleWrite(
-                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::GREEN
-            );
+            $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
+
         } elseif ($results->getFailureCount() == 0) {
             $line = $results->getWarningCount() . ' warnings, ';
             $line .= $results->getSuccessCount() . ' successful tests';
@@ -119,10 +115,8 @@ class BasicConsole implements ReporterInterface
 
             $line .= '.';
 
-            $this->consoleWrite(
-                str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::YELLOW
-            );
+            $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
+
         } else {
             $line = $results->getFailureCount() . ' failures, ';
             $line .= $results->getWarningCount() . ' warnings, ';
@@ -134,10 +128,7 @@ class BasicConsole implements ReporterInterface
 
             $line .= '.';
 
-            $this->consoleWrite(
-                str_pad($line, $this->width, ' ', STR_PAD_RIGHT),
-                Color::NORMAL, Color::RED
-            );
+            $this->consoleWrite(str_pad($line, $this->width, ' ', STR_PAD_RIGHT));
         }
 
         $this->consoleWriteLn();
@@ -148,25 +139,25 @@ class BasicConsole implements ReporterInterface
             /* @var $result \ZendDiagnostics\Result\ResultInterface */
             $result = $results[$check];
 
-            if ($result instanceof Failure) {
-                $this->consoleWriteLn('Failure: ' . $check->getLabel(), Color::RED);
+            if ($result instanceof FailureInterface) {
+                $this->consoleWriteLn('Failure: ' . $check->getLabel());
                 $message = $result->getMessage();
                 if ($message) {
-                    $this->consoleWriteLn($message, Color::RED);
+                    $this->consoleWriteLn($message);
                 }
                 $this->consoleWriteLn();
-            } elseif ($result instanceof Warning) {
-                $this->consoleWriteLn('Warning: ' . $check->getLabel(), Color::YELLOW);
+            } elseif ($result instanceof WarningInterface) {
+                $this->consoleWriteLn('Warning: ' . $check->getLabel());
                 $message = $result->getMessage();
                 if ($message) {
-                    $this->consoleWriteLn($message, Color::YELLOW);
+                    $this->consoleWriteLn($message);
                 }
                 $this->consoleWriteLn();
-            } elseif (!$result instanceof Success) {
-                $this->consoleWriteLn('Unknown result ' . get_class($result) . ': ' . $check->getLabel(), Color::YELLOW);
+            } elseif (!$result instanceof SuccessInterface) {
+                $this->consoleWriteLn('Unknown result ' . get_class($result) . ': ' . $check->getLabel());
                 $message = $result->getMessage();
                 if ($message) {
-                    $this->consoleWriteLn($message, Color::YELLOW);
+                    $this->consoleWriteLn($message);
                 }
                 $this->consoleWriteLn();
             }
@@ -174,7 +165,7 @@ class BasicConsole implements ReporterInterface
 
         // Display information that the test has been aborted.
         if ($this->stopped) {
-            $this->consoleWriteLn('Diagnostics aborted because of a failure.', Color::RED);
+            $this->consoleWriteLn('Diagnostics aborted because of a failure.');
         }
     }
 
@@ -183,46 +174,14 @@ class BasicConsole implements ReporterInterface
         $this->stopped = true;
     }
 
-
-    protected function consoleWrite($text, $color = null, $bgColor = null)
+    protected function consoleWrite($text)
     {
-        if (!$this->consoleColor || ($color === null && $bgColor === null)) {
-            // raw output
-            echo $text;
-
-        } else {
-            // use ANSI colorization
-            // @codeCoverageIgnoreStart
-            if ($color !== null) {
-                if (!isset(Color::$ansiColorMap['fg'][$color])) {
-                    throw new \BadMethodCallException(sprintf(
-                        'Unknown color "%s". Please use one of the ColorInterface constants.',
-                        $color
-                    ));
-                }
-                $color = Color::$ansiColorMap['fg'][$color];
-            }
-            if ($bgColor !== null) {
-                if (!isset(Color::$ansiColorMap['bg'][$bgColor])) {
-                    throw new \BadMethodCallException(sprintf(
-                        'Unknown color "%s". Please use one of the ColorInterface constants.',
-                        $bgColor
-                    ));
-                }
-                $bgColor = Color::$ansiColorMap['bg'][$bgColor];
-            }
-
-            echo ($color !== null ? "\x1b[" . $color . 'm' : '')
-                . ($bgColor !== null ? "\x1b[" . $bgColor . 'm' : '')
-                . $text
-                . "\x1b[22;39m\x1b[0;49m";
-            // @codeCoverageIgnoreEnd
-        }
+        echo $text;
     }
 
-    protected function consoleWriteLn($text = '', $color = null, $bgColor = null)
+    protected function consoleWriteLn($text = '')
     {
-        $this->consoleWrite($text . PHP_EOL, $color, $bgColor);
+        echo $text . PHP_EOL;
     }
 
 }
