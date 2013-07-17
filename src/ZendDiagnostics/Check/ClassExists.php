@@ -52,11 +52,19 @@ class ClassExists extends AbstractCheck implements CheckInterface
 
     public function check()
     {
+        $missing = array();
         foreach ($this->classes as $class) {
-            if(!class_exists($class, $this->autoload)) {
-                return new Failure('Class '.$class.' does not exist');
+            if (!class_exists($class, $this->autoload)) {
+                $missing[] = $class;
             }
         }
-        return new Success();
+
+        if (count($missing) > 1) {
+            return new Failure('The following classes are missing: ' . join(', ', $missing), $missing);
+        } elseif (count($missing) == 1) {
+            return new Failure('Class ' . array_pop($missing) . ' does not exist', $missing);
+        } else {
+            return new Success('All classes are present.', $this->classes);
+        }
     }
 }

@@ -59,6 +59,22 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
     }
 
+    public function testClassExistsExplanation()
+    {
+        $check = new ClassExists(array(
+            __CLASS__,
+            'ZendDiagnostics\Result\Success',
+            'improbableClassNameInGlobalNamespace888',
+            'improbableClassNameInGlobalNamespace999',
+            'ZendDiagnostics\Result\Failure',
+            'ZendDiagnostics\Result\Warning',
+        ));
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobableClassNameInGlobalNamespace888%s', $result->getMessage());
+        $this->assertStringMatchesFormat('%simprobableClassNameInGlobalNamespace999', $result->getMessage());
+    }
+
     public function testPhpVersion()
     {
         $check = new PhpVersion(PHP_VERSION); // default operator
