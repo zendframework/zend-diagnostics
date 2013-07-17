@@ -62,7 +62,7 @@ class ClassExists extends AbstractCheck implements CheckInterface
         if (count($missing) > 1) {
             return new Failure('The following classes are missing: ' . join(', ', $missing), $missing);
         } elseif (count($missing) == 1) {
-            return new Failure('Class ' . array_pop($missing) . ' does not exist', $missing);
+            return new Failure('Class ' . current($missing) . ' does not exist', $missing);
         } else {
             return new Success('All classes are present.', $this->classes);
         }
