@@ -78,7 +78,7 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
         $this->assertSame(trim($alwaysSuccess->getLabel()), 'Always Success', 'Class-deferred label');
         $alwaysSuccess->setLabel('foobar');
-        $this->assertSame($alwaysSuccess, 'foobar', 'Explicitly set label');
+        $this->assertSame($alwaysSuccess->getName(), 'foobar', 'Explicitly set label');
         $this->assertSame($alwaysSuccess->getName(), $alwaysSuccess->getLabel());
 
         $result = $alwaysSuccess->check();
