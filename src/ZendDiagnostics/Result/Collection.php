@@ -1,7 +1,12 @@
 <?php
+/**
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
 namespace ZendDiagnostics\Result;
 
 use \InvalidArgumentException;
+
 use ZendDiagnostics\Check\CheckInterface;
 
 /**
@@ -80,11 +85,11 @@ class Collection extends \SplObjectStorage
         // Decrement counters when replacing existing item
         if (parent::offsetExists($index)) {
             $oldResult = parent::offsetGet($index);
-            if ($oldResult instanceof Success) {
+            if ($oldResult instanceof SuccessInterface) {
                 $this->countSuccess--;
-            } elseif ($oldResult instanceof Failure) {
+            } elseif ($oldResult instanceof FailureInterface) {
                 $this->countFailure--;
-            } elseif ($oldResult instanceof Warning) {
+            } elseif ($oldResult instanceof WarningInterface) {
                 $this->countWarning--;
             } else {
                 $this->countUnknown--;
@@ -94,11 +99,11 @@ class Collection extends \SplObjectStorage
         parent::offsetSet($index, $CheckResult);
 
         // Increment counters
-        if ($CheckResult instanceof Success) {
+        if ($CheckResult instanceof SuccessInterface) {
             $this->countSuccess++;
-        } elseif ($CheckResult instanceof Failure) {
+        } elseif ($CheckResult instanceof FailureInterface) {
             $this->countFailure++;
-        } elseif ($CheckResult  instanceof Warning) {
+        } elseif ($CheckResult  instanceof WarningInterface) {
             $this->countWarning++;
         } else {
             $this->countUnknown++;
@@ -112,11 +117,11 @@ class Collection extends \SplObjectStorage
         // Decrement counters when replacing existing item
         if (parent::offsetExists($index)) {
             $oldResult = parent::offsetGet($index);
-            if ($oldResult instanceof Success) {
+            if ($oldResult instanceof SuccessInterface) {
                 $this->countSuccess--;
-            } elseif ($oldResult instanceof Failure) {
+            } elseif ($oldResult instanceof FailureInterface) {
                 $this->countFailure--;
-            } elseif ($oldResult instanceof Warning) {
+            } elseif ($oldResult instanceof WarningInterface) {
                 $this->countWarning--;
             } else {
                 $this->countUnknown--;
