@@ -205,40 +205,68 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
             __DIR__.'/../'
         ));
         $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result, 'Array of valid dirs');
 
         $check = new DirReadable(__FILE__);
         $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result, 'An existing file');
 
         $check = new DirReadable(__DIR__ . '/improbabledir99999999999999999999999999999999999999');
         $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result, 'Single non-existent dir');
 
+        $check = new DirReadable(__DIR__ . '/improbabledir999999999999');
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobabledir999999999999%s', $result->getMessage());
+
+        $check = new DirReadable(array(
+            __DIR__ . '/improbabledir888888888888',
+            __DIR__ . '/improbabledir999999999999',
+        ));
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobabledir888888888888%s', $result->getMessage());
+        $this->assertStringMatchesFormat('%simprobabledir999999999999', $result->getMessage());
+
+        // create a barrage of unreadable directories
         $tmpDir = sys_get_temp_dir();
         if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
             $this->markTestSkipped('Cannot access writable system temp dir to perform the test... ');
-
             return;
         }
 
         // generate a random dir name
-        while (($dir = $tmpDir . '/test' . mt_rand(1, PHP_INT_MAX)) && file_exists($dir)) {
-        }
+        while (($dir1 = $tmpDir . '/test' . mt_rand(1, PHP_INT_MAX)) && file_exists($dir1)) {}
+        while (($dir2 = $tmpDir . '/test' . mt_rand(1, PHP_INT_MAX)) && file_exists($dir2)) {}
 
-        // create the temporary writable directory
-        if (!mkdir($dir) || !chmod($dir, 0000)) {
+        // create temporary writable directories
+        if (
+            !mkdir($dir1) || !chmod($dir1, 0000) ||
+            !mkdir($dir2) || !chmod($dir2, 0000)
+        ){
             $this->markTestSkipped('Cannot create unreadable temporary directory to perform the test... ');
             return;
         }
 
-        $check = new DirReadable($dir);
+        $check = new DirReadable(array(
+            $dir1,   // unwritable
+            $dir2,   // unwritable
+            $tmpDir, // valid one
+            __DIR__. '/simprobabledir999999999999', // non existent
+        ));
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%s' . $dir1. '%s', $result->getMessage());
+        $this->assertStringMatchesFormat('%s' . $dir2. '%s', $result->getMessage());
+        $this->assertStringMatchesFormat('%simprobabledir999999999999', $result->getMessage());
 
-        chmod($dir, 0777);
-        rmdir($dir);
+        $e = $result->getMessage();
 
+        chmod($dir1, 0777);
+        chmod($dir2, 0777);
+        rmdir($dir1);
+        rmdir($dir2);
     }
 
     public function testDirWritable()
