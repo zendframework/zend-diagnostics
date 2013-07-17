@@ -35,7 +35,7 @@ class BasicConsole implements ReporterInterface
     /**
      * Create new BasicConsole reporter.
      *
-     * @param int  $width       Max console window width (defaults to 80 chars)
+     * @param int $width Max console window width (defaults to 80 chars)
      */
     public function __construct($width = 80)
     {
