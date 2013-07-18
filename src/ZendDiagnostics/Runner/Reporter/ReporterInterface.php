@@ -5,11 +5,10 @@
 
 namespace ZendDiagnostics\Runner\Reporter;
 
+use ArrayObject;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
-
-use \ArrayObject;
 
 /**
  * Interface for a Reporter that can be attached to Runner.

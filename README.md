@@ -192,7 +192,7 @@ interface ReporterInterface
 
 A Runner invokes above methods while running diagnostics in the following order:
 
- * `onStart` - right after calling `Reporter::run()`
+ * `onStart` - right after calling `Runner::run()`
  * `onBeforeRun` - before each individual Check.
  * `onAfterRun` - after each individual check has finished running.
  * `onFinish` - after Runner has finished its job.

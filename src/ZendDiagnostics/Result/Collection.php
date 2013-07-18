@@ -5,22 +5,41 @@
 
 namespace ZendDiagnostics\Result;
 
-use \InvalidArgumentException;
-
+use InvalidArgumentException;
 use ZendDiagnostics\Check\CheckInterface;
 
 /**
  * Utility class to store Results entities for corresponding Checks
- *
- * @package ZendDiagnostics\Result
  */
 class Collection extends \SplObjectStorage
 {
+    /**
+     * Number of successful results
+     *
+     * @var int
+     */
     protected $countSuccess = 0;
+
+    /**
+     * Numer of warnings
+     *
+     * @var int
+     */
     protected $countWarning = 0;
+
+    /**
+     * Number of failures
+     *
+     * @var int
+     */
     protected $countFailure = 0;
+
+    /**
+     * Number of unrecognised results
+     *
+     * @var int
+     */
     protected $countUnknown = 0;
-    protected $objMap = array();
 
     /**
      * Get number of successful Check results.
@@ -76,38 +95,21 @@ class Collection extends \SplObjectStorage
         return parent::offsetExists($index);
     }
 
-    public function offsetSet($index, $CheckResult)
+    public function offsetSet($index, $checkResult)
     {
-        $indexObj = $index;
         $this->validateIndex($index);
-        $this->validateValue($CheckResult);
+        $this->validateValue($checkResult);
 
         // Decrement counters when replacing existing item
         if (parent::offsetExists($index)) {
-            $oldResult = parent::offsetGet($index);
-            if ($oldResult instanceof SuccessInterface) {
-                $this->countSuccess--;
-            } elseif ($oldResult instanceof FailureInterface) {
-                $this->countFailure--;
-            } elseif ($oldResult instanceof WarningInterface) {
-                $this->countWarning--;
-            } else {
-                $this->countUnknown--;
-            }
+            $this->updateCounters(parent::offsetGet($index), -1);
         }
 
-        parent::offsetSet($index, $CheckResult);
+        // Store the new instance
+        parent::offsetSet($index, $checkResult);
 
         // Increment counters
-        if ($CheckResult instanceof SuccessInterface) {
-            $this->countSuccess++;
-        } elseif ($CheckResult instanceof FailureInterface) {
-            $this->countFailure++;
-        } elseif ($CheckResult  instanceof WarningInterface) {
-            $this->countWarning++;
-        } else {
-            $this->countUnknown++;
-        }
+        $this->updateCounters($checkResult, 1);
     }
 
     public function offsetUnset($index)
@@ -116,19 +118,29 @@ class Collection extends \SplObjectStorage
 
         // Decrement counters when replacing existing item
         if (parent::offsetExists($index)) {
-            $oldResult = parent::offsetGet($index);
-            if ($oldResult instanceof SuccessInterface) {
-                $this->countSuccess--;
-            } elseif ($oldResult instanceof FailureInterface) {
-                $this->countFailure--;
-            } elseif ($oldResult instanceof WarningInterface) {
-                $this->countWarning--;
-            } else {
-                $this->countUnknown--;
-            }
+            $this->updateCounters(parent::offsetGet($index), -1);
         }
 
         parent::offsetUnset($index);
+    }
+
+    /**
+     * Adjust internal result counters.
+     *
+     * @param ResultInterface $result
+     * @param int             $delta
+     */
+    protected function updateCounters(ResultInterface $result, $delta = 1)
+    {
+        if ($result instanceof SuccessInterface) {
+            $this->countSuccess += $delta;
+        } elseif ($result instanceof FailureInterface) {
+            $this->countFailure += $delta;
+        } elseif ($result instanceof WarningInterface) {
+            $this->countWarning += $delta;
+        } else {
+            $this->countUnknown += $delta;
+        }
     }
 
     /**
@@ -142,9 +154,9 @@ class Collection extends \SplObjectStorage
     {
         if (!$index instanceof CheckInterface) {
             $what = is_object($index) ? 'object of type ' . get_class($index) : gettype($index);
-            throw new InvalidArgumentException(
-                'Cannot use ' . $what . ' as index for this collection. Expected instance of CheckInterface.'
-            );
+            throw new InvalidArgumentException(sprintf(
+                'Cannot use %s as index for this collection. Expected instance of CheckInterface.'
+            , $what));
         }
 
         return $index;
@@ -161,9 +173,9 @@ class Collection extends \SplObjectStorage
     {
         if (!is_object($checkResult) || !$checkResult instanceof ResultInterface) {
             $what = is_object($checkResult) ? 'object of type ' . get_class($checkResult) : gettype($checkResult);
-            throw new InvalidArgumentException(
-                'This collection cannot hold ' . $what . ' Expected instance of ' . __NAMESPACE__ . '\ResultInterface'
-            );
+            throw new InvalidArgumentException(sprintf(
+                'This collection cannot hold %s. Expected instance of %s\ResultInterface'
+            , $what, __NAMESPACE__));
         }
 
         return $checkResult;

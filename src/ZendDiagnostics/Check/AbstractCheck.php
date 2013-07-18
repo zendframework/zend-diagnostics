@@ -15,7 +15,10 @@ abstract class AbstractCheck implements CheckInterface
     public function getLabel()
     {
         $class = get_class($this);
-        return trim(preg_replace('/([A-Z])/',' $1', substr($class, strrpos($class,"\\")+1)));
+        $class = substr($class, strrpos($class, '\\') + 1);
+        $class = preg_replace('/([A-Z])/', ' $1', $class);
+
+        return trim($class);
     }
 
     /**

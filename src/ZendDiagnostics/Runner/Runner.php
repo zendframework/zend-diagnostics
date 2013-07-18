@@ -9,6 +9,10 @@
 
 namespace ZendDiagnostics\Runner;
 
+use ArrayObject;
+use ErrorException;
+use InvalidArgumentException;
+use Traversable;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\Failure;
@@ -18,17 +22,11 @@ use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 use ZendDiagnostics\Runner\Reporter\ReporterInterface as Reporter;
 
-use \ErrorException;
-use \ArrayObject;
-use \InvalidArgumentException;
-
 /**
  * Diagnostics Checks runner.
  *
  * A Runner takes one or more Checks and runs them in sequence. One or more Reporters can be attached to
  * display the progress and results of checks.
- *
- * @package ZendDiagnostics\Runner
  */
 class Runner
 {
@@ -71,8 +69,8 @@ class Runner
     /**
      * Create new instance of Runner, optionally providing configuration and initial collection of Checks.
      *
-     * @param null|array|\Traversable $config   Config settings.
-     * @param null|array|\Traversable $checks   A collection of Checks to run.
+     * @param null|array|Traversable $config   Config settings.
+     * @param null|array|Traversable $checks   A collection of Checks to run.
      * @param null|Reporter           $reporter Reporter instance to use
      */
     public function __construct($config = null, $checks = null, Reporter $reporter = null)
@@ -106,7 +104,7 @@ class Runner
 
         // Iterate over all Checks
         foreach ($this->checks as $check) {
-            /* @var $check Check */
+            /* @var $check CheckInterface */
 
             // Skip Checking if BEFORE_RUN returned false or has been stopped
             if (!$this->triggerReporters('onBeforeRun', $check)) {
@@ -181,16 +179,15 @@ class Runner
     /**
      * Set config values from an array.
      *
-     * @param  array|\Traversable $config
+     * @param  array|Traversable $config
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
-     * @throws \InvalidArgumentException
      * @return $this
      */
     public function setConfig($config)
     {
-        if (!is_array($config) && !$config instanceof \Traversable) {
-            throw new InvalidArgumentException('Expected an array or \Traversable as config for Runner.');
+        if (!is_array($config) && !$config instanceof Traversable) {
+            throw new InvalidArgumentException('Expected an array or Traversable as config for Runner.');
         }
 
         foreach ($config as $key => $val) {
@@ -232,14 +229,14 @@ class Runner
     }
 
     /**
-     * Add multiple Checks from an array or \Traversable.
+     * Add multiple Checks from an array or Traversable.
      *
-     * @param array|\Traversable $checks
+     * @param array|Traversable $checks
      * @throws InvalidArgumentException
      */
     public function addChecks($checks)
     {
-        if (!is_array($checks) && !$checks instanceof \Traversable) {
+        if (!is_array($checks) && !$checks instanceof Traversable) {
             $what = is_object($checks) ? 'object of class ' . get_class($checks) : gettype($checks);
             throw new InvalidArgumentException('Cannot add Checks from ' . $what . ' - expected array or Traversable');
         }
