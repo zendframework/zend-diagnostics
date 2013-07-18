@@ -5,8 +5,6 @@
 
 namespace ZendDiagnostics\Check;
 
-use Zend\Stdlib\CallbackHandler;
-
 /**
  * Run a callback function and return result.
  *

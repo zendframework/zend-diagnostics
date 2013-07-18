@@ -5,9 +5,9 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
-use \InvalidArgumentException;
 
 /**
  * Validate that a class or a collection of classes is available.

@@ -5,7 +5,7 @@
 
 namespace ZendDiagnostics\Check;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -31,16 +31,16 @@ class PhpVersion extends AbstractCheck implements CheckInterface
 
     /**
      *
-     * @param string|array|\Traversable   $expectedVersion  The expected version
-     * @param string                      $operator         One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
+     * @param string|array|\Traversable $expectedVersion  The expected version
+     * @param string                    $operator         One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
      * @throws \InvalidArgumentException
      */
     public function __construct($expectedVersion, $operator = '>=')
     {
         if (is_object($expectedVersion)) {
-            if(!$expectedVersion instanceof \Traversable) {
+            if (!$expectedVersion instanceof \Traversable) {
                 throw new InvalidArgumentException(
-                    'Expected version number as string, array or traversable, got '.get_class($expectedVersion)
+                    'Expected version number as string, array or traversable, got ' . get_class($expectedVersion)
                 );
             }
             $this->version = $expectedVersion;
@@ -48,7 +48,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
         } elseif (!is_scalar($expectedVersion)) {
             if (!is_array($expectedVersion)) {
                 throw new InvalidArgumentException(
-                    'Expected version number as string, array or traversable, got '.gettype($expectedVersion)
+                    'Expected version number as string, array or traversable, got ' . gettype($expectedVersion)
                 );
             }
 
@@ -60,29 +60,30 @@ class PhpVersion extends AbstractCheck implements CheckInterface
 
         if (!is_scalar($operator)) {
             throw new InvalidArgumentException(
-                'Expected comparison operator as a string, got '.gettype($operator)
+                'Expected comparison operator as a string, got ' . gettype($operator)
             );
         }
 
-        if(!in_array($operator, array(
+        if (!in_array($operator, array(
             '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne'
-        ))) {
+        ))
+        ) {
             throw new InvalidArgumentException(
-                'Unknown comparison operator '.$operator
+                'Unknown comparison operator ' . $operator
             );
         }
 
         $this->operator = $operator;
-   }
-
+    }
 
     public function check()
     {
-        foreach ($this->version as $version ) {
+        foreach ($this->version as $version) {
             if (!version_compare(PHP_VERSION, $version, $this->operator)) {
                 return new Failure('Current PHP version ' . PHP_VERSION, PHP_VERSION);
             }
         }
+
         return new Success('Current PHP version is ' . PHP_VERSION, PHP_VERSION);
     }
 }

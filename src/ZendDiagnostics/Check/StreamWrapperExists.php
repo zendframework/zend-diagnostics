@@ -5,7 +5,8 @@
 
 namespace ZendDiagnostics\Check;
 
-use \InvalidArgumentException;
+use InvalidArgumentException;
+use Traversable;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -17,17 +18,17 @@ use ZendDiagnostics\Result\Success;
 class StreamWrapperExists extends AbstractCheck implements CheckInterface
 {
     /**
-     * @var array|\Traversable
+     * @var array|Traversable
      */
     protected $wrappers;
 
     /**
-     * @param string|array|\Traversable $wrappers      Stream wrapper name or an array of names
+     * @param string|array|Traversable $wrappers      Stream wrapper name or an array of names
      * @throws \InvalidArgumentException
      */
     public function __construct($wrappers)
     {
-        if (is_object($wrappers) && !$wrappers instanceof \Traversable) {
+        if (is_object($wrappers) && !$wrappers instanceof Traversable) {
             throw new InvalidArgumentException(
                 'Expected a stream wrapper name (string), an array or Traversable of strings, got ' . get_class($wrappers)
             );

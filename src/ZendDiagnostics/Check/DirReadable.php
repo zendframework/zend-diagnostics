@@ -5,9 +5,10 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
+use Traversable;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
-use \InvalidArgumentException;
 
 /**
  * Validate that a given path (or a collection of paths) is a dir and is readable
@@ -18,17 +19,17 @@ class DirReadable extends AbstractCheck implements CheckInterface
 {
 
     /**
-     * @var array|\Traversable
+     * @var array|Traversable
      */
     protected $dir;
 
     /**
-     * @param string|array|\Traversable $path    Path name or an array of paths
+     * @param string|array|Traversable $path    Path name or an array of paths
      * @throws \InvalidArgumentException
      */
     public function __construct($path)
     {
-        if (is_object($path) && !$path instanceof \Traversable) {
+        if (is_object($path) && !$path instanceof Traversable) {
             throw new InvalidArgumentException(
                 'Expected a dir name (string), an array or Traversable of strings, got ' . get_class($path)
             );
