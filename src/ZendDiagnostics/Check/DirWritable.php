@@ -15,21 +15,20 @@ use ZendDiagnostics\Result\Success;
  */
 class DirWritable extends AbstractCheck implements CheckInterface
 {
-
     /**
      * @var array|Traversable
      */
     protected $dir;
 
     /**
-     * @param string|array|Traversable $path    Path name or an array of paths
-     * @throws \InvalidArgumentException
+     * @param  string|array|Traversable $path Path name or an array of paths
+     * @throws InvalidArgumentException
      */
     public function __construct($path)
     {
         if (is_object($path) && !$path instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a dir name (string), an array or Traversable of strings, got ' . get_class($path)
+                'Expected a dir name (string) , an array or Traversable of strings, got ' . get_class($path)
             );
         }
 
@@ -43,7 +42,6 @@ class DirWritable extends AbstractCheck implements CheckInterface
             $this->dir = $path;
         }
     }
-
 
     public function check()
     {

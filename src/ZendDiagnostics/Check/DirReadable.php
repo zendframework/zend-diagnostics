@@ -15,21 +15,20 @@ use ZendDiagnostics\Result\Success;
  */
 class DirReadable extends AbstractCheck implements CheckInterface
 {
-
     /**
      * @var array|Traversable
      */
     protected $dir;
 
     /**
-     * @param string|array|Traversable $path    Path name or an array of paths
-     * @throws \InvalidArgumentException
+     * @param  string|array|Traversable $path Path name or an array of paths
+     * @throws InvalidArgumentException
      */
     public function __construct($path)
     {
         if (is_object($path) && !$path instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a dir name (string), an array or Traversable of strings, got ' . get_class($path)
+                'Expected a dir name (string) , an array or Traversable of strings, got ' . get_class($path)
             );
         }
 
@@ -47,7 +46,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
     public function check()
     {
         $nonDirs = $unreadable = array();
-        
+
         // Check each path if it's a dir and is readable
         foreach ($this->dir as $dir) {
             if (!is_dir($dir)) {
@@ -62,7 +61,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
         // Construct failure message
         $failureString = '';
         if (count($nonDirs) > 1) {
-            $failureString .= 'The following paths are not valid directories: ' . join(', ', $nonDirs).' ';
+            $failureString .= 'The following paths are not valid directories: ' . join(', ', $nonDirs) . ' ';
         } elseif (count($nonDirs) == 1) {
             $failureString .= current($nonDirs) . ' is not a valid directory. ';
         }

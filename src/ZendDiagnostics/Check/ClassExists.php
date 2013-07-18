@@ -6,6 +6,7 @@
 namespace ZendDiagnostics\Check;
 
 use InvalidArgumentException;
+use Traversable;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -15,22 +16,29 @@ use ZendDiagnostics\Result\Success;
 class ClassExists extends AbstractCheck implements CheckInterface
 {
     /**
-     * @var array|\Traversable
+     * An array of classes to check
+     *
+     * @var array|Traversable
      */
     protected $classes;
 
+    /**
+     * Use autoloader when looking for classes? (defaults to true)
+     *
+     * @var bool
+     */
     protected $autoload = true;
 
     /**
-     * @param string|array|\Traversable $classNames      Class name or an array of classes
-     * @param bool                      $autoload        Use autoloader when looking for classes? (defaults to true)
-     * @throws \InvalidArgumentException
+     * @param  string|array|Traversable $classNames Class name or an array of classes
+     * @param  bool                     $autoload   Use autoloader when looking for classes? (defaults to true)
+     * @throws InvalidArgumentException
      */
     public function __construct($classNames, $autoload = true)
     {
-        if (is_object($classNames) && !$classNames instanceof \Traversable) {
+        if (is_object($classNames) && !$classNames instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a class name (string), an array or Traversable of strings, got ' . get_class($classNames)
+                'Expected a class name (string) , an array or Traversable of strings, got ' . get_class($classNames)
             );
         }
 
@@ -46,7 +54,6 @@ class ClassExists extends AbstractCheck implements CheckInterface
 
         $this->autoload = $autoload;
     }
-
 
     public function check()
     {
