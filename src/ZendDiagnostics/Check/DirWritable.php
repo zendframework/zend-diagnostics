@@ -12,8 +12,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a given path (or a collection of paths) is a dir and is writable
- *
- * @package ZendDiagnostics\Test
  */
 class DirWritable extends AbstractCheck implements CheckInterface
 {

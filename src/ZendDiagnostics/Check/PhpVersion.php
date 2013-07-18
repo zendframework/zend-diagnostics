@@ -14,8 +14,6 @@ use ZendDiagnostics\Result\Success;
  *
  * This test accepts a single version and an operator or an array of
  * versions to test for.
- *
- * @package ZendDiagnostics\Test
  */
 class PhpVersion extends AbstractCheck implements CheckInterface
 {

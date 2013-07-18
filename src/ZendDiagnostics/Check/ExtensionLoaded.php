@@ -12,8 +12,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a named extension or a collection of extensions is available.
- *
- * @package ZendDiagnostics\Test
  */
 class ExtensionLoaded extends AbstractCheck implements CheckInterface
 {

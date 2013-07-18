@@ -12,8 +12,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a stream wrapper exists.
- *
- * @package ZendDiagnostics\Test
  */
 class StreamWrapperExists extends AbstractCheck implements CheckInterface
 {

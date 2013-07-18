@@ -7,8 +7,6 @@ namespace ZendDiagnostics\Check;
 
 /**
  * Run a callback function and return result.
- *
- * @package ZendDiagnostics\Test
  */
 class Callback extends AbstractCheck implements CheckInterface
 {

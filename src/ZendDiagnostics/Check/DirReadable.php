@@ -12,8 +12,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a given path (or a collection of paths) is a dir and is readable
- *
- * @package ZendDiagnostics\Test
  */
 class DirReadable extends AbstractCheck implements CheckInterface
 {

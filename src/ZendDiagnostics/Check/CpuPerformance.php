@@ -14,8 +14,6 @@ use ZendDiagnostics\Result\Warning;
  *
  * The baseline has been calculated as the average time needed to calculate 1000 digits of PI
  * on an Amazon AWS EC2 Micro Instance.
- *
- * @package ZendDiagnostics\Test
  */
 class CpuPerformance extends AbstractCheck implements CheckInterface
 {

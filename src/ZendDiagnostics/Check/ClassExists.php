@@ -11,8 +11,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a class or a collection of classes is available.
- *
- * @package ZendDiagnostics\Test
  */
 class ClassExists extends AbstractCheck implements CheckInterface
 {
