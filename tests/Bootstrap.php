@@ -34,7 +34,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     include_once __DIR__ . '/../vendor/autoload.php';
 }
 // If composer autoloader is missing, try to use ZF2 loader from zend-loader package.
-elseif(false && file_exists( __DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php')) {
+elseif (false && file_exists( __DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php')) {
     require_once __DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php';
     $loader = new Zend\Loader\StandardAutoloader(array(
         Zend\Loader\StandardAutoloader::LOAD_NS => array(
@@ -46,7 +46,7 @@ elseif(false && file_exists( __DIR__ . '/../vendor/zendframework/zend-loader/Zen
 }
 
 // ... or main zendframework package.
-elseif(file_exists( __DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php')) {
+elseif (file_exists( __DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php')) {
     require_once __DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php';
     $loader = new Zend\Loader\StandardAutoloader(array(
         Zend\Loader\StandardAutoloader::LOAD_NS => array(
@@ -80,8 +80,6 @@ else{
             $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-        var_dump($fileName);
         require $fileName;
     });
 

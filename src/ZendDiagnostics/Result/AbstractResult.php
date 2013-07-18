@@ -6,8 +6,6 @@ namespace ZendDiagnostics\Result;
 
 /**
  * Abstract, simple implementation of ResultInterface
- *
- * @package ZendDiagnostics\Result
  */
 abstract class AbstractResult implements ResultInterface
 {
