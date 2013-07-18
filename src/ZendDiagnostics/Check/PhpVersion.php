@@ -74,6 +74,12 @@ class PhpVersion extends AbstractCheck implements CheckInterface
         $this->operator = $operator;
     }
 
+    /**
+     * Perform the check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return Success|Failure
+     */
     public function check()
     {
         foreach ($this->version as $version) {

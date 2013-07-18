@@ -37,6 +37,12 @@ class Callback extends AbstractCheck implements CheckInterface
         $this->params = $params;
     }
 
+    /**
+     * Perform the Check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return mixed
+     */
     public function check()
     {
         return call_user_func_array($this->callback, $this->params);
