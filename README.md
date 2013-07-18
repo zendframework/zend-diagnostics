@@ -3,7 +3,7 @@ ZendDiagnostics
 
 Interfaces for performing diagnostic tests in PHP applications.
 
-It currently ships with the following Checks: [ClassExists](#classexists), [CpuPerformance](#cpuperformance),
+It currently ships with the following Checks: [Callback](#callback), [ClassExists](#classexists), [CpuPerformance](#cpuperformance),
 [DirReadable](#dirreadable), [DirWritable](#dirwritable), [ExtensionLoaded](#extensionloaded),
 [PhpVersion](#phpversion), [SteamWrapperExists](#streamwrapperexists)
 
@@ -59,6 +59,30 @@ applications and libraries.
 ZendDiagnostics provides several "just add water" checks you can use straight away.
 
 The following built-in tests are currently available:
+
+### Callback
+
+Run a function (callback) and use return value as a result
+
+````php
+<?php
+use ZendDiagnostics\Check\Callback;
+use ZendDiagnostics\Result\Success;
+use ZendDiagnostics\Result\Failure;
+
+$checkDbFile = new Callback(function(){
+    $path = __DIR__ . '/data/db.sqlite';
+    if(is_file($path) && is_readable($path) && filesize($path)) {
+        return new Success('Db file is ok');
+    } else {
+        return new Failure('There is something wrong with the db file');
+    }
+});
+````
+
+**Note:** The callback must return either a `boolean` (true for success, false for failure) or a valid instance of
+[ResultInterface](src/ZendDiagnostics/Result/ResultInterface.php). All other objects will result in an exception
+and scalars (i.e. a string) will be interpreted as warnings.
 
 ### ClassExists
 
