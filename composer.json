@@ -20,5 +20,8 @@
     "require-dev": {
         "zendframework/zend-loader": "2.*",
         "phpunit/phpunit": "3.7.*"
+    },
+    "suggest" : {
+        "ext-bcmath" : "*"
     }
 }
