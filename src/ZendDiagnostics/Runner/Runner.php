@@ -12,6 +12,7 @@ namespace ZendDiagnostics\Runner;
 use ArrayObject;
 use ErrorException;
 use InvalidArgumentException;
+use RuntimeException;
 use Traversable;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
@@ -281,11 +282,15 @@ class Runner
 
     /**
      * @return CheckInterface
+     * @throws RuntimeException
      */
     public function getCheck($alias)
     {
         if (empty($this->checks[$alias])) {
-            return new \RuntimeException("The no set for the alias '$alias'.");
+            throw new RuntimeException(sprintf(
+                'There is no check set for the alias "%s"',
+                $alias
+            ));
         }
 
         return $this->checks[$alias];
@@ -309,7 +314,7 @@ class Runner
 
     /**
      * Set if checking should abort on first failure.
-     * 
+     *
      * @param boolean $breakOnFailure
      */
     public function setBreakOnFailure($breakOnFailure)
@@ -434,5 +439,3 @@ class Runner
         // @codeCoverageIgnoreEnd
     }
 }
-
-
