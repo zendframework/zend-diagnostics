@@ -8,7 +8,7 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class ProcessActiveCheck extends AbstractCheck
+class ProcessActive extends AbstractCheck
 {
     /**
      * @var string
@@ -31,13 +31,5 @@ class ProcessActiveCheck extends AbstractCheck
         }
 
         return new Success();
-    }
-
-    /**
-     * @see ZendDiagnostics\CheckInterface::getName()()
-     */
-    public function getName()
-    {
-        return 'Process Active: ' . $this->command;
     }
 }

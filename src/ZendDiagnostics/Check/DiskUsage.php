@@ -8,14 +8,14 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class DiscUsageCheck extends AbstractCheck
+class DiskUsage extends AbstractCheck
 {
     /**
-     * Maximum disc usage in percentage
+     * Maximum disk usage in percentage
      *
      * @var int
      */
-    protected $maxDiscUsage;
+    protected $maxDiskUsage;
 
     /**
      * Path that should be checked
@@ -24,9 +24,9 @@ class DiscUsageCheck extends AbstractCheck
      */
     protected $path;
 
-    public function __construct($maxDiscUsage, $path)
+    public function __construct($maxDiskUsage, $path)
     {
-        $this->maxDiscUsage = (int) $maxDiscUsage;
+        $this->maxDiskUsage = (int) $maxDiskUsage;
         $this->path = $path;
     }
 
@@ -37,15 +37,10 @@ class DiscUsageCheck extends AbstractCheck
         $du = $dt - $df;
         $dp = ($du / $dt) * 100;
 
-        if ($dp >= $this->maxDiscUsage) {
-            return new Failure(sprintf('Disc usage too high: %2d percentage.', $dp));
+        if ($dp >= $this->maxDiskUsage) {
+            return new Failure(sprintf('Disk usage too high: %2d percentage.', $dp));
         }
 
         return new Success();
-    }
-
-    public function getName()
-    {
-        return "Disc Usage Health";
     }
 }

@@ -8,7 +8,7 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class PhpExtensionsCheck extends AbstractCheck
+class PhpExtensions extends AbstractCheck
 {
     protected $extensions;
 
@@ -37,13 +37,5 @@ class PhpExtensionsCheck extends AbstractCheck
         }
 
         return new Success();
-    }
-
-    /**
-     * @see Liip\MonitorBundle\Check\CheckInterface::getName()
-     */
-    public function getName()
-    {
-        return "PHP Extensions Health Check";
     }
 }

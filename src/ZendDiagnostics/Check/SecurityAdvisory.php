@@ -15,7 +15,7 @@ use ZendDiagnostics\Result\Warning;
  *
  * @author Baldur Rensch <brensch@gmail.com>
  */
-class SecurityAdvisoryCheck extends AbstractCheck
+class SecurityAdvisory extends AbstractCheck
 {
     /**
      * @var string
@@ -60,13 +60,5 @@ class SecurityAdvisoryCheck extends AbstractCheck
         }
 
         return new Success();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'Security advisory';
     }
 }

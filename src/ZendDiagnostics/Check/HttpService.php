@@ -8,7 +8,7 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class HttpServiceCheck extends AbstractCheck
+class HttpService extends AbstractCheck
 {
     /**
      * @var string
@@ -37,7 +37,10 @@ class HttpServiceCheck extends AbstractCheck
 
     /**
      * @param string $host
-     * @param int $port
+     * @param int    $port
+     * @param string $path
+     * @param int    $statusCode
+     * @param null   $content
      */
     public function __construct($host, $port = 80, $path = '/', $statusCode = 200, $content = null)
     {
@@ -77,13 +80,5 @@ class HttpServiceCheck extends AbstractCheck
         }
 
         return new Success();
-    }
-
-    /**
-     * @see ZendDiagnostics\CheckInterface::getName()()
-     */
-    public function getName()
-    {
-        return 'Http Service';
     }
 }
