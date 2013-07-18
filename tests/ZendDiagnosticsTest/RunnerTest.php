@@ -129,6 +129,28 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($check3, $this->runner->getChecks());
     }
 
+    public function testManagingChecksWithAliases()
+    {
+        $check1 = new AlwaysSuccess();
+        $check2 = new AlwaysSuccess();
+        $check3 = new AlwaysSuccess();
+        $this->runner->addCheck($check1, 'foo');
+        $this->runner->addCheck($check2, 'bar');
+        $this->assertSame($check1, $this->runner->getCheck('foo'));
+        $this->assertSame($check2, $this->runner->getCheck('bar'));
+
+        $this->runner->addChecks(array(
+            'baz' => $check3,
+        ));
+        $this->assertSame($check3, $this->runner->getCheck('baz'));
+    }
+
+    public function testGetNonExistentAliasThrowsException()
+    {
+        $this->setExpectedException('RuntimeException');
+        $this->runner->getCheck('non-existent-check');
+    }
+
     public function testConstructionWithChecks()
     {
         $check1 = new AlwaysSuccess();
