@@ -1,5 +1,5 @@
 <?php
-namespace ZendDiagnosticsTest\Reporter;
+namespace ZendDiagnosticsTest\TestAsset\Reporter;
 
 use ZendDiagnostics\Check\CheckInterface as Check;
 use ZendDiagnostics\Result\ResultInterface as Result;

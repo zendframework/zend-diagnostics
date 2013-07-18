@@ -1,12 +1,14 @@
 <?php
 namespace ZendDiagnosticsTest;
 
+use ArrayObject;
+use stdClass;
 use ZendDiagnostics\Result\Collection;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
-use ZendDiagnosticsTest\Result\Unknown;
-use ZendDiagnosticsTest\Check\AlwaysSuccess;
+use ZendDiagnosticsTest\TestAsset\Result\Unknown;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,8 +30,8 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
             array(0),
             array(1),
             array('foo'),
-            array(new \stdClass),
-            array(new \ArrayObject),
+            array(new stdClass),
+            array(new ArrayObject),
             array(new Success()),
         );
     }
@@ -40,8 +42,8 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
             array(0),
             array(1),
             array('foo'),
-            array(new \stdClass),
-            array(new \ArrayObject),
+            array(new stdClass),
+            array(new ArrayObject),
             array(new AlwaysSuccess()),
         );
     }

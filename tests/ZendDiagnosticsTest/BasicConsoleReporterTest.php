@@ -1,18 +1,19 @@
 <?php
-namespace ZendDiagnosticsTest\Reporter;
+namespace ZendDiagnosticsTest;
 
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
+use ArrayObject;
 use ZendDiagnostics\Result\Collection;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
-use ZendDiagnosticsTest\Result\Unknown;
-use ZendDiagnosticsTest\Check\AlwaysSuccess;
+use ZendDiagnostics\Runner\Reporter\BasicConsole;
+use ZendDiagnosticsTest\TestAsset\Result\Unknown;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \ZendDiagnostics\Runner\Reporter\BasicConsole
+     * @var BasicConsole
      */
     protected $reporter;
 
@@ -24,14 +25,14 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
     public function testStartMessage()
     {
         ob_start();
-        $checks = new \ArrayObject(array(new AlwaysSuccess()));
+        $checks = new ArrayObject(array(new AlwaysSuccess()));
         $this->reporter->onStart($checks, array());
         $this->assertStringMatchesFormat('Starting%A', ob_get_clean());
     }
 
     public function testProgressDots()
     {
-        $checks = new \ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -47,7 +48,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testWarningSymbols()
     {
-        $checks = new \ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -63,7 +64,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testFailureSymbols()
     {
-        $checks = new \ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -79,7 +80,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testUnknownSymbols()
     {
-        $checks = new \ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -97,7 +98,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
     public function testProgressDotsNoGutter()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new \ArrayObject(array_fill(0,40, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,40, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -115,7 +116,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
     public function testProgressOverflow()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new \ArrayObject(array_fill(0,80, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,80, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -138,7 +139,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
     public function testProgressOverflowMatch()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new \ArrayObject(array_fill(0,75, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0,75, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -159,7 +160,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testSummaryAllSuccessful()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for($x = 0; $x < 20; $x++){
@@ -177,7 +178,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testSummaryWithWarnings()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -200,7 +201,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testSummaryWithFailures()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -228,7 +229,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testSummaryWithUnknowns()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -261,7 +262,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testWarnings()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -285,7 +286,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testFailures()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -309,7 +310,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
     public function testUnknowns()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {
@@ -326,14 +327,14 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
 
         $this->reporter->onFinish($results);
         $this->assertStringMatchesFormat(
-            '%AUnknown result ZendDiagnosticsTest\Result\Unknown: Always Success%wbaz%A',
+            '%AUnknown result ZendDiagnosticsTest\TestAsset\Result\Unknown: Always Success%wbaz%A',
             trim(ob_get_clean())
         );
     }
 
     public function testStoppedNotice()
     {
-        $checks = new \ArrayObject();
+        $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
         for ($x = 0; $x < 15; $x++) {

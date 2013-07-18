@@ -2,7 +2,7 @@
 /**
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
-namespace ZendDiagnosticsTest\Check;
+namespace ZendDiagnosticsTest\TestAsset\Check;
 
 use ZendDiagnostics\Check\AbstractCheck;
 use ZendDiagnostics\Result\Success;

@@ -1,18 +1,18 @@
 <?php
 namespace ZendDiagnosticsTest;
 
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
-use ZendDiagnosticsTest\Check\AlwaysFailure;
-use ZendDiagnosticsTest\Check\AlwaysSuccess;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Warning;
-use ZendDiagnosticsTest\Check\ReturnThis;
-use ZendDiagnosticsTest\Check\ThrowException;
-use ZendDiagnosticsTest\Check\TriggerUserError;
-use ZendDiagnosticsTest\Check\TriggerWarning;
-use ZendDiagnosticsTest\Result\Unknown;
 use ZendDiagnostics\Runner\Runner;
+use ZendDiagnostics\Runner\Reporter\BasicConsole;
+use ZendDiagnosticsTest\TestAsset\Result\Unknown;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysFailure;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
+use ZendDiagnosticsTest\TestAsset\Check\ReturnThis;
+use ZendDiagnosticsTest\TestAsset\Check\ThrowException;
+use ZendDiagnosticsTest\TestAsset\Check\TriggerUserError;
+use ZendDiagnosticsTest\TestAsset\Check\TriggerWarning;
 
 class RunnerTest extends \PHPUnit_Framework_TestCase
 {
@@ -141,7 +141,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructionWithReporter()
     {
-        $reporter = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter');
+        $reporter = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter');
         $this->runner = new Runner(array(), array(), $reporter);
         $this->assertEquals(1, count($this->runner->getReporters()));
         $this->assertContains($reporter, $this->runner->getReporters());
@@ -182,7 +182,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     public function testStart()
     {
         $this->runner->addCheck(new AlwaysSuccess());
-        $mock = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter', array('onStart'));
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onStart'));
         $mock->expects($this->once())->method('onStart')->with($this->isInstanceOf('\ArrayObject'), $this->isType('array'));
         $this->runner->addReporter($mock);
         $this->runner->run();
@@ -192,7 +192,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     {
         $check = new AlwaysSuccess();
         $this->runner->addCheck($check);
-        $mock = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter', array('onBeforeRun'));
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onBeforeRun'));
         $mock->expects($this->once())->method('onBeforeRun')->with($this->identicalTo($check));
         $this->runner->addReporter($mock);
         $this->runner->run();
@@ -202,7 +202,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     {
         $check = new AlwaysSuccess();
         $this->runner->addCheck($check);
-        $mock = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter', array('onAfterRun'));
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onAfterRun'));
         $mock->expects($this->once())->method('onAfterRun')->with($this->identicalTo($check));
         $this->runner->addReporter($mock);
         $this->runner->run();
@@ -284,7 +284,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->runner->addCheck($check1);
         $this->runner->addCheck($check2);
 
-        $mock = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter', array('onBeforeRun'));
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onBeforeRun'));
         $mock->expects($this->atLeastOnce())
             ->method('onBeforeRun')
             ->with($this->isInstanceOf('\ZendDiagnostics\Check\CheckInterface'))
@@ -309,7 +309,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->runner->addCheck($check1);
         $this->runner->addCheck($check2);
 
-        $mock = $this->getMock('\ZendDiagnosticsTest\Reporter\AbstractReporter', array('onAfterRun'));
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onAfterRun'));
         $mock->expects($this->atLeastOnce())
             ->method('onAfterRun')
             ->with($this->isInstanceOf('\ZendDiagnostics\Check\CheckInterface'))

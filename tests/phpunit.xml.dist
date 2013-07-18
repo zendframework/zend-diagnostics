@@ -2,7 +2,7 @@
     <testsuites>
         <testsuite name="ZendDiagnostics Test Suite">
             <directory>./ZendDiagnosticsTest</directory>
-            <exclude>./ZendTest/_assets/</exclude>
+            <exclude>./ZendDiagnosticsTest/TestAsset</exclude>
         </testsuite>
     </testsuites>
 

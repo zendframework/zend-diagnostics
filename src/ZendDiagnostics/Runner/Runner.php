@@ -13,6 +13,7 @@ use ArrayObject;
 use ErrorException;
 use InvalidArgumentException;
 use RuntimeException;
+use BadMethodCallException;
 use Traversable;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
@@ -41,7 +42,7 @@ class Runner
     /**
      * An array of reporters.
      *
-     * @var array|\traversable
+     * @var array|Traversable
      */
     protected $reporters = array();
 
@@ -94,6 +95,7 @@ class Runner
     /**
      * Run all Checks and return a Result\Collection for every check.
      *
+     * @param string|null $checkAlias An alias of Check instance to run, or null to run all checks.
      * @return ResultsCollection The result of running Checks
      */
     public function run($checkAlias = null)
@@ -102,7 +104,7 @@ class Runner
 
         $checks = $checkAlias ? new ArrayObject(array($this->getCheck($checkAlias))) : $this->getChecks();
 
-        // trigger START event
+        // Trigger START event
         $this->triggerReporters('onStart', $checks, $this->getConfig());
 
         // Iterate over all Checks
@@ -183,8 +185,8 @@ class Runner
      * Set config values from an array.
      *
      * @param  array|Traversable $config
-     * @throws \InvalidArgumentException
-     * @throws \BadMethodCallException
+     * @throws InvalidArgumentException
+     * @throws BadMethodCallException
      * @return $this
      */
     public function setConfig($config)
@@ -199,7 +201,7 @@ class Runner
             }, explode('_', $key)));
 
             if (!is_callable(array($this, $methodName))) {
-                throw new \BadMethodCallException('Unknown config parameter ' . $key);
+                throw new BadMethodCallException('Unknown config parameter ' . $key);
             }
 
             $this->$methodName($val);
@@ -281,14 +283,17 @@ class Runner
     }
 
     /**
+     * Get a single Check instance by its alias name
+     *
+     * @param string $alias Alias name of the Check instance to retrieve
+     * @throws \RuntimeException
      * @return CheckInterface
-     * @throws RuntimeException
      */
     public function getCheck($alias)
     {
         if (empty($this->checks[$alias])) {
             throw new RuntimeException(sprintf(
-                'There is no check set for the alias "%s"',
+                'There is no Check instance with an alias of "%s"',
                 $alias
             ));
         }
@@ -319,7 +324,7 @@ class Runner
      */
     public function setBreakOnFailure($breakOnFailure)
     {
-        $this->breakOnFailure = (bool)$breakOnFailure;
+        $this->breakOnFailure = (bool) $breakOnFailure;
     }
 
     /**

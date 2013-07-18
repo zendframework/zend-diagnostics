@@ -4,7 +4,7 @@ namespace ZendDiagnosticsTest;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 use ZendDiagnostics\Result\Failure;
-use ZendDiagnosticsTest\Check\AlwaysSuccess;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class BasicClassesTest extends \PHPUnit_Framework_TestCase
 {

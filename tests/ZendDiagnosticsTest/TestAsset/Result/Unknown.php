@@ -1,5 +1,5 @@
 <?php
-namespace ZendDiagnosticsTest\Result;
+namespace ZendDiagnosticsTest\TestAsset\Result;
 
 use \ZendDiagnostics\Result\AbstractResult;
 
