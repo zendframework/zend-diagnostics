@@ -1,7 +1,6 @@
 <?php
 namespace ZendDiagnosticsTest\Check;
 
-use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Check\Callback;
 use ZendDiagnostics\Check\ClassExists;
 use ZendDiagnostics\Check\CpuPerformance;
@@ -10,6 +9,7 @@ use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\StreamWrapperExists;
+use ZendDiagnostics\Result\Success;
 use ZendDiagnosticsTest\Check\AlwaysSuccess;
 
 class BasicTestsTest extends \PHPUnit_Framework_TestCase
@@ -465,5 +465,5 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException');
         new CpuPerformance(-1);
     }
-    
+
 }
