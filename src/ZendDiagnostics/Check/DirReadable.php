@@ -43,6 +43,12 @@ class DirReadable extends AbstractCheck implements CheckInterface
         }
     }
 
+    /**
+     * Perform the check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return Failure|Success
+     */
     public function check()
     {
         $nonDirs = $unreadable = array();

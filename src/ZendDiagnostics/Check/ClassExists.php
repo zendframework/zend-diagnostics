@@ -55,6 +55,12 @@ class ClassExists extends AbstractCheck implements CheckInterface
         $this->autoload = $autoload;
     }
 
+    /**
+     * Perform the check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return Success|Failure
+     */
     public function check()
     {
         $missing = array();

@@ -45,6 +45,12 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
         }
     }
 
+    /**
+     * Perform the check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return Failure|Success
+     */
     public function check()
     {
         $missing = array();

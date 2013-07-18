@@ -10,6 +10,8 @@ use ZendDiagnostics\Result\ResultInterface;
 interface CheckInterface
 {
     /**
+     * Perform the actual check and return a ResultInterface
+     *
      * @return ResultInterface
      */
     public function check();

@@ -43,6 +43,12 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
         }
     }
 
+    /**
+     * Perform the check
+     *
+     * @see \ZendDiagnostics\Check\CheckInterface::check()
+     * @return Failure|Success
+     */
     public function check()
     {
         $availableWrappers = stream_get_wrappers();
