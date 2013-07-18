@@ -26,6 +26,7 @@ abstract class AbstractCheck implements CheckInterface
         }
 
         $class = get_class($this);
+
         return preg_replace('/([A-Z])/', ' $1', substr($class, strrpos($class, "\\") + 1));
     }
 

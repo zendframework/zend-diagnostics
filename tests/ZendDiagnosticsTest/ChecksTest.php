@@ -366,98 +366,104 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpVersionInvalidVersion()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new PhpVersion(new \stdClass());
     }
 
     public function testPhpVersionInvalidVersion2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new PhpVersion(fopen('php://memory', 'r'));
     }
 
     public function testPhpVersionInvalidOperator()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new PhpVersion('1.0.0', array());
     }
 
     public function testPhpVersionInvalidOperator2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new PhpVersion('1.0.0', 'like');
     }
 
     public function testClassExistsInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new ClassExists(new \stdClass);
     }
 
     public function testClassExistsInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new ClassExists(15);
     }
 
     public function testExtensionLoadedInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new ExtensionLoaded(new \stdClass);
     }
 
     public function testExtensionLoadedInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new ExtensionLoaded(15);
     }
 
     public function testDirReadableInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new DirReadable(new \stdClass);
     }
 
     public function testDirReadableInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new DirReadable(15);
     }
 
     public function testDirWritableInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new DirWritable(new \stdClass);
     }
 
     public function testDirWritableInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new DirWritable(15);
     }
 
     public function testStreamWrapperInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new StreamWrapperExists(new \stdClass);
     }
 
     public function testStreamWrapperInvalidInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new StreamWrapperExists(15);
     }
 
     public function testCallbackInvalidArgument()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new Callback(15);
     }
 
     public function testCallbackInvalidArgument2()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         new Callback(array($this, 'foobarbar'));
     }
 
+    public function testCpuPerformanceInvalidArgument()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new CpuPerformance(-1);
+    }
+    
 }

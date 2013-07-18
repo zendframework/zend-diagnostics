@@ -5,6 +5,8 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
+
 /**
  * Run a callback function and return result.
  */
@@ -21,14 +23,14 @@ class Callback extends AbstractCheck implements CheckInterface
     protected $params = array();
 
     /**
-     * @param callable $callback
-     * @param array    $params
+     * @param  callable                  $callback
+     * @param  array                     $params
      * @throws \InvalidArgumentException
      */
     public function __construct($callback, $params = array())
     {
         if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Invalid callback provided; not callable');
+            throw new InvalidArgumentException('Invalid callback provided; not callable');
         }
 
         $this->callback = $callback;

@@ -23,14 +23,14 @@ class ExtensionLoaded extends AbstractCheck implements CheckInterface
     protected $autoload = true;
 
     /**
-     * @param string|array|Traversable $extensionName     PHP extension name or an array of names
+     * @param  string|array|Traversable  $extensionName PHP extension name or an array of names
      * @throws \InvalidArgumentException
      */
     public function __construct($extensionName)
     {
         if (is_object($extensionName) && !$extensionName instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a module name (string), an array or Traversable of strings, got ' . get_class($extensionName)
+                'Expected a module name (string) , an array or Traversable of strings, got ' . get_class($extensionName)
             );
         }
 

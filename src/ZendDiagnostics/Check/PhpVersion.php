@@ -6,6 +6,7 @@
 namespace ZendDiagnostics\Check;
 
 use InvalidArgumentException;
+use Traversable;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -25,13 +26,13 @@ class PhpVersion extends AbstractCheck implements CheckInterface
     /**
      * @var string
      */
-    protected $operator;
+    protected $operator = '>=';
 
     /**
      *
-     * @param string|array|\Traversable $expectedVersion  The expected version
-     * @param string                    $operator         One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
-     * @throws \InvalidArgumentException
+     * @param  string|array|Traversable $expectedVersion The expected version
+     * @param  string                   $operator        One of: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
+     * @throws InvalidArgumentException
      */
     public function __construct($expectedVersion, $operator = '>=')
     {
@@ -64,8 +65,7 @@ class PhpVersion extends AbstractCheck implements CheckInterface
 
         if (!in_array($operator, array(
             '<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne'
-        ))
-        ) {
+        ))) {
             throw new InvalidArgumentException(
                 'Unknown comparison operator ' . $operator
             );
@@ -78,7 +78,12 @@ class PhpVersion extends AbstractCheck implements CheckInterface
     {
         foreach ($this->version as $version) {
             if (!version_compare(PHP_VERSION, $version, $this->operator)) {
-                return new Failure('Current PHP version ' . PHP_VERSION, PHP_VERSION);
+                return new Failure(sprintf(
+                    'Current PHP version is %s, expected %s %s',
+                    PHP_VERSION,
+                    $this->operator,
+                    $version
+                ), PHP_VERSION);
             }
         }
 
