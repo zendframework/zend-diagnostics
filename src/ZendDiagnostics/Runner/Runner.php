@@ -95,15 +95,17 @@ class Runner
      *
      * @return ResultsCollection The result of running Checks
      */
-    public function run()
+    public function run($checkAlias = null)
     {
         $results = new ResultsCollection();
-        
+
+        $checks = $checkAlias ? new ArrayObject(array($this->getCheck($checkAlias))) : $this->getChecks();
+
         // trigger START event
-        $this->triggerReporters('onStart', $this->checks, $this->getConfig());
+        $this->triggerReporters('onStart', $checks, $this->getConfig());
 
         // Iterate over all Checks
-        foreach ($this->checks as $check) {
+        foreach ($checks as $check) {
             /* @var $check CheckInterface */
 
             // Skip Checking if BEFORE_RUN returned false or has been stopped
@@ -222,10 +224,12 @@ class Runner
      * Add diagnostic Check to run.
      *
      * @param CheckInterface $check
+     * @param string|null $alias
      */
-    public function addCheck(CheckInterface $check)
+    public function addCheck(CheckInterface $check, $alias = null)
     {
-        $this->checks[] = $check;
+        $alias = is_string($alias) ? $alias : count($this->checks);
+        $this->checks[$alias] = $check;
     }
 
     /**
@@ -241,14 +245,15 @@ class Runner
             throw new InvalidArgumentException('Cannot add Checks from ' . $what . ' - expected array or Traversable');
         }
 
-        foreach ($checks as $check) {
+        foreach ($checks as $key => $check) {
             if (!$check instanceof CheckInterface) {
                 $what = is_object($check) ? 'object of class ' . get_class($check) : gettype($check);
                 throw new InvalidArgumentException(
                     'Cannot use ' . $what . ' as Check - expected ZendDiagnostics\Check\CheckInterface'
                 );
             }
-            $this->checks[] = $check;
+            $alias = is_string($key) ? $key : null;
+            $this->addCheck($check, $alias);
         }
     }
 
@@ -272,6 +277,18 @@ class Runner
         $this->reporters = array_filter($this->reporters, function (Reporter $r) use (&$reporter) {
             return $r !== $reporter;
         });
+    }
+
+    /**
+     * @return CheckInterface
+     */
+    public function getCheck($alias)
+    {
+        if (empty($this->checks[$alias])) {
+            return new \RuntimeException("The no set for the alias '$alias'.");
+        }
+
+        return $this->checks[$alias];
     }
 
     /**
