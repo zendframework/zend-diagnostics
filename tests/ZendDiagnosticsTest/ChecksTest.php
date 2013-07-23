@@ -10,7 +10,7 @@ use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Result\Success;
-use ZendDiagnosticsTest\Check\AlwaysSuccess;
+use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class BasicTestsTest extends \PHPUnit_Framework_TestCase
 {
