@@ -20,6 +20,9 @@
     "require-dev": {
         "zendframework/zend-loader": "2.*"
     },
+    "suggest" : {
+        "ext-bcmath" : "Required by Check\\CpuPerformance"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
