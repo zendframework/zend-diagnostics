@@ -3,6 +3,9 @@ ZendDiagnostics
 
 Simple component for performing diagnostic tests in real-world PHP applications.
 
+It currently ships with the following Checks: [Callback](#callback), [ClassExists](#classexists), [CpuPerformance](#cpuperformance),
+[DirReadable](#dirreadable), [DirWritable](#dirwritable), [ExtensionLoaded](#extensionloaded),
+[PhpVersion](#phpversion), [SteamWrapperExists](#streamwrapperexists)
 
 ## Using diagnostics with Symfony 2
 
@@ -212,3 +215,141 @@ ZendDiagnostics ships with a [simple Console reporter](src/ZendDiagnostics/Runne
 can serve as a good example on how to write your own Reporters.
 
 
+## Built-in diagnostics checks
+
+ZendDiagnostics provides several "just add water" checks you can use straight away.
+
+The following built-in tests are currently available:
+
+### Callback
+
+Run a function (callback) and use return value as a result
+
+````php
+<?php
+use ZendDiagnostics\Check\Callback;
+use ZendDiagnostics\Result\Success;
+use ZendDiagnostics\Result\Failure;
+
+$checkDbFile = new Callback(function(){
+    $path = __DIR__ . '/data/db.sqlite';
+    if(is_file($path) && is_readable($path) && filesize($path)) {
+        return new Success('Db file is ok');
+    } else {
+        return new Failure('There is something wrong with the db file');
+    }
+});
+````
+
+**Note:** The callback must return either a `boolean` (true for success, false for failure) or a valid instance of
+[ResultInterface](src/ZendDiagnostics/Result/ResultInterface.php). All other objects will result in an exception
+and scalars (i.e. a string) will be interpreted as warnings.
+
+### ClassExists
+
+Check if a class (or an array of classes) exist. For example:
+
+````php
+<?php
+use ZendDiagnostics\Check\ClassExists;
+
+$checkLuaClass    = new ClassExists('Lua');
+$checkRbacClasses = new ClassExists(array(
+    'ZfcRbac\Module',
+    'ZfcRbac\Controller\Plugin\IsGranted'
+));
+````
+
+### CpuPerformance
+
+Benchmark CPU performance and return failure if it is below the given ratio. The baseline for performance calculation
+is the speed of Amazon EC2 Micro Instance (Q1 2013). You can specify the expected performance for the test, where a
+ratio of `1.0` (one) means at least the speed of EC2 Micro Instance. A ratio of `2` would mean "at least double the
+performance of EC2 Micro Instance" and a fraction of `0.5` means "at least half the performance of Micro Instance".
+
+The following check will test if current server has at least half the CPU power of EC2 Micro Instance:
+
+````php
+<?php
+use ZendDiagnostics\Check\CpuPerformance;
+
+$checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance
+````
+
+### DirReadable
+
+Check if a given path (or array of paths) points to a directory and it is readable.
+
+````php
+<?php
+use ZendDiagnostics\Check\DirReadable;
+
+$checkPublic = new DirReadable('public/');
+$checkAssets = new DirReadable(array(
+    __DIR__ . '/assets/img',
+    __DIR__ . '/assets/js'
+));
+````
+
+### DirWritable
+
+Check if a given path (or array of paths) points to a directory and if it can be written to.
+
+````php
+<?php
+use ZendDiagnostics\Check\DirWritable;
+
+$checkTemporary = new DirWritable('/tmp');
+$checkAssets    = new DirWritable(array(
+    __DIR__ . '/assets/customImages',
+    __DIR__ . '/assets/customJs',
+    __DIR__ . '/assets/uploads',
+));
+````
+
+### ExtensionLoaded
+
+Check if a PHP extension (or an array of extensions) is currently loaded.
+
+````php
+<?php
+use ZendDiagnostics\Check\ExtensionLoaded;
+
+$checkMbstring    = new ExtensionLoaded('mbstring');
+$checkCompression = new ExtensionLoaded(array(
+    'rar',
+    'bzip2',
+    'zip'
+));
+````
+
+
+### PhpVersion
+
+Check if current PHP version matches the given requirement. The test accepts 2 parameters - baseline version and
+optional [comparison operator](http://www.php.net/manual/en/function.version-compare.php).
+
+
+````php
+<?php
+use ZendDiagnostics\Check\PhpVersion;
+
+$require545orNewer  = new PhpVersion('5.4.5');
+$rejectBetaVersions = new PhpVersion('5.5.0', '<');
+````
+
+### SteamWrapperExists
+
+Check if a given stream wrapper (or an array of wrappers) is available. For example:
+
+````php
+<?php
+use ZendDiagnostics\Check\StreamWrapperExists;
+
+$checkOGGStream   = new StreamWrapperExists('ogg');
+$checkCompression = new StreamWrapperExists(array(
+    'zlib',
+    'bzip2',
+    'zip'
+));
+````
