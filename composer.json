@@ -21,7 +21,8 @@
         "zendframework/zend-loader": "2.*"
     },
     "suggest" : {
-        "ext-bcmath" : "Required by Check\\CpuPerformance"
+        "ext-bcmath" : "Required by Check\\CpuPerformance",
+        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory"
     },
     "extra": {
         "branch-alias": {
