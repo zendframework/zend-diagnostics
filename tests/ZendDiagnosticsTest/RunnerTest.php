@@ -12,7 +12,8 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testRunner(){
+    public function testRunner()
+    {
         $alwaysSuccess = new AlwaysSuccess();
         $this->assertInstanceOf('\ZendDiagnostics\Result\Success', $alwaysSuccess->check());
     }
