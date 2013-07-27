@@ -129,9 +129,12 @@ class DiskFreeTest extends \PHPUnit_Framework_TestCase
     {
         $tmp = $this->getTempDir();
         $freeRightNow = disk_free_space($tmp);
-        if($freeRightNow < 1024) {
+        if ($freeRightNow < 1024) {
             $this->markTestSkipped('There is less that 1024 bytes free in temp dir');
         }
+
+        // give some margin of error
+        $freeRightNow *= 0.9;
         $freeRightNowString = DiskFree::bytesToString($freeRightNow);
         $check = new DiskFree($freeRightNowString, $tmp);
         $result = $check->check();
