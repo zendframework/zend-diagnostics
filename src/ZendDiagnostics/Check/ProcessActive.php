@@ -25,6 +25,7 @@ class ProcessActive extends AbstractCheck
      */
     public function check()
     {
+        // TODO make more OS agnostic
         exec('ps -ef | grep ' . escapeshellarg($this->command) . ' | grep -v grep', $output, $return);
         if ($return == 1) {
             return new Failure(sprintf('There is no process running containing "%s"', $this->command));

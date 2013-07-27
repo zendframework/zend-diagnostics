@@ -70,7 +70,7 @@ class Memcache extends AbstractCheck
                 }
             }
         } catch (\Exception $e) {
-            return new Failure(' ' . $e->getMessage());
+            return new Failure($e->getMessage());
         }
 
         return new Success(sprintf('Memcache server running at host %s on port %s', $this->host, $this->port));
