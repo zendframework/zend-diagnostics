@@ -82,7 +82,7 @@ class Collection extends \SplObjectStorage
     }
 
     /**
-     * @param object $index
+     * @param  object $index
      * @return mixed
      * @link http://php.net/manual/en/splobjectstorage.offsetget.php
      */
@@ -94,7 +94,7 @@ class Collection extends \SplObjectStorage
     }
 
     /**
-     * @param object $index
+     * @param  object $index
      * @return bool
      * @link http://php.net/manual/en/splobjectstorage.offsetexists.php
      */
@@ -165,7 +165,7 @@ class Collection extends \SplObjectStorage
     /**
      * Validate index object.
      *
-     * @param mixed $index
+     * @param  mixed                    $index
      * @return string
      * @throws InvalidArgumentException
      */
@@ -184,7 +184,7 @@ class Collection extends \SplObjectStorage
     /**
      * Validate if the value can be stored in this collection.
      *
-     * @param mixed $checkResult
+     * @param  mixed                    $checkResult
      * @return mixed
      * @throws InvalidArgumentException
      */

@@ -73,7 +73,7 @@ class Runner
      *
      * @param null|array|Traversable $config   Config settings.
      * @param null|array|Traversable $checks   A collection of Checks to run.
-     * @param null|Reporter           $reporter Reporter instance to use
+     * @param null|Reporter          $reporter Reporter instance to use
      */
     public function __construct($config = null, $checks = null, Reporter $reporter = null)
     {
@@ -95,7 +95,7 @@ class Runner
     /**
      * Run all Checks and return a Result\Collection for every check.
      *
-     * @param string|null $checkAlias An alias of Check instance to run, or null to run all checks.
+     * @param  string|null       $checkAlias An alias of Check instance to run, or null to run all checks.
      * @return ResultsCollection The result of running Checks
      */
     public function run($checkAlias = null)
@@ -184,7 +184,7 @@ class Runner
     /**
      * Set config values from an array.
      *
-     * @param  array|Traversable $config
+     * @param  array|Traversable        $config
      * @throws InvalidArgumentException
      * @throws BadMethodCallException
      * @return $this
@@ -227,7 +227,7 @@ class Runner
      * Add diagnostic Check to run.
      *
      * @param CheckInterface $check
-     * @param string|null $alias
+     * @param string|null    $alias
      */
     public function addCheck(CheckInterface $check, $alias = null)
     {
@@ -238,7 +238,7 @@ class Runner
     /**
      * Add multiple Checks from an array or Traversable.
      *
-     * @param array|Traversable $checks
+     * @param  array|Traversable        $checks
      * @throws InvalidArgumentException
      */
     public function addChecks($checks)
@@ -285,7 +285,7 @@ class Runner
     /**
      * Get a single Check instance by its alias name
      *
-     * @param string $alias Alias name of the Check instance to retrieve
+     * @param  string            $alias Alias name of the Check instance to retrieve
      * @throws \RuntimeException
      * @return CheckInterface
      */
@@ -374,8 +374,8 @@ class Runner
     {
         $args = func_get_args();
         array_shift($args);
-        foreach ($this->reporters as $reporter){
-            if (call_user_func_array(array($reporter, $eventType), $args) === false){
+        foreach ($this->reporters as $reporter) {
+            if (call_user_func_array(array($reporter, $eventType), $args) === false) {
                 return false;
             }
         }
@@ -401,42 +401,57 @@ class Runner
     /**
      * Convert PHP error severity INT to name.
      *
-     * @param integer $severity
+     * @param  integer $severity
      * @return string
      */
     public static function getSeverityDescription($severity)
     {
         switch ($severity) {
             case E_WARNING: // 2 //
+
                 return 'WARNING';
             // @codeCoverageIgnoreStart
             case E_ERROR: // 1 //
+
                 return 'ERROR';
             case E_PARSE: // 4 //
+
                 return 'PARSE';
             case E_NOTICE: // 8 //
+
                 return 'NOTICE';
             case E_CORE_ERROR: // 16 //
+
                 return 'CORE_ERROR';
             case E_CORE_WARNING: // 32 //
+
                 return 'CORE_WARNING';
             case E_COMPILE_ERROR: // 64 //
+
                 return 'COMPILE_ERROR';
             case E_COMPILE_WARNING: // 128 //
+
                 return 'COMPILE_WARNING';
             case E_USER_ERROR: // 256 //
+
                 return 'USER_ERROR';
             case E_USER_WARNING: // 512 //
+
                 return 'USER_WARNING';
             case E_USER_NOTICE: // 1024 //
+
                 return 'USER_NOTICE';
             case E_STRICT: // 2048 //
+
                 return 'STRICT';
             case E_RECOVERABLE_ERROR: // 4096 //
+
                 return 'RECOVERABLE_ERROR';
             case E_DEPRECATED: // 8192 //
+
                 return 'DEPRECATED';
             case E_USER_DEPRECATED: // 16384 //
+
                 return 'USER_DEPRECATED';
             default:
                 return 'error severity ' . $severity;

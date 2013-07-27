@@ -3,9 +3,10 @@ ZendDiagnostics
 
 Simple component for performing diagnostic tests in real-world PHP applications.
 
-It currently ships with the following Checks: [Callback](#callback), [ClassExists](#classexists), [CpuPerformance](#cpuperformance),
-[DirReadable](#dirreadable), [DirWritable](#dirwritable), [ExtensionLoaded](#extensionloaded),
-[PhpVersion](#phpversion), [SteamWrapperExists](#streamwrapperexists)
+It currently ships with the following Checks: [Callback](#callback), [ClassExists](#classexists),
+[CpuPerformance](#cpuperformance), [DirReadable](#dirreadable), [DirWritable](#dirwritable),
+[DiskFree](#diskfree), [ExtensionLoaded](#extensionloaded), [PhpVersion](#phpversion),
+[SteamWrapperExists](#streamwrapperexists).
 
 ## Using diagnostics with Symfony 2
 
@@ -305,6 +306,23 @@ $checkAssets    = new DirWritable(array(
     __DIR__ . '/assets/customJs',
     __DIR__ . '/assets/uploads',
 ));
+````
+
+### DiskFree
+
+Check if there is enough remaining free disk space.
+
+The first parameter is the minimum disk space, which can be supplied as integer (in bytes, i.e. `1024`)
+or as a string with a multiplier (IEC, SI or Jedec, i.e. `"150MB"`). The second parameter is the path to check -
+on *NIX systems it is an ordinary path (i.e. `/home`), on Windows systems it is a drive letter (i.e. `"C:"`).
+
+````php
+<?php
+use ZendDiagnostics\Check\DiskFree;
+
+$tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
+$homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
+$dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');
 ````
 
 ### ExtensionLoaded

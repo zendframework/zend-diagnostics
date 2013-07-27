@@ -38,7 +38,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -54,7 +54,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Warning();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -70,7 +70,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Failure();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -87,7 +87,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Unknown();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -105,7 +105,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -123,7 +123,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -146,7 +146,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check){
+        foreach ($checks as $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result);
         }
@@ -163,7 +163,7 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         $checks = new ArrayObject();
         $check = null;
         $results = new Collection();
-        for($x = 0; $x < 20; $x++){
+        for ($x = 0; $x < 20; $x++) {
             $checks[] = $check = new AlwaysSuccess();
             $results[$check] = new Success();
         }
@@ -357,6 +357,5 @@ class BasicConsoleTest extends \PHPUnit_Framework_TestCase
         // currently unused
         $this->reporter->onBeforeRun(new AlwaysSuccess());
     }
-
 
 }
