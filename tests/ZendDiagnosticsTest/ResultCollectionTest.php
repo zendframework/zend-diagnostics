@@ -232,8 +232,6 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->collection->getFailureCount());
         $this->assertEquals(0, $this->collection->getUnknownCount());
 
-
-
     }
 
     public function testIteration()
@@ -241,7 +239,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
         $tests = $results = array();
         $test = $result = null;
 
-        for($x = 0; $x < 10; $x++){
+        for ($x = 0; $x < 10; $x++) {
             $test     = new AlwaysSuccess();
             $result   = new Success();
             $tests[]  = $test;
@@ -251,7 +249,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 
         $x = 0;
         $this->collection->rewind();
-        foreach ($this->collection as $test){
+        foreach ($this->collection as $test) {
             $this->assertSame($tests[$x], $test);
             $this->assertSame($results[$x], $this->collection[$test]);
             $x++;

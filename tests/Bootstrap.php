@@ -110,7 +110,6 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true) {
     unset($codeCoverageFilter);
 }
 
-
 /*
  * Unset global variables that are no longer needed.
  */
