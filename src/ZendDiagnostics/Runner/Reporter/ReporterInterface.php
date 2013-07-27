@@ -24,8 +24,8 @@ interface ReporterInterface
     /**
      * This method is called right after Reporter starts running, via Runner::run()
      *
-     * @param ArrayObject $checks       A collection of Checks that will be performed
-     * @param array       $runnerConfig Complete Runner configuration, obtained via Runner::getConfig()
+     * @param  ArrayObject $checks       A collection of Checks that will be performed
+     * @param  array       $runnerConfig Complete Runner configuration, obtained via Runner::getConfig()
      * @return void
      */
     public function onStart(ArrayObject $checks, $runnerConfig);
@@ -34,8 +34,8 @@ interface ReporterInterface
      * This method is called before each individual Check is performed. If this
      * method returns false, the Check will not be performed (will be skipped).
      *
-     * @param CheckInterface $check  Check instance that is about to be performed.
-     * @return bool|void             Return false to prevent check from happening
+     * @param  CheckInterface $check Check instance that is about to be performed.
+     * @return bool|void      Return false to prevent check from happening
      */
     public function onBeforeRun(CheckInterface $check);
 
@@ -44,9 +44,9 @@ interface ReporterInterface
      * returns false, the Runner will not perform any additional checks and stop
      * its run.
      *
-     * @param CheckInterface  $check   A Check instance that has just finished running
-     * @param ResultInterface $result  Result for that particular check instance
-     * @return bool|void               Return false to prevent from running additional Checks
+     * @param  CheckInterface  $check  A Check instance that has just finished running
+     * @param  ResultInterface $result Result for that particular check instance
+     * @return bool|void       Return false to prevent from running additional Checks
      */
     public function onAfterRun(CheckInterface $check, ResultInterface $result);
 
@@ -54,7 +54,7 @@ interface ReporterInterface
      * This method is called when Runner has been aborted and could not finish the
      * whole run().
      *
-     * @param ResultsCollection $results  Collection of Results for performed Checks.
+     * @param  ResultsCollection $results Collection of Results for performed Checks.
      * @return void
      */
     public function onStop(ResultsCollection $results);
@@ -62,7 +62,7 @@ interface ReporterInterface
     /**
      * This method is called when Runner has finished its run.
      *
-     * @param ResultsCollection $results  Collection of Results for performed Checks.
+     * @param  ResultsCollection $results Collection of Results for performed Checks.
      * @return void
      */
     public function onFinish(ResultsCollection $results);

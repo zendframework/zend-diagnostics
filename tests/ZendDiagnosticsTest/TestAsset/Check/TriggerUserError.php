@@ -5,7 +5,6 @@
 namespace ZendDiagnosticsTest\TestAsset\Check;
 
 use ZendDiagnostics\Check\AbstractCheck;
-use ZendDiagnostics\Result\Success;
 
 class TriggerUserError extends AbstractCheck
 {
@@ -26,6 +25,7 @@ class TriggerUserError extends AbstractCheck
     public function check()
     {
         trigger_error($this->message, $this->severity);
+
         return $this->result;
     }
 }

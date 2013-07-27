@@ -78,7 +78,7 @@ class BasicConsole implements ReporterInterface
      */
     public function __construct($width = 80)
     {
-        $this->width = (int)$width;
+        $this->width = (int) $width;
     }
 
     /**
@@ -107,7 +107,7 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
-     * @param CheckInterface $check
+     * @param  CheckInterface $check
      * @return bool|void
      */
     public function onBeforeRun(CheckInterface $check)
@@ -116,8 +116,8 @@ class BasicConsole implements ReporterInterface
 
     /**
      * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
-     * @param CheckInterface  $check
-     * @param ResultInterface $result
+     * @param  CheckInterface  $check
+     * @param  ResultInterface $result
      * @return bool|void
      */
     public function onAfterRun(CheckInterface $check, ResultInterface $result)
