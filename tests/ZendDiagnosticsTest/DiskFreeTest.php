@@ -108,7 +108,6 @@ class DiskFreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($string, DiskFree::bytesToString($bytes, $precision));
     }
 
-
     public function testJitFreeSpace()
     {
         $tmp = $this->getTempDir();

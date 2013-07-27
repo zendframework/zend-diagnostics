@@ -114,8 +114,8 @@ class DiskFree extends AbstractCheck implements CheckInterface
     );
 
     /**
-     * @param int|string $size    Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
-     * @param string     $path    The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
+     * @param  int|string                $size Minimum disk size in bytes or a valid byte string (IEC, SI or Jedec).
+     * @param  string                    $path The disk path to check, i.e. '/tmp' or 'C:' (defaults to /)
      * @throws \InvalidArgumentException
      */
     public function __construct($size, $path = '/')
@@ -129,7 +129,7 @@ class DiskFree extends AbstractCheck implements CheckInterface
         }
 
         if (is_numeric($size)) {
-            $this->minDiskBytes = (int)$size;
+            $this->minDiskBytes = (int) $size;
         } else {
             $this->minDiskBytes = static::stringToBytes($size);
         }
@@ -174,8 +174,8 @@ class DiskFree extends AbstractCheck implements CheckInterface
      *
      * @link https://en.wikipedia.org/wiki/Binary_prefix
      *
-     * @param int $size       Number of bytes to convert
-     * @param int $precision  Rounding precision (defaults to 0)
+     * @param  int    $size      Number of bytes to convert
+     * @param  int    $precision Rounding precision (defaults to 0)
      * @return string Highest rounded multiplication with IEC suffix
      */
     public static function bytesToString($size, $precision = 0)
@@ -207,10 +207,10 @@ class DiskFree extends AbstractCheck implements CheckInterface
      * Expects a string with a value followed by a symbol or named unit with an
      * optional space in between.
      *
-     * @param  string $string      The string to parse.
-     * @param  bool   $jedec       Whether to prefer JEDEC over SI units.
+     * @param  string                   $string The string to parse.
+     * @param  bool                     $jedec  Whether to prefer JEDEC over SI units.
      * @throws InvalidArgumentException
-     * @return int  The number of bytes.
+     * @return int                      The number of bytes.
      */
     public static function stringToBytes($string, $jedec = false)
     {
