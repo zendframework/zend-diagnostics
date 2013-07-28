@@ -44,16 +44,17 @@ class SecurityAdvisory extends AbstractCheck
     {
         try {
             if (!file_exists($this->lockFilePath)) {
-                return new Failure("No composer lock file found");
+                return new Warning('No composer.lock file path found.');
             }
 
             $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
             $advisories = @json_decode($advisories);
             if (false  === $advisories) {
-                return new Warning('Could not parse response from security advisory service');
+                return new Warning('Could not parse response from security advisory service.');
             }
+
             if (!empty($advisories)) {
-                return new Warning('Advisories for ' . count($advisories) . ' packages');
+                return new Failure('Security advisories for ' . count($advisories) . ' packages found!');
             }
         } catch (\Exception $e) {
             return new Warning($e->getMessage());
