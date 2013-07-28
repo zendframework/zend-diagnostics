@@ -56,7 +56,7 @@ class SecurityAdvisory extends AbstractCheck
                 return new Warning('Advisories for ' . count($advisories) . ' packages');
             }
         } catch (\Exception $e) {
-            return new Warning(''. $e->getMessage());
+            return new Warning($e->getMessage());
         }
 
         return new Success();
