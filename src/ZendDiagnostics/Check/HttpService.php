@@ -61,7 +61,7 @@ class HttpService extends AbstractCheck
             return new Failure(sprintf('No http service running at host %s on port %s', $this->host, $this->port));
         }
 
-        $header = "GET {$this->path} HTTP/1.1\r\n";
+        $header = "GET {$this->path} HTTP/1.0\r\n";
         $header .= "Host: {$this->host}\r\n";
         $header .= "Connection: close\r\n\r\n";
         fputs($fp, $header);
@@ -71,12 +71,12 @@ class HttpService extends AbstractCheck
         }
         fclose($fp);
 
-        if ($this->statusCode && strpos($str, "HTTP/1.1 {$this->statusCode}") !== 0) {
-            return new Failure(" Status code {$this->statusCode} does not match in response from {$this->host}:{$this->port}{$this->path}");
+        if ($this->statusCode && !preg_match("/^HTTP\/1\.1 {$this->statusCode}/", $str)) {
+            return new Failure("Status code {$this->statusCode} does not match response from {$this->host}:{$this->port}{$this->path}");
         }
 
         if ($this->content && !strpos($str, $this->content)) {
-            return new Failure(" Content {$this->content} not found in response from {$this->host}:{$this->port}{$this->path}");
+            return new Failure("Content {$this->content} not found in response from {$this->host}:{$this->port}{$this->path}");
         }
 
         return new Success();
