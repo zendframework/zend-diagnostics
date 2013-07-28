@@ -8,7 +8,7 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class ProcessActive extends AbstractCheck
+class ProcessRunning extends AbstractCheck
 {
     /**
      * @var string
