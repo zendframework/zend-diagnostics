@@ -11,30 +11,30 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
     public function testCoreClassTree()
     {
         foreach(array(
-            '\ZendDiagnostics\Check\CheckInterface',
-            '\ZendDiagnostics\Result\SuccessInterface',
-            '\ZendDiagnostics\Result\FailureInterface',
-            '\ZendDiagnostics\Result\WarningInterface',
+            'ZendDiagnostics\Check\CheckInterface',
+            'ZendDiagnostics\Result\SuccessInterface',
+            'ZendDiagnostics\Result\FailureInterface',
+            'ZendDiagnostics\Result\WarningInterface',
         ) as $class){
             $this->assertTrue(interface_exists($class, true), 'Class "' . $class . '" exists.');
         }
 
         foreach(array(
-            '\ZendDiagnostics\Check\AbstractCheck',
-            '\ZendDiagnostics\Result\AbstractResult',
-            '\ZendDiagnostics\Result\Success',
-            '\ZendDiagnostics\Result\Failure',
-            '\ZendDiagnostics\Result\Warning',
+            'ZendDiagnostics\Check\AbstractCheck',
+            'ZendDiagnostics\Result\AbstractResult',
+            'ZendDiagnostics\Result\Success',
+            'ZendDiagnostics\Result\Failure',
+            'ZendDiagnostics\Result\Warning',
         ) as $class){
             $this->assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
         }
         foreach(array(
-            '\ZendDiagnostics\Result\Success',
-            '\ZendDiagnostics\Result\Failure',
-            '\ZendDiagnostics\Result\Warning',
-            '\ZendDiagnostics\Result\SuccessInterface',
-            '\ZendDiagnostics\Result\FailureInterface',
-            '\ZendDiagnostics\Result\WarningInterface',
+            'ZendDiagnostics\Result\Success',
+            'ZendDiagnostics\Result\Failure',
+            'ZendDiagnostics\Result\Warning',
+            'ZendDiagnostics\Result\SuccessInterface',
+            'ZendDiagnostics\Result\FailureInterface',
+            'ZendDiagnostics\Result\WarningInterface',
         ) as $class){
             $reflection = new \ReflectionClass($class);
             $this->assertTrue($reflection->implementsInterface('ZendDiagnostics\Result\ResultInterface'));

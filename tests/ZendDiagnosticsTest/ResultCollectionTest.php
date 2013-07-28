@@ -92,7 +92,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $result = new Success();
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->collection[$key] = $result;
     }
 
@@ -103,7 +103,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $result = new Success();
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->collection[$key];
     }
 
@@ -112,7 +112,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidKeyUnset($key)
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->collection->offsetUnset($key);
     }
 
@@ -121,7 +121,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidKeyExists($key)
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->collection->offsetExists($key);
     }
 
@@ -132,7 +132,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $key = new AlwaysSuccess();
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->collection[$key] = $value;
     }
 

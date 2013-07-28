@@ -102,13 +102,13 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidValueForSetConfig()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->runner->setConfig(10);
     }
 
     public function testUnknownValueInConfig()
     {
-        $this->setExpectedException('\BadMethodCallException');
+        $this->setExpectedException('BadMethodCallException');
         $this->runner->setConfig(array(
             'foo' => 'bar'
         ));
@@ -171,13 +171,13 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
     public function testAddInvalidCheck()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->runner->addChecks(array( new \stdClass()));
     }
 
     public function testAddWrongParam()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->runner->addChecks('foo');
     }
 
@@ -250,7 +250,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     {
         $this->runner->addCheck(new AlwaysSuccess());
         $result = $this->runner->run();
-        $this->assertInstanceOf('\ZendDiagnostics\Result\Collection', $result);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Collection', $result);
         $this->assertSame($result, $this->runner->getLastResults());
     }
 
@@ -293,10 +293,10 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf('\ZendDiagnostics\Result\Collection', $results);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Collection', $results);
         $this->assertEquals(1, $results->count());
         $this->assertFalse($results->offsetExists($check2));
-        $this->assertInstanceOf('\ZendDiagnostics\Result\FailureInterface', $results->offsetGet($check1));
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $results->offsetGet($check1));
     }
 
     public function testBeforeRunSkipTest()
@@ -309,7 +309,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onBeforeRun'));
         $mock->expects($this->atLeastOnce())
             ->method('onBeforeRun')
-            ->with($this->isInstanceOf('\ZendDiagnostics\Check\CheckInterface'))
+            ->with($this->isInstanceOf('ZendDiagnostics\Check\CheckInterface'))
             ->will($this->onConsecutiveCalls(
                 false, true
             ))
@@ -318,10 +318,10 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf('\ZendDiagnostics\Result\Collection', $results);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Collection', $results);
         $this->assertEquals(1, $results->count());
         $this->assertFalse($results->offsetExists($check1));
-        $this->assertInstanceOf('\ZendDiagnostics\Result\SuccessInterface', $results->offsetGet($check2));
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $results->offsetGet($check2));
     }
 
     public function testAfterRunStopTesting()
@@ -334,7 +334,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onAfterRun'));
         $mock->expects($this->atLeastOnce())
             ->method('onAfterRun')
-            ->with($this->isInstanceOf('\ZendDiagnostics\Check\CheckInterface'))
+            ->with($this->isInstanceOf('ZendDiagnostics\Check\CheckInterface'))
             ->will($this->onConsecutiveCalls(
                 false, true
             ))
@@ -343,9 +343,9 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $results = $this->runner->run();
 
-        $this->assertInstanceOf('\ZendDiagnostics\Result\Collection', $results);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Collection', $results);
         $this->assertEquals(1, $results->count());
         $this->assertFalse($results->offsetExists($check2));
-        $this->assertInstanceOf('\ZendDiagnostics\Result\SuccessInterface', $results->offsetGet($check1));
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $results->offsetGet($check1));
     }
 }
