@@ -54,7 +54,7 @@ class SecurityAdvisory extends AbstractCheck
             }
 
             if (!empty($advisories)) {
-                return new Failure('Security advisories for ' . count($advisories) . ' packages found!');
+                return new Failure('Security advisories for ' . count($advisories) . ' package(s) found!');
             }
         } catch (\Exception $e) {
             return new Warning($e->getMessage());
