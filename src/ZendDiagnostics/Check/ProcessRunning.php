@@ -5,6 +5,7 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -13,11 +14,43 @@ class ProcessRunning extends AbstractCheck
     /**
      * @var string
      */
-    private $command;
+    private $processName;
+    private $pid;
 
-    public function __construct($command)
+    /**
+     * @param string|int $processNameOrPid   Name or ID of the process to find.
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($processNameOrPid)
     {
-        $this->command = $command;
+        if (empty($processNameOrPid)) {
+            throw new InvalidArgumentException(sprintf(
+                'Wrong argument provided for ProcessRunning check - ' .
+                'expected a process name (string) or pid (positive number).',
+                gettype($processNameOrPid)
+            ));
+        }
+
+        if (!is_numeric($processNameOrPid) && !is_scalar($processNameOrPid)) {
+            throw new InvalidArgumentException(sprintf(
+                'Wrong argument provided for ProcessRunning check - ' .
+                'expected a process name (string) or pid (positive number) but got %s',
+                gettype($processNameOrPid)
+            ));
+        }
+
+        if (is_numeric($processNameOrPid)) {
+            if ((int)$processNameOrPid < 0) {
+                throw new InvalidArgumentException(sprintf(
+                    'Wrong argument provided for ProcessRunning check - ' .
+                    'expected pid to be a positive number but got %s',
+                    (int)$processNameOrPid
+                ));
+            }
+            $this->pid = (int)$processNameOrPid;
+        } else {
+            $this->processName = $processNameOrPid;
+        }
     }
 
     /**
@@ -25,10 +58,19 @@ class ProcessRunning extends AbstractCheck
      */
     public function check()
     {
-        // TODO make more OS agnostic
-        exec('ps -ef | grep ' . escapeshellarg($this->command) . ' | grep -v grep', $output, $return);
-        if ($return == 1) {
-            return new Failure(sprintf('There is no process running containing "%s"', $this->command));
+        // TODO: make more OS agnostic
+        if ($this->pid) {
+            exec('ps -p ' . (int)$this->pid, $output, $return);
+
+            if ($return == 1) {
+                return new Failure(sprintf('Process with PID %s is not currently running.', $this->pid));
+            }
+        } else {
+            exec('ps -ef | grep ' . escapeshellarg($this->processName) . ' | grep -v grep', $output, $return);
+
+            if ($return == 1) {
+                return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
+            }
         }
 
         return new Success();

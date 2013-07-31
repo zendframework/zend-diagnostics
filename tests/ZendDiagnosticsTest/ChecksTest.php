@@ -8,6 +8,7 @@ use ZendDiagnostics\Check\DirReadable;
 use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\PhpVersion;
+use ZendDiagnostics\Check\ProcessRunning;
 use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
@@ -362,6 +363,55 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         chmod($dir2, 0777);
         rmdir($dir1);
         rmdir($dir2);
+    }
+
+    public function testProcessRunning()
+    {
+        if(!$phpPid = @getmypid()){
+            $this->markTestSkipped('Unable to retrieve PHP process\' PID');
+        }
+
+        $check = new ProcessRunning($phpPid);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new ProcessRunning(32768);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%sPID 32768%s', $result->getMessage());
+
+        // try to retrieve full PHP process command string
+        $phpCommand = shell_exec('ps -o command= -p ' . $phpPid);
+        if(!$phpCommand || strlen($phpCommand) < 4) {
+            $this->markTestSkipped('Unable to retrieve PHP process command name.');
+        }
+
+        $check = new ProcessRunning(substr($phpCommand, 0, ceil(strlen($phpPid) / 2)));
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new ProcessRunning('improbable process name 9999999999999999');
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobable process name 9999999999999999%s', $result->getMessage());
+    }
+
+    public function testProcessRunningInvalidArgument()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning(new \stdClass());
+    }
+
+    public function testProcessRunningInvalidArgument2()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning(-100);
+    }
+
+    public function testProcessRunningInvalidArgument3()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning('');
     }
 
     public function testPhpVersionInvalidVersion()
