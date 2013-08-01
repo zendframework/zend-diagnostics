@@ -1,6 +1,8 @@
 <?php
 namespace ZendDiagnosticsTest\Check;
 
+use Exception;
+use SensioLabs\Security\SecurityChecker;
 use ZendDiagnostics\Check\Callback;
 use ZendDiagnostics\Check\ClassExists;
 use ZendDiagnostics\Check\CpuPerformance;
@@ -9,6 +11,7 @@ use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
+use ZendDiagnostics\Check\SecurityAdvisory;
 use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
@@ -367,7 +370,7 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessRunning()
     {
-        if(!$phpPid = @getmypid()){
+        if (!$phpPid = @getmypid()) {
             $this->markTestSkipped('Unable to retrieve PHP process\' PID');
         }
 
@@ -382,7 +385,7 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
 
         // try to retrieve full PHP process command string
         $phpCommand = shell_exec('ps -o command= -p ' . $phpPid);
-        if(!$phpCommand || strlen($phpCommand) < 4) {
+        if (!$phpCommand || strlen($phpCommand) < 4) {
             $this->markTestSkipped('Unable to retrieve PHP process command name.');
         }
 
@@ -396,22 +399,76 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $this->assertStringMatchesFormat('%simprobable process name 9999999999999999%s', $result->getMessage());
     }
 
-    public function testProcessRunningInvalidArgument()
+    public function testSecurityAdvisory()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        new ProcessRunning(new \stdClass());
+        if (!class_exists('SensioLabs\Security\SecurityChecker')) {
+            $this->markTestSkipped(
+                'Unable to find SensioLabs\Security\SecurityChecker class - probably missing ' .
+                'sensiolabs/security-checker package. Have you installed all dependencies, ' .
+                'including those specified require-dev in composer.json?'
+            );
+        }
+
+        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
+        $checker = new SecurityChecker();
+        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        // check against non-existent lock file
+        $checker = new SecurityChecker();
+        $check = new SecurityAdvisory($checker, __DIR__ . '/improbable-lock-file-99999999999.lock');
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
     }
 
-    public function testProcessRunningInvalidArgument2()
+    /**
+     * @depends testSecurityAdvisory
+     */
+    public function testSecurityAdvisoryFailures()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        new ProcessRunning(-100);
+        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
+        $checker = $this->getMock('SensioLabs\Security\SecurityChecker');
+        $checker->expects($this->once())
+            ->method('check')
+            ->with($this->equalTo($secureComposerLock))
+            ->will($this->returnValue('[{"a":1},{"b":2},{"c":3}]'));
+
+        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
     }
 
-    public function testProcessRunningInvalidArgument3()
+    /**
+     * @depends testSecurityAdvisory
+     */
+    public function testSecurityAdvisoryInvalidServerResponse()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        new ProcessRunning('');
+        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
+        $checker = $this->getMock('SensioLabs\Security\SecurityChecker');
+        $checker->expects($this->once())
+            ->method('check')
+            ->with($this->equalTo($secureComposerLock))
+            ->will($this->returnValue('404 error'));
+        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Warning', $result);
+
+    }
+    /**
+     * @depends testSecurityAdvisory
+     */
+    public function testSecurityAdvisoryCheckerException()
+    {
+        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
+        $checker = $this->getMock('SensioLabs\Security\SecurityChecker');
+        $checker->expects($this->once())
+            ->method('check')
+            ->with($this->equalTo($secureComposerLock))
+            ->will($this->throwException(new Exception));
+        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Warning', $result);
     }
 
     public function testPhpVersionInvalidVersion()
@@ -516,4 +573,30 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         new CpuPerformance(-1);
     }
 
+    public function testProcessRunningInvalidArgument()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning(new \stdClass());
+    }
+
+    public function testProcessRunningInvalidArgument2()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning(-100);
+    }
+
+    public function testProcessRunningInvalidArgument3()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new ProcessRunning('');
+    }
+
+    /**
+     * @depends testSecurityAdvisory
+     */
+    public function testSecurityAdvisoryInvalidArgument1()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        new SecurityAdvisory($this->getMock('SensioLabs\Security\SecurityChecker'), new \stdClass());
+    }
 }

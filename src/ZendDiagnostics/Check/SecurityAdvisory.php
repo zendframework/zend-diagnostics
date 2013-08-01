@@ -5,6 +5,7 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use SensioLabs\Security\SecurityChecker;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
@@ -28,13 +29,21 @@ class SecurityAdvisory extends AbstractCheck
     protected $securityChecker;
 
     /**
-     * @param SecurityChecker $securityChecker
-     * @param string $lockFilePath
+     * @param  SecurityChecker           $securityChecker An instance of SecurityChecker
+     * @param  string                    $lockFilePath    Path to composer.lock
+     * @throws \InvalidArgumentException
      */
     public function __construct(SecurityChecker $securityChecker, $lockFilePath)
     {
-        $this->securityChecker = $securityChecker;
+        if (empty($lockFilePath) || !is_scalar($lockFilePath)) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid argument 2 provided for SecurityAdvisory check - expected file name (string) , got %s',
+                gettype($lockFilePath)
+            ));
+        }
+
         $this->lockFilePath = $lockFilePath;
+        $this->securityChecker = $securityChecker;
     }
 
     /**
@@ -44,22 +53,29 @@ class SecurityAdvisory extends AbstractCheck
     {
         try {
             if (!file_exists($this->lockFilePath)) {
-                return new Warning('No composer.lock file path found.');
+                return new Failure('No composer.lock file path found.');
             }
 
             $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
             $advisories = @json_decode($advisories);
-            if (false  === $advisories) {
+
+            if (null === $advisories) {
                 return new Warning('Could not parse response from security advisory service.');
             }
 
             if (!empty($advisories)) {
-                return new Failure('Security advisories for ' . count($advisories) . ' package(s) found!');
+                return new Failure(sprintf(
+                    'Found security advisories for %u composer package(s)',
+                    count($advisories)
+                ), $advisories);
             }
         } catch (\Exception $e) {
             return new Warning($e->getMessage());
         }
 
-        return new Success();
+        return new Success(sprintf(
+            'There are currently no security advisories for packages specified in %s',
+            $this->lockFilePath
+        ));
     }
 }
