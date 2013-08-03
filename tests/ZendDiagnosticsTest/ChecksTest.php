@@ -420,12 +420,35 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $check = new SecurityAdvisory($checker, __DIR__ . '/improbable-lock-file-99999999999.lock');
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+
+        // check against unreadable lock file
+        $tmpDir = sys_get_temp_dir();
+        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
+            $this->markTestSkipped('Cannot access writable system temp dir to perform the test... ');
+
+            return;
+        }
+        $unreadableFile = $tmpDir . '/composer.' . uniqid('', true) . '.lock';
+        if (!file_put_contents($unreadableFile, 'foo') || !chmod($unreadableFile, 0000)) {
+            $this->markTestSkipped('Cannot create temporary file in system temp dir to perform the test... ');
+
+            return;
+        }
+
+        $checker = new SecurityChecker();
+        $check = new SecurityAdvisory($checker, $unreadableFile);
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+
+        // cleanup
+        chmod($unreadableFile, 0666);
+        unlink($unreadableFile);
     }
 
     /**
      * @depends testSecurityAdvisory
      */
-    public function testSecurityAdvisoryFailures()
+    public function testSecurityAdvisoryFailure()
     {
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
         $checker = $this->getMock('SensioLabs\Security\SecurityChecker');

@@ -52,8 +52,16 @@ class SecurityAdvisory extends AbstractCheck
     public function check()
     {
         try {
-            if (!file_exists($this->lockFilePath)) {
-                return new Failure('No composer.lock file path found.');
+            if (!file_exists($this->lockFilePath) || !is_file($this->lockFilePath)) {
+                return new Failure(sprintf(
+                    'Cannot find composer lock file at %s',
+                    $this->lockFilePath
+                ), $this->lockFilePath);
+            } elseif (!is_readable($this->lockFilePath)) {
+                return new Failure(sprintf(
+                    'Cannot open composer lock file at %s',
+                    $this->lockFilePath
+                ), $this->lockFilePath);
             }
 
             $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
