@@ -18,10 +18,12 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "zendframework/zend-loader": "2.*"
+        "zendframework/zend-loader"  : "2.*",
+        "sensiolabs/security-checker": "1.3.*@dev"
     },
     "suggest" : {
-        "ext-bcmath" : "Required by Check\\CpuPerformance"
+        "ext-bcmath" : "Required by Check\\CpuPerformance",
+        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory"
     },
     "extra": {
         "branch-alias": {
