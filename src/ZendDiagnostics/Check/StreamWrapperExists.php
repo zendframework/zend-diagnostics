@@ -51,15 +51,30 @@ class StreamWrapperExists extends AbstractCheck implements CheckInterface
      */
     public function check()
     {
+        $missingWrappers = array();
         $availableWrappers = stream_get_wrappers();
-        array_walk($availableWrappers, function($v){ return strtolower($v); });
+        array_walk($availableWrappers, function ($v) {
+            return strtolower($v);
+        });
 
         foreach ($this->wrappers as $class) {
             if (!in_array($class, $availableWrappers)) {
-                return new Failure('Stream wrapper '.$class.' is not available', $availableWrappers);
+                $missingWrappers[] = $class;
             }
         }
 
-        return new Success(join(', ', $this->wrappers).' stream wrapper(s) are available', $availableWrappers);
+        if (count($missingWrappers) == 1) {
+            return new Failure('Stream wrapper ' . current($missingWrappers) . ' is not available', $availableWrappers);
+        } elseif (count($missingWrappers)) {
+            return new Failure(
+                sprintf(
+                    'The following stream wrappers are missing: %s',
+                    join(', ', $missingWrappers)
+                ),
+                $availableWrappers
+            );
+        }
+
+        return new Success(join(', ', $this->wrappers) . ' stream wrapper(s) are available', $availableWrappers);
     }
 }

@@ -183,7 +183,9 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $wrappers[] = 'improbableName9999999999999999999999';
 
         $check = new StreamWrapperExists($wrappers);
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobableName9999999999999999999999%s', $result->getMessage());
 
         $wrappers = array(
             'improbableName9999999999999999999999',
@@ -191,7 +193,11 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         );
 
         $check = new StreamWrapperExists($wrappers);
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+        $this->assertStringMatchesFormat('%simprobableName9999999999999999999999%s', $result->getMessage());
+        $this->assertStringMatchesFormat('%simprobableName0000000000000000000000', $result->getMessage());
+
     }
 
     public function testDirReadable()
