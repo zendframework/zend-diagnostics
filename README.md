@@ -10,7 +10,7 @@ It currently ships with the following Checks: [Callback](#callback), [ClassExist
 
 ## Using diagnostics with Symfony 2
 
-> TODO
+Work in progress: https://github.com/liip/LiipMonitorBundle/pull/33
 
 ## Using diagnostics with Zend Framework 2
 
