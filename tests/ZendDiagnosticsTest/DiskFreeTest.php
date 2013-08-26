@@ -112,7 +112,7 @@ class DiskFreeTest extends \PHPUnit_Framework_TestCase
     {
         $tmp = $this->getTempDir();
         $freeRightNow = disk_free_space($tmp);
-        $check = new DiskFree($freeRightNow, $tmp);
+        $check = new DiskFree($freeRightNow * 0.5, $tmp);
         $result = $check->check();
 
         $this->assertInstanceof('ZendDiagnostics\Result\SuccessInterface', $result);

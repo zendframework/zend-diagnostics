@@ -16,7 +16,7 @@ use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
-class BasicTestsTest extends \PHPUnit_Framework_TestCase
+class ChecksTest extends \PHPUnit_Framework_TestCase
 {
     public function testLabels()
     {
@@ -419,7 +419,7 @@ class BasicTestsTest extends \PHPUnit_Framework_TestCase
         $checker = new SecurityChecker();
         $check = new SecurityAdvisory($checker, $secureComposerLock);
         $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+        $this->assertNotInstanceOf('ZendDiagnostics\Result\Failure', $result);
 
         // check against non-existent lock file
         $checker = new SecurityChecker();
