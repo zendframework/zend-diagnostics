@@ -12,6 +12,7 @@ namespace ZendDiagnostics\Runner\Reporter;
 use ArrayObject;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\FailureInterface;
+use ZendDiagnostics\Result\SkipInterface;
 use ZendDiagnostics\Result\SuccessInterface;
 use ZendDiagnostics\Result\WarningInterface;
 use ZendDiagnostics\Check\CheckInterface;
@@ -129,6 +130,8 @@ class BasicConsole implements ReporterInterface
             $this->consoleWrite('F');
         } elseif ($result instanceof WarningInterface) {
             $this->consoleWrite('!');
+        } elseif ($result instanceof SkipInterface) {
+            $this->consoleWrite('S');
         } else {
             $this->consoleWrite('?');
         }
@@ -172,6 +175,7 @@ class BasicConsole implements ReporterInterface
 
         } elseif ($results->getFailureCount() == 0) {
             $line = $results->getWarningCount() . ' warnings, ';
+            $line .= $results->getSkipCount() . ' skipped tests';
             $line .= $results->getSuccessCount() . ' successful tests';
 
             if ($results->getUnknownCount() > 0) {
