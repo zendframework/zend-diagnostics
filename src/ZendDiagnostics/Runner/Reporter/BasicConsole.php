@@ -175,7 +175,7 @@ class BasicConsole implements ReporterInterface
 
         } elseif ($results->getFailureCount() == 0) {
             $line = $results->getWarningCount() . ' warnings, ';
-            $line .= $results->getSkipCount() . ' skipped tests';
+            $line .= $results->getSkipCount() . ' skipped tests, ';
             $line .= $results->getSuccessCount() . ' successful tests';
 
             if ($results->getUnknownCount() > 0) {
