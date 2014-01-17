@@ -10,7 +10,7 @@ use ZendDiagnostics\Runner\Reporter\BasicConsole;
 use ZendDiagnosticsTest\TestAsset\Result\Unknown;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
-class BasicConsoleTest extends \PHPUnit_Framework_TestCase
+class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var BasicConsole

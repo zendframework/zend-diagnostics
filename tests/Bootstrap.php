@@ -70,7 +70,7 @@ else{
     /**
      * @link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md#example-implementation
      */
-    spl_autoload_register(function($className){
+    spl_autoload_register(function ($className) {
         $className = ltrim($className, '\\');
         $fileName  = '';
         $namespace = '';

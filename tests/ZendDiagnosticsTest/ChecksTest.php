@@ -1,5 +1,5 @@
 <?php
-namespace ZendDiagnosticsTest\Check;
+namespace ZendDiagnosticsTest;
 
 use Exception;
 use SensioLabs\Security\SecurityChecker;

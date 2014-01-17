@@ -22,7 +22,7 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
         $this->collection = new Collection();
     }
 
-    public function tearDown(){}
+    public function tearDown() {}
 
     public static function invalidKeysProvider()
     {
