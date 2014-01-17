@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use BadMethodCallException;
 use Traversable;
+use ZendDiagnostics\Check\CheckCollectionInterface;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\Failure;
@@ -233,6 +234,16 @@ class Runner
     {
         $alias = is_string($alias) ? $alias : count($this->checks);
         $this->checks[$alias] = $check;
+    }
+
+    /**
+     * Add multiple Checks from a CheckCollectionInterface
+     *
+     * @param CheckCollectionInterface $checkCollection
+     */
+    public function addCheckCollection(CheckCollectionInterface $checkCollection)
+    {
+        $this->addChecks($checkCollection->getChecks());
     }
 
     /**
