@@ -35,10 +35,10 @@ interface ReporterInterface
      * method returns false, the Check will not be performed (will be skipped).
      *
      * @param  CheckInterface $check Check instance that is about to be performed.
-     * @param  string         $checkAlias The alias for the check that is about to be performed
+     * @param  string|null    $checkAlias The alias for the check that is about to be performed
      * @return bool|void      Return false to prevent check from happening
      */
-    public function onBeforeRun(CheckInterface $check, $checkAlias);
+    public function onBeforeRun(CheckInterface $check, $checkAlias = null);
 
     /**
      * This method is called every time a Check has been performed. If this method
@@ -47,10 +47,10 @@ interface ReporterInterface
      *
      * @param  CheckInterface  $check      A Check instance that has just finished running
      * @param  ResultInterface $result     Result for that particular check instance
-     * @param  string          $checkAlias The alias for the check that has just finished
+     * @param  string|null     $checkAlias The alias for the check that has just finished
      * @return bool|void       Return false to prevent from running additional Checks
      */
-    public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias);
+    public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null);
 
     /**
      * This method is called when Runner has been aborted and could not finish the

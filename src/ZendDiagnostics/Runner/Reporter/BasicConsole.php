@@ -108,10 +108,10 @@ class BasicConsole implements ReporterInterface
     /**
      * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
      * @param  CheckInterface $check
-     * @param  string         $checkAlias
+     * @param  string|null    $checkAlias
      * @return bool|void
      */
-    public function onBeforeRun(CheckInterface $check, $checkAlias)
+    public function onBeforeRun(CheckInterface $check, $checkAlias = null)
     {
     }
 
@@ -119,10 +119,10 @@ class BasicConsole implements ReporterInterface
      * @see \ZendDiagnostics\Runner\Reporter\ReporterInterface
      * @param  CheckInterface  $check
      * @param  ResultInterface $result
-     * @param  string          $checkAlias
+     * @param  string|null     $checkAlias
      * @return bool|void
      */
-    public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias)
+    public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null)
     {
         // Draw a symbol for each result
         if ($result instanceof SuccessInterface) {
