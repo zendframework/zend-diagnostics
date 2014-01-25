@@ -237,23 +237,17 @@ class Runner
     }
 
     /**
-     * Add multiple Checks from a CheckCollectionInterface
+     * Add multiple Checks from an array, Traversable or CheckCollectionInterface.
      *
-     * @param CheckCollectionInterface $checkCollection
-     */
-    public function addCheckCollection(CheckCollectionInterface $checkCollection)
-    {
-        $this->addChecks($checkCollection->getChecks());
-    }
-
-    /**
-     * Add multiple Checks from an array or Traversable.
-     *
-     * @param  array|Traversable        $checks
+     * @param  array|Traversable|CheckCollectionInterface $checks
      * @throws InvalidArgumentException
      */
     public function addChecks($checks)
     {
+        if ($checks instanceof CheckCollectionInterface) {
+            $checks = $checks->getChecks();
+        }
+
         if (!is_array($checks) && !$checks instanceof Traversable) {
             $what = is_object($checks) ? 'object of class ' . get_class($checks) : gettype($checks);
             throw new InvalidArgumentException('Cannot add Checks from ' . $what . ' - expected array or Traversable');
