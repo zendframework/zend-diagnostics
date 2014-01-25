@@ -169,14 +169,17 @@ class BasicConsole implements ReporterInterface
         $this->consoleWriteLn();
 
         // Display a summary line
-        if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0) {
+        if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0 && $results->getSkipCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
             $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
 
         } elseif ($results->getFailureCount() == 0) {
             $line = $results->getWarningCount() . ' warnings, ';
-            $line .= $results->getSkipCount() . ' skipped tests, ';
             $line .= $results->getSuccessCount() . ' successful tests';
+
+            if ($results->getSkipCount() > 0) {
+                $line .= ', ' . $results->getSkipCount() . ' skipped tests';
+            }
 
             if ($results->getUnknownCount() > 0) {
                 $line .= ', ' . $results->getUnknownCount() . ' unknown test results';
@@ -190,6 +193,10 @@ class BasicConsole implements ReporterInterface
             $line = $results->getFailureCount() . ' failures, ';
             $line .= $results->getWarningCount() . ' warnings, ';
             $line .= $results->getSuccessCount() . ' successful tests';
+
+            if ($results->getSkipCount() > 0) {
+                $line .= ', ' . $results->getSkipCount() . ' skipped tests';
+            }
 
             if ($results->getUnknownCount() > 0) {
                 $line .= ', ' . $results->getUnknownCount() . ' unknown test results';

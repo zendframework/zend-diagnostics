@@ -196,7 +196,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         $this->reporter->onFinish($results);
-        $this->assertStringStartsWith('5 warnings, 0 skipped tests, 15 successful tests', trim(ob_get_clean()));
+        $this->assertStringStartsWith('5 warnings, 15 successful tests', trim(ob_get_clean()));
     }
 
     public function testSummaryWithFailures()
