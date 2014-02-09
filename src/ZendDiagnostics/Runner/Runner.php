@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use BadMethodCallException;
 use Traversable;
+use ZendDiagnostics\Check\CheckCollectionInterface;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Collection as ResultsCollection;
 use ZendDiagnostics\Result\Failure;
@@ -236,13 +237,17 @@ class Runner
     }
 
     /**
-     * Add multiple Checks from an array or Traversable.
+     * Add multiple Checks from an array, Traversable or CheckCollectionInterface.
      *
-     * @param  array|Traversable        $checks
+     * @param  array|Traversable|CheckCollectionInterface $checks
      * @throws InvalidArgumentException
      */
     public function addChecks($checks)
     {
+        if ($checks instanceof CheckCollectionInterface) {
+            $checks = $checks->getChecks();
+        }
+
         if (!is_array($checks) && !$checks instanceof Traversable) {
             $what = is_object($checks) ? 'object of class ' . get_class($checks) : gettype($checks);
             throw new InvalidArgumentException('Cannot add Checks from ' . $what . ' - expected array or Traversable');
