@@ -35,6 +35,13 @@ class Collection extends \SplObjectStorage
     protected $countFailure = 0;
 
     /**
+     * Number of skips
+     *
+     * @var int
+     */
+    protected $countSkip = 0;
+
+    /**
      * Number of unrecognised results
      *
      * @var int
@@ -69,6 +76,16 @@ class Collection extends \SplObjectStorage
     public function getWarningCount()
     {
         return $this->countWarning;
+    }
+
+    /**
+     * Get number of skips.
+     *
+     * @return int
+     */
+    public function getSkipCount()
+    {
+        return $this->countSkip;
     }
 
     /**
@@ -157,6 +174,8 @@ class Collection extends \SplObjectStorage
             $this->countFailure += $delta;
         } elseif ($result instanceof WarningInterface) {
             $this->countWarning += $delta;
+        } elseif ($result instanceof SkipInterface) {
+            $this->countSkip += $delta;
         } else {
             $this->countUnknown += $delta;
         }
