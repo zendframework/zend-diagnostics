@@ -21,7 +21,7 @@ class Collection extends \SplObjectStorage
     protected $countSuccess = 0;
 
     /**
-     * Numer of warnings
+     * Number of warnings
      *
      * @var int
      */
