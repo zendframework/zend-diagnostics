@@ -11,7 +11,7 @@ use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 
 /**
- * Checks to see if the APC fragmentation is below warning/critical thresholds
+ * Checks to see if the APC memory usage is below warning/critical thresholds
  *
  * APC memory logic borrowed from APC project:
  *      https://github.com/php/pecl-caching-apc/blob/master/apc.php
@@ -19,7 +19,7 @@ use ZendDiagnostics\Result\Warning;
  *      license:   The PHP License, version 3.01
  *      copyright: Copyright (c) 2006-2011 The PHP Group
  */
-class ApcFragmentationCheck implements CheckInterface
+class ApcMemory implements CheckInterface
 {
     protected $warningThreshold;
     protected $criticalThreshold;
@@ -47,41 +47,17 @@ class ApcFragmentationCheck implements CheckInterface
         }
 
         $info = apc_sma_info();
-        $nseg = $freeseg = $fragsize = $freetotal = 0;
+        $size = $info['num_seg'] * $info['seg_size'];
+        $available = $info['avail_mem'];
+        $used = $size - $available;
+        $percentUsed = ($used / $size) * 100;
+        $message = sprintf('%.0f%% of available %s memory used.', $percentUsed, $this->formatBytes($size));
 
-        for ($i = 0; $i < $info['num_seg']; $i++) {
-            $ptr = 0;
-            foreach ($info['block_lists'][$i] as $block) {
-                if ($block['offset'] != $ptr) {
-                    ++$nseg;
-                }
-
-                $ptr = $block['offset'] + $block['size'];
-
-                /* Only consider blocks <5M for the fragmentation % */
-                if ($block['size'] < (5 * 1024 * 1024)) {
-                    $fragsize += $block['size'];
-                }
-
-                $freetotal += $block['size'];
-            }
-
-            $freeseg += count($info['block_lists'][$i]);
-        }
-
-        $fragPercent = 0;
-
-        if ($freeseg > 1) {
-            $fragPercent = ($fragsize / $freetotal) * 100;
-        }
-
-        $message = sprintf('%.0f%% memory fragmentation.', $fragPercent);
-
-        if ($fragPercent > $this->criticalThreshold) {
+        if ($percentUsed > $this->criticalThreshold) {
             return new Failure($message);
         }
 
-        if ($fragPercent > $this->warningThreshold) {
+        if ($percentUsed > $this->warningThreshold) {
             return new Warning($message);
         }
 
@@ -93,7 +69,25 @@ class ApcFragmentationCheck implements CheckInterface
      */
     public function getLabel()
     {
-        return 'APC Fragmentation';
+        return 'APC Memory';
     }
 
+    /**
+     * @param int $bytes
+     * @return string
+     */
+    private function formatBytes($bytes)
+    {
+        $size = 'B';
+
+        foreach (array('B','KB','MB','GB') as $size) {
+            if ($bytes < 1024) {
+                break;
+            }
+
+            $bytes /= 1024;
+        }
+
+        return sprintf("%.0f %s", $bytes, $size);
+    }
 }
