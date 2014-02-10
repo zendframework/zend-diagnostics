@@ -38,9 +38,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $this->assertEquals('.....', ob_get_clean());
@@ -54,9 +54,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Warning();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $this->assertEquals('!!!!!', ob_get_clean());
@@ -70,9 +70,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Failure();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $this->assertEquals('FFFFF', ob_get_clean());
@@ -87,9 +87,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Unknown();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $this->assertEquals('?????', ob_get_clean());
@@ -105,9 +105,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $this->assertEquals(str_repeat('.', 40), ob_get_clean());
@@ -123,9 +123,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $expected  = '......................... 25 / 80 ( 31%)';
@@ -146,9 +146,9 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         ob_clean();
 
         ob_start();
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             $result = new Success();
-            $this->reporter->onAfterRun($check, $result);
+            $this->reporter->onAfterRun($check, $result, $alias);
         }
 
         $expected  = '......................... 25 / 75 ( 33%)';
@@ -355,7 +355,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
     public function testOnBeforeRun()
     {
         // currently unused
-        $this->reporter->onBeforeRun(new AlwaysSuccess());
+        $this->reporter->onBeforeRun(new AlwaysSuccess(), null);
     }
 
 }

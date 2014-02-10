@@ -109,11 +109,11 @@ class Runner
         $this->triggerReporters('onStart', $checks, $this->getConfig());
 
         // Iterate over all Checks
-        foreach ($checks as $check) {
+        foreach ($checks as $alias => $check) {
             /* @var $check CheckInterface */
 
             // Skip Checking if BEFORE_RUN returned false or has been stopped
-            if (!$this->triggerReporters('onBeforeRun', $check)) {
+            if (!$this->triggerReporters('onBeforeRun', $check, $alias)) {
                 continue;
             }
 
@@ -162,7 +162,7 @@ class Runner
             $results[$check] = $result;
 
             // Stop Checking if AFTER_RUN returned false
-            if (!$this->triggerReporters('onAfterRun', $check, $result)) {
+            if (!$this->triggerReporters('onAfterRun', $check, $result, $alias)) {
                 $this->triggerReporters('onStop', $results);
                 break;
             }
