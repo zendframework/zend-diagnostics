@@ -48,11 +48,11 @@ class DiskUsage extends AbstractCheck implements CheckInterface
             throw new InvalidArgumentException('Invalid disk path argument - expecting a string');
         }
 
-        if (!is_string($warningThreshold)) {
+        if (!is_numeric($warningThreshold)) {
             throw new InvalidArgumentException('Invalid warningThreshold argument - expecting an integer');
         }
 
-        if (!is_string($criticalThreshold)) {
+        if (!is_numeric($criticalThreshold)) {
             throw new InvalidArgumentException('Invalid criticalThreshold argument - expecting an integer');
         }
 
