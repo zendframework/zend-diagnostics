@@ -157,7 +157,7 @@ namespace MyApp\Diagnostics\Check;
 
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Check\Failure;
+use ZendDiagnostics\Result\Failure;
 
 class TimezoneSetToUTC implements CheckInterface
 {
