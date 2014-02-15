@@ -5,6 +5,7 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Skip;
 use ZendDiagnostics\Result\Success;
@@ -19,17 +20,45 @@ use ZendDiagnostics\Result\Warning;
  *      license:   The PHP License, version 3.01
  *      copyright: Copyright (c) 2006-2011 The PHP Group
  */
-class ApcMemory implements CheckInterface
+class ApcMemory extends AbstractCheck implements CheckInterface
 {
+    /**
+     * Percentage that will cause a warning.
+     *
+     * @var int
+     */
     protected $warningThreshold;
+
+    /**
+     * Percentage that will cause a fail.
+     *
+     * @var int
+     */
     protected $criticalThreshold;
 
     /**
-     * @param int $warningThreshold
-     * @param int $criticalThreshold
+     * @param                           int $warningThreshold  A number between 0 and 100
+     * @param                           int $criticalThreshold A number between 0 and 100
+     * @throws InvalidArgumentException
      */
     public function __construct($warningThreshold, $criticalThreshold)
     {
+        if (!is_numeric($warningThreshold)) {
+            throw new InvalidArgumentException('Invalid warningThreshold argument - expecting an integer');
+        }
+
+        if (!is_numeric($criticalThreshold)) {
+            throw new InvalidArgumentException('Invalid criticalThreshold argument - expecting an integer');
+        }
+
+        if ($warningThreshold > 100 || $warningThreshold < 0) {
+            throw new InvalidArgumentException('Invalid warningThreshold argument - expecting an integer between 1 and 100');
+        }
+
+        if ($criticalThreshold > 100 || $criticalThreshold < 0) {
+            throw new InvalidArgumentException('Invalid criticalThreshold argument - expecting an integer between 1 and 100');
+        }
+
         $this->warningThreshold = (int) $warningThreshold;
         $this->criticalThreshold = (int) $criticalThreshold;
     }
@@ -61,15 +90,7 @@ class ApcMemory implements CheckInterface
             return new Warning($message);
         }
 
-        return new Success();
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return 'APC Memory';
+        return new Success($message);
     }
 
     /**
