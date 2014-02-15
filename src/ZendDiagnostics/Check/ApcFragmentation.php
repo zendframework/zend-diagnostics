@@ -5,11 +5,11 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Skip;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
-use InvalidArgumentException;
 
 /**
  * Checks to see if the APC fragmentation is below warning/critical thresholds
