@@ -5,10 +5,10 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
-use InvalidArgumentException;
 
 /**
  * Checks to see if the disk usage is below warning/critical percent thresholds

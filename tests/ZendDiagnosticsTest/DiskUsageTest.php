@@ -60,7 +60,7 @@ class DiskUsageTest extends \PHPUnit_Framework_TestCase
         // make sure there is any space there
         if (!$tmp || !is_writable($tmp) || !disk_free_space($tmp)) {
             $this->markTestSkipped(
-                'Cannot find a writable temporary directory with free disk space for Check\DiskFree tests'
+                'Cannot find a writable temporary directory with free disk space for Check\DiskUsage tests'
             );
         }
 
