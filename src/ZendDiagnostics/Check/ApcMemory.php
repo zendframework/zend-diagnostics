@@ -37,8 +37,8 @@ class ApcMemory extends AbstractCheck implements CheckInterface
     protected $criticalThreshold;
 
     /**
-     * @param                           int $warningThreshold  A number between 0 and 100
-     * @param                           int $criticalThreshold A number between 0 and 100
+     * @param int $warningThreshold  A number between 0 and 100
+     * @param int $criticalThreshold A number between 0 and 100
      * @throws InvalidArgumentException
      */
     public function __construct($warningThreshold, $criticalThreshold)
@@ -59,8 +59,8 @@ class ApcMemory extends AbstractCheck implements CheckInterface
             throw new InvalidArgumentException('Invalid criticalThreshold argument - expecting an integer between 1 and 100');
         }
 
-        $this->warningThreshold = (int) $warningThreshold;
-        $this->criticalThreshold = (int) $criticalThreshold;
+        $this->warningThreshold  = (int)$warningThreshold;
+        $this->criticalThreshold = (int)$criticalThreshold;
     }
 
     /**
@@ -71,16 +71,19 @@ class ApcMemory extends AbstractCheck implements CheckInterface
      */
     public function check()
     {
-        if ('cli' === php_sapi_name()) {
-            return new Skip('APC not available in CLI');
+        if (!function_exists('apc_sma_info')) {
+            return new Warning('APC extension is not available');
         }
 
-        $info = apc_sma_info();
-        $size = $info['num_seg'] * $info['seg_size'];
-        $available = $info['avail_mem'];
-        $used = $size - $available;
+        if (!$info = apc_sma_info()) {
+            return new Warning('Unable to retrieve APC memory status information.');
+        }
+
+        $size        = $info['num_seg'] * $info['seg_size'];
+        $available   = $info['avail_mem'];
+        $used        = $size - $available;
         $percentUsed = ($used / $size) * 100;
-        $message = sprintf('%.0f%% of available %s memory used.', $percentUsed, $this->formatBytes($size));
+        $message     = sprintf('%.0f%% of available %s memory used.', $percentUsed, $this->formatBytes($size));
 
         if ($percentUsed > $this->criticalThreshold) {
             return new Failure($message);

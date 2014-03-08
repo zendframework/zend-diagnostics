@@ -15,6 +15,7 @@ use ZendDiagnostics\Result\Warning;
  * Checks to see if the APC fragmentation is below warning/critical thresholds
  *
  * APC memory logic borrowed from APC project:
+ *
  *      https://github.com/php/pecl-caching-apc/blob/master/apc.php
  *      authors:   Ralf Becker <beckerr@php.net>, Rasmus Lerdorf <rasmus@php.net>, Ilia Alshanetsky <ilia@prohost.org>
  *      license:   The PHP License, version 3.01
@@ -37,8 +38,8 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
     protected $criticalThreshold;
 
     /**
-     * @param                           int $warningThreshold  A number between 0 and 100
-     * @param                           int $criticalThreshold A number between 0 and 100
+     * @param  int $warningThreshold  A number between 0 and 100
+     * @param  int $criticalThreshold A number between 0 and 100
      * @throws InvalidArgumentException
      */
     public function __construct($warningThreshold, $criticalThreshold)
@@ -71,11 +72,14 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
      */
     public function check()
     {
-        if ('cli' === php_sapi_name()) {
-            return new Skip('APC not available in CLI');
+        if (!function_exists('apc_sma_info')) {
+            return new Warning('APC extension is not available');
         }
 
-        $info = apc_sma_info();
+        if (!$info = apc_sma_info()) {
+            return new Warning('Unable to retrieve APC memory status information.');
+        }
+
         $nseg = $freeseg = $fragsize = $freetotal = 0;
 
         for ($i = 0; $i < $info['num_seg']; $i++) {
