@@ -1,6 +1,7 @@
 <?php
 namespace ZendDiagnosticsTest;
 
+use ArrayObject;
 use Exception;
 use SensioLabs\Security\SecurityChecker;
 use ZendDiagnostics\Check\Callback;
@@ -9,6 +10,7 @@ use ZendDiagnostics\Check\CpuPerformance;
 use ZendDiagnostics\Check\DirReadable;
 use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
+use ZendDiagnostics\Check\PhpFlag;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
 use ZendDiagnostics\Check\StreamWrapperExists;
@@ -162,6 +164,65 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         );
 
         $check = new ExtensionLoaded($extensions);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
+    }
+
+    public function testPhpFlag()
+    {
+        // Retrieve a set of settings to test against
+        $all = ini_get_all();
+
+        foreach($all as $name => $valueArray) {
+            if($valueArray['local_value'] == '0') {
+                break;
+            }
+        }
+        $check = new PhpFlag($name, false);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $check->check());
+
+        $check = new PhpFlag($name, true);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
+
+
+        $allFalse = array();
+        foreach($all as $name => $valueArray) {
+            if($valueArray['local_value'] == '0') {
+                $allFalse[] = $name;
+            }
+
+            if(count($allFalse) == 3) {
+                break;
+            }
+        }
+
+        $check = new PhpFlag($allFalse, false);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $check->check());
+
+        $check = new PhpFlag($allFalse, true);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result = $check->check());
+        $this->assertStringMatchesFormat('%A' . join(', ', $allFalse) . '%Aenabled%A', $result->getMessage());
+
+        $allFalse = new ArrayObject($allFalse);
+        $check = new PhpFlag($allFalse, false);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $check->check());
+
+        $check = new PhpFlag($allFalse, true);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
+
+
+        $notAllFalse = $allFalse;
+        foreach($all as $name => $valueArray) {
+            if($valueArray['local_value'] == '1') {
+                $notAllFalse[] = $name;
+                break;
+            }
+        }
+
+        $check = new PhpFlag($notAllFalse, false);
+        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result = $check->check());
+        $this->assertStringMatchesFormat("%A$name%A", $result->getMessage());
+
+        $check = new PhpFlag($notAllFalse, true);
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
     }
 
