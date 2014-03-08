@@ -8,6 +8,9 @@ namespace ZendDiagnostics\Check;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
+/**
+ * Attempt connection to given HTTP host and (optionally) check status code and page content.
+ */
 class HttpService extends AbstractCheck
 {
     /**
@@ -36,13 +39,13 @@ class HttpService extends AbstractCheck
     protected $content;
 
     /**
-     * @param string $host
-     * @param int    $port
-     * @param string $path
-     * @param int    $statusCode
-     * @param null   $content
+     * @param string $host       Host name or IP address to check.
+     * @param int    $port       Port to connect to (defaults to 80)
+     * @param string $path       The path to retrieve (defaults to /)
+     * @param int    $statusCode (optional) Expected status code
+     * @param null   $content    (optional) Expected substring to match agains the page content.
      */
-    public function __construct($host, $port = 80, $path = '/', $statusCode = 200, $content = null)
+    public function __construct($host, $port = 80, $path = '/', $statusCode = null, $content = null)
     {
         $this->host = $host;
         $this->port = $port;
@@ -71,11 +74,11 @@ class HttpService extends AbstractCheck
         }
         fclose($fp);
 
-        if ($this->statusCode && !preg_match("/^HTTP\/1\.1 {$this->statusCode}/", $str)) {
+        if ($this->statusCode && !preg_match("/^HTTP\/[0-9]\.[0-9] {$this->statusCode}/", $str)) {
             return new Failure("Status code {$this->statusCode} does not match response from {$this->host}:{$this->port}{$this->path}");
         }
 
-        if ($this->content && !strpos($str, $this->content)) {
+        if ($this->content && strpos($str, $this->content) === false) {
             return new Failure("Content {$this->content} not found in response from {$this->host}:{$this->port}{$this->path}");
         }
 
