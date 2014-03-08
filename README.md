@@ -3,20 +3,34 @@ ZendDiagnostics
 
 Simple component for performing diagnostic tests in real-world PHP applications.
 
-It currently ships with the following Checks: [Callback](#callback), [ClassExists](#classexists),
-[CpuPerformance](#cpuperformance), [DirReadable](#dirreadable), [DirWritable](#dirwritable),
-[DiskFree](#diskfree), [ExtensionLoaded](#extensionloaded), [PhpVersion](#phpversion),
-[SteamWrapperExists](#streamwrapperexists).
+It currently ships with the following Diagnostic Checks:
+
+ * [ApcFragmentation](#apcfragmentation) - check if APC memory fragmentation is below given threshold,
+ * [ApcMemory](#apcmemory) - check available APC memory,
+ * [Callback](#callback) - call a user-defined diagnostic function,
+ * [ClassExists](#classexists) - make sure class exists in current environment,
+ * [CpuPerformance](#cpuperformance) - check server CPU performance is above baseline,
+ * [DirReadable](#dirreadable) - make sure given path is readable,
+ * [DirWritable](#dirwritable) - make sure given path is writable,
+ * [DiskFree](#diskfree) - check there's enough free space on given path,
+ * [ExtensionLoaded](#extensionloaded) - make sure extension is loaded,
+ * [HttpService](#httpservice) - check if given http host is responding,
+ * [Memcache](#memcache) - check if memcache extension is loaded and given server is reachable,
+ * [PhpVersion](#phpversion) - make sure that PHP version matches constraint,
+ * [PhpFlag](#phpflag) - make sure that given PHP flag (feature) is turned on or off.
+ * [ProcessRunning](#processrunning) - check if a process with given name or ID is currently running,
+ * [SecurityAdvisory](#securityadvisory) - check installed composer dependencies against SensioLabs SA database,
+ * [SteamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
+
+## Using diagnostics with Zend Framework 2
+
+1. Install the [ZFTool module](https://github.com/zendframework/ZFTool).
+2. Enable diagnostic tests in [your application config.php](https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md).
+3. In your console type `php public/index.php diag` to run diagnostics.
 
 ## Using diagnostics with Symfony 2
 
 Work in progress: https://github.com/liip/LiipMonitorBundle/pull/33
-
-## Using diagnostics with Zend Framework 2
-
-1. Install the [ZFTool module](https://github.com/zendframework/ZFTool/pulls).
-2. Enable diagnostic tests in [your application config.php](https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md).
-3. In your console type `php public/index.php diag` to run diagnostics.
 
 ## Using diagnostics in plain PHP
 
@@ -222,9 +236,33 @@ ZendDiagnostics provides several "just add water" checks you can use straight aw
 
 The following built-in tests are currently available:
 
+### ApcFragmentation
+
+Make sure that [APC memory fragmentation level](www.php.net/apc/‎) is below given threshold:
+
+````php
+<?php
+use ZendDiagnostics\Check\ApcFragmentation;
+
+// Display a warning with fragmentation > 50% and failure when above 90%
+$fragmentation = new ApcFragmentation(50, 90);
+````
+
+### ApcMemory
+
+Check [APC memory usage percent](www.php.net/apc/‎) and make sure it's below given threshold.
+
+````php
+<?php
+use ZendDiagnostics\Check\ApcMemory;
+
+// Display a warning with memory usage is above 70% and a failure above 90%
+$checkFreeMemory = new ApcMemory(70, 90);
+````
+
 ### Callback
 
-Run a function (callback) and use return value as a result
+Run a function (callback) and use return value as the result:
 
 ````php
 <?php
@@ -341,6 +379,46 @@ $checkCompression = new ExtensionLoaded(array(
 ));
 ````
 
+### HttpService
+
+Attempt connection to given HTTP host or IP address and try to load a web page. The check also supports
+checking response codes and page contents.
+
+````php
+<?php
+use ZendDiagnostics\Check\HttpService;
+
+// Try to connect to google.com
+$checkGoogle = new HttpService('www.google.com');
+
+// Check port 8080 on localhost
+$checkLocal = new HttpService('127.0.0.1', 8080);
+
+// Check that the page exists (response code must equal 200)
+$checkPage = new HttpService('www.example.com', 80, '/some/page.html', 200);
+
+// Check page content
+$checkPageContent = new HttpService(
+    'www.example.com',
+    80,
+    '/some/page.html',
+    200,
+    '<title>Hello World</title>'
+);
+````
+
+### Memcache
+
+Attempt to connect to given Memcache server.
+
+````php
+<?php
+use ZendDiagnostics\Check\Memcache;
+
+$checkLocal  = new Memcache('127.0.0.1'); // default port
+$checkBackup = new Memcache('10.0.30.40', 11212);
+````
+
 
 ### PhpVersion
 
@@ -355,6 +433,74 @@ use ZendDiagnostics\Check\PhpVersion;
 $require545orNewer  = new PhpVersion('5.4.5');
 $rejectBetaVersions = new PhpVersion('5.5.0', '<');
 ````
+
+### PhpFlag
+
+Make sure that given PHP flag(s) is enabled or disabled (i.e. as defined in php.ini). You can use this test to
+alert the user about unsafe or behavior-changing PHP settings.
+
+````php
+<?php
+use ZendDiagnostics\Check\PhpFlag;
+
+// This check will fail if use_only_cookies is not enabled
+$sessionOnlyUsesCookies = new PhpFlag('session.use_only_cookies', true);
+
+// This check will fail if safe_mode has been enabled
+$noSafeMode = new PhpFlag('safe_mode', false);
+
+// The following will fail if any of the flags is enabled
+$check = new PhpFlag(array(
+    'expose_php',
+    'ignore_user_abort',
+    'html_errors'
+), false);
+````
+
+### PhpVersion
+
+Check if current PHP version matches the given requirement. The test accepts 2 parameters - baseline version and
+optional [comparison operator](http://www.php.net/manual/en/function.version-compare.php).
+
+
+````php
+<?php
+use ZendDiagnostics\Check\PhpVersion;
+
+$require545orNewer  = new PhpVersion('5.4.5');
+$rejectBetaVersions = new PhpVersion('5.5.0', '<');
+````
+
+### ProcessRunning
+
+Check if a given unix process is running. This check supports PIDs and process names.
+
+````php
+<?php
+use ZendDiagnostics\Check\ProcessRunning;
+
+$checkApache = new ProcessRunning('httpd');
+
+$checkProcess1000 = new ProcessRunning(1000);
+````
+
+### SecurityAdvisory
+
+Run a security check of libraries locally installed by [Composer](http://getcomposer.org) against
+[SensioLabs Security Advisory database](https://security.sensiolabs.org/database) and warn about potential
+security vulnerabilities.
+
+````php
+<?php
+use ZendDiagnostics\Check\SecurityAdvisory;
+
+// Warn about any packages that might have security vulnerabilities and require updating
+$security = new SecurityAdvisory();
+
+// Check another composer.lock
+$security = new SecurityAdvisory('/var/www/project/composer.lock');
+````
+
 
 ### SteamWrapperExists
 

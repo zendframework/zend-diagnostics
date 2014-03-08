@@ -1,6 +1,6 @@
 {
     "name": "zendframework/zenddiagnostics",
-    "description": "A set of interfaces for performing diagnostic tests for PHP applications",
+    "description": "A set of components for performing diagnostic tests in PHP applications",
     "keywords": [
         "php",
         "diagnostics",
@@ -25,9 +25,5 @@
         "ext-bcmath" : "Required by Check\\CpuPerformance",
         "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        }
-    }
+    "extra": {}
 }
