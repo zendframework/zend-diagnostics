@@ -25,5 +25,9 @@
         "ext-bcmath" : "Required by Check\\CpuPerformance",
         "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory"
     },
-    "extra": {}
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
