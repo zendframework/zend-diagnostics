@@ -11,9 +11,9 @@ use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
-use ZendDiagnostics\Check\SecurityAdvisory;
 use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Result\Success;
+use ZendDiagnosticsTest\TestAsset\Check\SecurityAdvisory;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
 
 class ChecksTest extends \PHPUnit_Framework_TestCase
@@ -416,14 +416,12 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         }
 
         $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
-        $checker = new SecurityChecker();
-        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $check = new SecurityAdvisory($secureComposerLock);
         $result = $check->check();
         $this->assertNotInstanceOf('ZendDiagnostics\Result\Failure', $result);
 
         // check against non-existent lock file
-        $checker = new SecurityChecker();
-        $check = new SecurityAdvisory($checker, __DIR__ . '/improbable-lock-file-99999999999.lock');
+        $check = new SecurityAdvisory(__DIR__ . '/improbable-lock-file-99999999999.lock');
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
 
@@ -431,18 +429,15 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $tmpDir = sys_get_temp_dir();
         if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
             $this->markTestSkipped('Cannot access writable system temp dir to perform the test... ');
-
             return;
         }
         $unreadableFile = $tmpDir . '/composer.' . uniqid('', true) . '.lock';
         if (!file_put_contents($unreadableFile, 'foo') || !chmod($unreadableFile, 0000)) {
             $this->markTestSkipped('Cannot create temporary file in system temp dir to perform the test... ');
-
             return;
         }
 
-        $checker = new SecurityChecker();
-        $check = new SecurityAdvisory($checker, $unreadableFile);
+        $check = new SecurityAdvisory($unreadableFile);
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
 
@@ -463,7 +458,8 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($secureComposerLock))
             ->will($this->returnValue('[{"a":1},{"b":2},{"c":3}]'));
 
-        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $check = new SecurityAdvisory($secureComposerLock);
+        $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
     }
@@ -479,7 +475,8 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
             ->method('check')
             ->with($this->equalTo($secureComposerLock))
             ->will($this->returnValue('404 error'));
-        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $check = new SecurityAdvisory($secureComposerLock);
+        $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Warning', $result);
 
@@ -495,7 +492,8 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
             ->method('check')
             ->with($this->equalTo($secureComposerLock))
             ->will($this->throwException(new Exception));
-        $check = new SecurityAdvisory($checker, $secureComposerLock);
+        $check = new SecurityAdvisory($secureComposerLock);
+        $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Warning', $result);
     }
