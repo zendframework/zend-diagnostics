@@ -9,6 +9,9 @@ use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
+/**
+ * Check if MemCache extension is loaded and given server is reachable.
+ */
 class Memcache extends AbstractCheck
 {
     /**

@@ -9,6 +9,9 @@ use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
+/**
+ * Check if a process with given name or ID is currently running.
+ */
 class ProcessRunning extends AbstractCheck
 {
     /**
