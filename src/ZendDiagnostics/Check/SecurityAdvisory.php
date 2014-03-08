@@ -13,8 +13,6 @@ use ZendDiagnostics\Result\Warning;
 
 /**
  * Checks installed dependencies against the SensioLabs Security Advisory database.
- *
- * @author Baldur Rensch <brensch@gmail.com>
  */
 class SecurityAdvisory extends AbstractCheck
 {
@@ -29,13 +27,33 @@ class SecurityAdvisory extends AbstractCheck
     protected $securityChecker;
 
     /**
-     * @param  SecurityChecker           $securityChecker An instance of SecurityChecker
-     * @param  string                    $lockFilePath    Path to composer.lock
+     * @param  SecurityChecker|null $securityChecker An instance of SecurityChecker
+     * @param  string               $lockFilePath    Path to composer.lock
      * @throws \InvalidArgumentException
      */
-    public function __construct(SecurityChecker $securityChecker, $lockFilePath)
+    public function __construct(SecurityChecker $securityChecker = null, $lockFilePath = null)
     {
-        if (empty($lockFilePath) || !is_scalar($lockFilePath)) {
+        if(!$securityChecker) {
+            if(!class_exists('SensioLabs\Security\SecurityChecker')) {
+                throw new InvalidArgumentException(sprintf(
+                    'Unable to find "%s" class. Please install "%s" library to use this Check.',
+                    'SensioLabs\Security\SecurityChecker',
+                    'sensiolabs/security-checker'
+                ));
+            }
+
+            $securityChecker = new SecurityChecker();
+        }
+
+        if(!$lockFilePath) {
+            if(!file_exists('composer.lock')) {
+                throw new InvalidArgumentException(
+                    'You have not provided lock file path and there is no "composer.lock" file in current directory.'
+                );
+            }
+
+            $lockFilePath = getcwd() . DIRECTORY_SEPARATOR . 'composer.lock';
+        } elseif (!is_scalar($lockFilePath)) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid argument 2 provided for SecurityAdvisory check - expected file name (string) , got %s',
                 gettype($lockFilePath)
@@ -46,9 +64,6 @@ class SecurityAdvisory extends AbstractCheck
         $this->securityChecker = $securityChecker;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function check()
     {
         try {
