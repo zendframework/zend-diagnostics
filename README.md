@@ -3,6 +3,8 @@ ZendDiagnostics
 
 Simple component for performing diagnostic tests in real-world PHP applications.
 
+![ZendDiagnostics](http://i.imgur.com/xd2Na8y.png)
+
 It currently ships with the following Diagnostic Checks:
 
  * [ApcFragmentation](#apcfragmentation) - check if APC memory fragmentation is below given threshold,
