@@ -14,4 +14,4 @@ class SecurityAdvisory extends BaseCheck
     {
         $this->securityChecker = $securityChecker;
     }
-} 
+}
