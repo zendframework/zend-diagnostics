@@ -22,7 +22,7 @@ It currently ships with the following Diagnostic Checks:
  * [PhpFlag](#phpflag) - make sure that given PHP flag (feature) is turned on or off.
  * [ProcessRunning](#processrunning) - check if a process with given name or ID is currently running,
  * [SecurityAdvisory](#securityadvisory) - check installed composer dependencies against SensioLabs SA database,
- * [SteamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
+ * [StreamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
 
 ## Using diagnostics with Zend Framework 2
 
@@ -459,20 +459,6 @@ $check = new PhpFlag(array(
 ), false);
 ````
 
-### PhpVersion
-
-Check if current PHP version matches the given requirement. The test accepts 2 parameters - baseline version and
-optional [comparison operator](http://www.php.net/manual/en/function.version-compare.php).
-
-
-````php
-<?php
-use ZendDiagnostics\Check\PhpVersion;
-
-$require545orNewer  = new PhpVersion('5.4.5');
-$rejectBetaVersions = new PhpVersion('5.5.0', '<');
-````
-
 ### ProcessRunning
 
 Check if a given unix process is running. This check supports PIDs and process names.
@@ -504,7 +490,7 @@ $security = new SecurityAdvisory('/var/www/project/composer.lock');
 ````
 
 
-### SteamWrapperExists
+### StreamWrapperExists
 
 Check if a given stream wrapper (or an array of wrappers) is available. For example:
 
