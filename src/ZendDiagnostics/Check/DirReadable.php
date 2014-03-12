@@ -83,7 +83,7 @@ class DirReadable extends AbstractCheck implements CheckInterface
             return new Failure(trim($failureString), array('nonDirs' => $nonDirs, 'unreadable' => $unreadable));
         } else {
             return new Success(
-                count($this->dir) > 1 ? 'All paths are readable directories.' : 'The path is a a readable directory.',
+                count($this->dir) > 1 ? 'All paths are readable directories.' : 'The path is a readable directory.',
                 $this->dir
             );
         }
