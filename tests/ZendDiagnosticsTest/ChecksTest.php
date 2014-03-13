@@ -10,13 +10,17 @@ use ZendDiagnostics\Check\CpuPerformance;
 use ZendDiagnostics\Check\DirReadable;
 use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
+use ZendDiagnostics\Check\IniFile;
+use ZendDiagnostics\Check\JsonFile;
 use ZendDiagnostics\Check\PhpFlag;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
 use ZendDiagnostics\Check\StreamWrapperExists;
+use ZendDiagnostics\Check\XmlFile;
+use ZendDiagnostics\Check\YamlFile;
 use ZendDiagnostics\Result\Success;
-use ZendDiagnosticsTest\TestAsset\Check\SecurityAdvisory;
 use ZendDiagnosticsTest\TestAsset\Check\AlwaysSuccess;
+use ZendDiagnosticsTest\TestAsset\Check\SecurityAdvisory;
 
 class ChecksTest extends \PHPUnit_Framework_TestCase
 {
@@ -686,5 +690,182 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
         new SecurityAdvisory($this->getMock('SensioLabs\Security\SecurityChecker'), new \stdClass());
+    }
+
+    public function testAbstractFileCheckArgument1()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo>1</foo>");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        // single string
+        $check = new XmlFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        // array
+        $check = new XmlFile(array($path, $path, $path));
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        // object inplementing \Traversable
+        $check = new XmlFile(new ArrayObject(array($path, $path, $path)));
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testAbstractFileCheckInvalidArgument1()
+    {
+        // int
+        try {
+            $check = new XmlFile(2);
+            $this->fail('InvalidArguementException should be thrown here!');
+        } catch(Exception $e) {
+            $this->assertInstanceOf('InvalidArgumentException', $e);
+        }
+
+        // bool
+        try {
+            $check = new XmlFile(true);
+            $this->fail('InvalidArguementException should be thrown here!');
+        } catch(Exception $e) {
+            $this->assertInstanceOf('InvalidArgumentException', $e);
+        }
+
+        // object not implementing \Traversable
+        try {
+            $check = new XmlFile(new \stdClass());
+            $this->fail('InvalidArguementException should be thrown here!');
+        } catch(Exception $e) {
+            $this->assertInstanceOf('InvalidArgumentException', $e);
+        }
+    }
+
+    public function testXmlFileValid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo>1</foo>");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new XmlFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testXmlFileInvalid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<foo>1</bar>");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new XmlFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testXmlFileNotPresent()
+    {
+        $check = new XmlFile('/does/not/exist');
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+    }
+
+    public function testIniFileValid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "[first_group]\nfoo = 1\nbar = 5");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new IniFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testIniFileInvalid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "]]]]]]");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new IniFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testIniFileNotPresent()
+    {
+        $check = new IniFile('/does/not/exist');
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+    }
+
+    public function testYamlFileValid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "foo: 1\nbar: 1");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new YamlFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testYamlFileInvalid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, "foo: 1\n\tbar: 3");
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new YamlFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testYamlFileNotPresent()
+    {
+        $check = new YamlFile('/does/not/exist');
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+    }
+
+    public function testJsonFileValid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, '{ "foo": "bar"}');
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new JsonFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\SuccessInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testJsonFileInvalid()
+    {
+        $temp = tmpfile();
+        fwrite($temp, '{ foo: {"bar"');
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+
+        $check = new JsonFile($path);
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
+
+        fclose($temp);
+    }
+
+    public function testJsonFileNotPresent()
+    {
+        $check = new JsonFile('/does/not/exist');
+        $this->assertInstanceOf('ZendDiagnostics\Result\FailureInterface', $check->check());
     }
 }

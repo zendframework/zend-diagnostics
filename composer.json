@@ -19,11 +19,13 @@
     },
     "require-dev": {
         "zendframework/zend-loader"  : "2.*",
-        "sensiolabs/security-checker": "1.3.*@dev"
+        "sensiolabs/security-checker": "1.3.*@dev",
+        "symfony/yaml": "v2.3.11"
     },
     "suggest" : {
         "ext-bcmath" : "Required by Check\\CpuPerformance",
-        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory"
+        "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
+        "symfony/yaml": "Required by Check\\YamlFile"
     },
     "extra": {
         "branch-alias": {
