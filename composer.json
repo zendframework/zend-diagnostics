@@ -28,7 +28,9 @@
         "ext-bcmath" : "Required by Check\\CpuPerformance",
         "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
         "symfony/yaml": "Required by Check\\YamlFile",
-        "guzzle/http": "Required by Check\\GuzzleHttpService"
+        "guzzle/http": "Required by Check\\GuzzleHttpService",
+        "predis/predis": "Required by Check\\Redis",
+        "videlalvaro/php-amqplib": "TRequired by Check\\RabbitMQ"
     },
     "extra": {
         "branch-alias": {
