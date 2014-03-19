@@ -70,7 +70,7 @@ class RabbitMQ extends AbstractCheck
      */
     public function check()
     {
-        if (!class_exists('PhpAmqpLib\Connection\AMQPConnection', false)) {
+        if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
             return new Failure('PhpAmqpLib is not installed');
         }
 

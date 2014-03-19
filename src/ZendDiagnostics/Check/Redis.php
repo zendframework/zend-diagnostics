@@ -6,6 +6,7 @@
 namespace ZendDiagnostics\Check;
 
 use Predis\Client;
+use Predis\PredisException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -44,7 +45,7 @@ class Redis extends AbstractCheck
      */
     public function check()
     {
-        if (!class_exists('Predis\Client', false)) {
+        if (!class_exists('Predis\Client')) {
             return new Failure('Predis is not installed');
         }
 
@@ -53,15 +54,7 @@ class Redis extends AbstractCheck
             'port' => $this->port,
         ));
 
-        if (!$client->ping()) {
-            return new Failure(
-                sprintf(
-                    'No Redis server running at host %s on port %s',
-                    $this->host,
-                    $this->port
-                )
-            );
-        }
+        $client->ping();
 
         return new Success();
     }

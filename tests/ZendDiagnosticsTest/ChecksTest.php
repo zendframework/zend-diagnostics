@@ -50,10 +50,6 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check = new RabbitMQ();
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
-
-        $check = new RabbitMQ('example.com');
-        $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
     }
 
     public function testRedis()
@@ -61,10 +57,6 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check = new Redis();
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
-
-        $check = new Redis('example.com');
-        $result = $check->check();
-        $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
     }
 
     public function testClassExists()
