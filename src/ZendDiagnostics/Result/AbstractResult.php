@@ -22,8 +22,8 @@ abstract class AbstractResult implements ResultInterface
     /**
      * Create new result
      *
-     * @param null $message
-     * @param null $data
+     * @param string|null $message
+     * @param mixed|null  $data
      */
     public function __construct($message = null, $data = null)
     {
