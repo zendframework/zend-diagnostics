@@ -39,7 +39,9 @@ File validation checks:
 
 ## Using diagnostics with Symfony 2
 
-Work in progress: https://github.com/liip/LiipMonitorBundle/pull/33
+1. Install the [LiipMonitorBundle](https://github.com/liip/LiipMonitorBundle).
+2. Enable diagnostic tests in [your application configuration](https://github.com/liip/LiipMonitorBundle/blob/master/README.md).
+3. In your console type `./app/console monitor:health` to run diagnostics.
 
 ## Using diagnostics in plain PHP
 
