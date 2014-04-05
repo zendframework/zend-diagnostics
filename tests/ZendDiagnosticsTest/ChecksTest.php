@@ -50,6 +50,10 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check = new RabbitMQ();
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new RabbitMQ('127.0.0.250', 9999);
+        $this->setExpectedException('PhpAmqpLib\Exception\AMQPRuntimeException');
+        $check->check();
     }
 
     public function testRedis()
@@ -57,6 +61,10 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check = new Redis();
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new Redis('127.0.0.250', 9999);
+        $this->setExpectedException('Predis\Connection\ConnectionException');
+        $check->check();
     }
 
     public function testClassExists()
