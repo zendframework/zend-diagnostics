@@ -22,6 +22,8 @@ It currently ships with the following Diagnostic Checks:
  * [PhpVersion](#phpversion) - make sure that PHP version matches constraint,
  * [PhpFlag](#phpflag) - make sure that given PHP flag (feature) is turned on or off.
  * [ProcessRunning](#processrunning) - check if a process with given name or ID is currently running,
+ * [RabbitMQ](#rabbitmq) - Validate that a RabbitMQ service is running,
+ * [Redis](#redis) - Validate that a Redis service is running,
  * [SecurityAdvisory](#securityadvisory) - check installed composer dependencies against SensioLabs SA database,
  * [StreamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
 
@@ -509,6 +511,28 @@ $checkApache = new ProcessRunning('httpd');
 
 $checkProcess1000 = new ProcessRunning(1000);
 ````
+
+### RabbitMQ
+
+Validate that a RabbitMQ service is running.
+
+```php
+<?php
+use ZendDiagnostics\Check\RabbitMQ;
+
+$rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');
+```
+
+### Redis
+
+Validate that a Redis service is running.
+
+```php
+<?php
+use ZendDiagnostics\Check\Redis;
+
+$redisCheck = new Redis('localhost', 6379);
+```
 
 ### SecurityAdvisory
 

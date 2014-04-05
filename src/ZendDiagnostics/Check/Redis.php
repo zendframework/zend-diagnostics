@@ -6,7 +6,6 @@
 namespace ZendDiagnostics\Check;
 
 use Predis\Client;
-use Predis\PredisException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
