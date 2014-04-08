@@ -48,8 +48,8 @@ class GuzzleHttpService extends AbstractCheck
     {
         $response = $this->guzzle->get($this->url, $this->headers, $this->options)->send();
 
-        if ($this->statusCode !== $response->getStatusCode()) {
-            return new Failure("Status code {$this->statusCode} does not match response from {$this->url}");
+        if ($this->statusCode !== $statusCode = $response->getStatusCode()) {
+            return new Failure("Status code {$this->statusCode} does not match {$statusCode} in response from {$this->url}");
         }
 
         if ($this->content && (false === strpos($response->getBody(true), $this->content))) {
