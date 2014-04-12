@@ -17,6 +17,7 @@ It currently ships with the following Diagnostic Checks:
  * [DiskFree](#diskfree) - check there's enough free space on given path,
  * [ExtensionLoaded](#extensionloaded) - make sure extension is loaded,
  * [HttpService](#httpservice) - check if given http host is responding,
+ * [GuzzleHttpService](#guzzlehttpservice) - check if given http host is responding using Guzzle,
  * [Memcache](#memcache) - check if memcache extension is loaded and given server is reachable,
  * [PhpVersion](#phpversion) - make sure that PHP version matches constraint,
  * [PhpFlag](#phpflag) - make sure that given PHP flag (feature) is turned on or off.
@@ -413,6 +414,35 @@ $checkPageContent = new HttpService(
     'www.example.com',
     80,
     '/some/page.html',
+    200,
+    '<title>Hello World</title>'
+);
+````
+
+### GuzzleHttpService
+
+Attempt connection to given HTTP host or IP address and try to load a web page using
+[Guzzle](http://guzzle3.readthedocs.org/en/latest/). The check also supports checking response
+codes and page contents.
+
+````php
+<?php
+use ZendDiagnostics\Check\GuzzleHttpService;
+
+// Try to connect to google.com
+$checkGoogle = new GuzzleHttpService('www.google.com');
+
+// Check port 8080 on localhost
+$checkLocal = new GuzzleHttpService('127.0.0.1:8080');
+
+// Check that the page exists (response code must equal 200)
+$checkPage = new GuzzleHttpService('www.example.com/some/page.html');
+
+// Check page content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/some/page.html',
+    array(),
+    array(),
     200,
     '<title>Hello World</title>'
 );
