@@ -15,6 +15,8 @@ use ZendDiagnostics\Check\JsonFile;
 use ZendDiagnostics\Check\PhpFlag;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
+use ZendDiagnostics\Check\RabbitMQ;
+use ZendDiagnostics\Check\Redis;
 use ZendDiagnostics\Check\StreamWrapperExists;
 use ZendDiagnostics\Check\XmlFile;
 use ZendDiagnostics\Check\YamlFile;
@@ -41,6 +43,28 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check = new CpuPerformance(999999999); // improbable to archive
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
+    }
+
+    public function testRabbitMQ()
+    {
+        $check = new RabbitMQ();
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new RabbitMQ('127.0.0.250', 9999);
+        $this->setExpectedException('PhpAmqpLib\Exception\AMQPRuntimeException');
+        $check->check();
+    }
+
+    public function testRedis()
+    {
+        $check = new Redis();
+        $result = $check->check();
+        $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
+
+        $check = new Redis('127.0.0.250', 9999);
+        $this->setExpectedException('Predis\Connection\ConnectionException');
+        $check->check();
     }
 
     public function testClassExists()
