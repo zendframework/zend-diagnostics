@@ -32,7 +32,7 @@
         "symfony/yaml": "Required by Check\\YamlFile",
         "guzzle/http": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
-        "videlalvaro/php-amqplib": "TRequired by Check\\RabbitMQ"
+        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
     },
     "extra": {
         "branch-alias": {
