@@ -11,8 +11,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a RabbitMQ service is running
- *
- * @author Cédric Dugat <cedric@dugat.me>
  */
 class RabbitMQ extends AbstractCheck
 {

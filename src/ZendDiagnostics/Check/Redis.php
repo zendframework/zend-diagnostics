@@ -11,8 +11,6 @@ use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a Redis service is running
- *
- * @author Cédric Dugat <cedric@dugat.me>
  */
 class Redis extends AbstractCheck
 {
