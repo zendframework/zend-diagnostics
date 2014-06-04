@@ -448,6 +448,17 @@ $checkPageContent = new GuzzleHttpService(
     200,
     '<title>Hello World</title>'
 );
+
+// Check that the post request returns the content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/user/update',
+    array(),
+    array(),
+    200,
+    '{"status":"success"}',
+    'POST',
+    array("post_field" => "post_value")
+);
 ````
 
 ### Memcache

@@ -12,7 +12,7 @@ class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider checkProvider
      */
-    public function testCheck($content, $actualContent, $actualStatusCode, $resultClass)
+    public function testCheck($content, $actualContent, $actualStatusCode, $resultClass, $method = 'GET', $body = null)
     {
         $check = new GuzzleHttpService(
             'http://www.example.com/foobar',
@@ -20,7 +20,9 @@ class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
             array(),
             200,
             $content,
-            $this->getMockClient($actualStatusCode, $actualContent)
+            $this->getMockClient($actualStatusCode, $actualContent),
+            $method,
+            $body
         );
         $result = $check->check();
 
@@ -31,9 +33,17 @@ class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(null, null, 200, 'ZendDiagnostics\Result\SuccessInterface'),
+            array(null, null, 200, 'ZendDiagnostics\Result\SuccessInterface', 'POST', array('key' => 'value')),
+            array(null, null, 200, 'ZendDiagnostics\Result\SuccessInterface', 'PUT'),
             array(null, null, 404, 'ZendDiagnostics\Result\FailureInterface'),
+            array(null, null, 404, 'ZendDiagnostics\Result\FailureInterface', 'POST', array('key' => 'value')),
+            array(null, null, 404, 'ZendDiagnostics\Result\FailureInterface', 'PUT'),
             array('foo', 'foobar', 200, 'ZendDiagnostics\Result\SuccessInterface'),
-            array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface')
+            array('foo', 'foobar', 200, 'ZendDiagnostics\Result\SuccessInterface', 'POST', array('key' => 'value')),
+            array('foo', 'foobar', 200, 'ZendDiagnostics\Result\SuccessInterface', 'PUT'),
+            array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface'),
+            array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface', 'POST', array('key' => 'value')),
+            array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface', 'PUT'),
         );
     }
 
