@@ -44,6 +44,16 @@ class OpCacheMemory extends AbstractMemoryCheck
     }
 
     /**
+     * Return a label describing this test instance.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return 'OPcache Memory';
+    }
+
+    /**
      * Returns the total memory in bytes
      *
      * @return int
