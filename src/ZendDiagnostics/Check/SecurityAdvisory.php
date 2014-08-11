@@ -75,9 +75,12 @@ class SecurityAdvisory extends AbstractCheck
             }
 
             $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
-            $advisories = @json_decode($advisories);
 
-            if (null === $advisories) {
+            if (is_string($advisories)) {
+                $advisories = @json_decode($advisories);
+            }
+
+            if (!is_array($advisories)) {
                 return new Warning('Could not parse response from security advisory service.');
             }
 
