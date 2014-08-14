@@ -395,7 +395,9 @@ class Runner
 
     public function errorHandler($errno, $errstr = '', $errfile = '', $errline = 0)
     {
-        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        if (error_reporting() !== 0) {
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        }
     }
 
     protected function stopErrorHandler()
