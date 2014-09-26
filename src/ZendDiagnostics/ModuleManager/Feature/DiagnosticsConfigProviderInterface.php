@@ -7,7 +7,7 @@
 namespace ZendDiagnostics\ModuleManager\Feature;
 
 /**
- * @author kurshin
+ * @author userator
  */
 interface DiagnosticsProviderInterface {
 
