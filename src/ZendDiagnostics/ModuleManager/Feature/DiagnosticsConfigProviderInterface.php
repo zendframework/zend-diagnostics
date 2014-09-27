@@ -9,7 +9,8 @@ namespace ZendDiagnostics\ModuleManager\Feature;
 /**
  * @author userator
  */
-interface DiagnosticsProviderInterface {
+interface DiagnosticsProviderInterface
+{
 
 	/**
 	 * Expected to return \Zend\ServiceManager\Config object or array to
