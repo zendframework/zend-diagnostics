@@ -38,6 +38,10 @@ class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGuzzle4And5Check($content, $actualContent, $actualStatusCode, $resultClass, $method = 'GET', $body = null)
     {
+        if (!class_exists('GuzzleHttp\Client')) {
+            $this->markTestSkipped('guzzlehttp/guzzle not installed.');
+        }
+
         $check = new GuzzleHttpService(
             'http://www.example.com/foobar',
             array(),
