@@ -23,7 +23,6 @@
         "symfony/yaml"               : "v2.3.11",
         "guzzle/http"                : "3.*",
         "guzzle/plugin-mock"         : "3.*",
-        "guzzlehttp/guzzle"          : "4.*",
         "videlalvaro/php-amqplib"    : "2.*",
         "predis/predis"              : "0.8.*"
     },
