@@ -2,15 +2,15 @@
 
 namespace ZendDiagnosticsTest;
 
-use ZendDiagnostics\Check\ApcMemory;
+use ZendDiagnostics\Check\OpCacheMemory;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-class ApcMemoryTest extends AbstractMemoryTest
+class OpCacheMemoryTest extends AbstractMemoryTest
 {
     protected function createCheck($warningThreshold, $criticalThreshold)
     {
-        return new ApcMemory($warningThreshold, $criticalThreshold);
+        return new OpCacheMemory($warningThreshold, $criticalThreshold);
     }
 }
