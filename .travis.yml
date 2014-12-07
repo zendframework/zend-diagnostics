@@ -13,6 +13,7 @@ php:
 
 before_install:
  - composer self-update
+ - if [[ "$TRAVIS_PHP_VERSION" != "5.3" && "$TRAVIS_PHP_VERSION" != "5.3.3" ]]; then composer require --no-update guzzlehttp/guzzle:~4; fi
  - composer install --prefer-source
  - wget http://cs.sensiolabs.org/get/php-cs-fixer.phar
 
