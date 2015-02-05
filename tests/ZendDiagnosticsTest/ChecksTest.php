@@ -63,7 +63,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
 
         $check = new Redis('127.0.0.250', 9999);
-        $this->setExpectedException('Predis\Connection\ConnectionException');
+        $this->setExpectedException('\Exception');
         $check->check();
     }
 

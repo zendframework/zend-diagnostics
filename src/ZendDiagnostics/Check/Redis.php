@@ -5,8 +5,8 @@
 
 namespace ZendDiagnostics\Check;
 
-use Predis\Client;
-use ZendDiagnostics\Result\Failure;
+use Predis\Client as PredisClient;
+use Redis as RedisExtensionClient;
 use ZendDiagnostics\Result\Success;
 
 /**
@@ -38,21 +38,35 @@ class Redis extends AbstractCheck
      * Perform the check
      *
      * @see \ZendDiagnostics\Check\CheckInterface::check()
-     * @return Failure|Success
      */
     public function check()
     {
-        if (!class_exists('Predis\Client')) {
-            return new Failure('Predis is not installed');
-        }
-
-        $client = new Client(array(
-            'host' => $this->host,
-            'port' => $this->port,
-        ));
-
-        $client->ping();
+        $this->createClient()->ping();
 
         return new Success();
+    }
+
+    /**
+     * @return PredisClient|RedisExtensionClient
+     *
+     * @throws \RuntimeException
+     */
+    private function createClient()
+    {
+        if (class_exists('\Redis')) {
+            $client = new RedisExtensionClient();
+            $client->connect($this->host);
+
+            return $client;
+        }
+
+        if (class_exists('Predis\Client')) {
+            return new PredisClient(array(
+                'host' => $this->host,
+                'port' => $this->port,
+            ));
+        }
+
+        throw new \RuntimeException('Neither the PHP Redis extension or Predis are installed');
     }
 }
