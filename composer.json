@@ -25,7 +25,8 @@
         "guzzle/plugin-mock"         : "3.*",
         "videlalvaro/php-amqplib"    : "2.*",
         "predis/predis"              : "0.8.*",
-        "phpunit/phpunit"            : "4.7.*"
+        "phpunit/phpunit"            : "4.7.*",
+        "doctrine/migrations"        : "~1.0@dev"
     },
     "suggest" : {
         "ext-bcmath" : "Required by Check\\CpuPerformance",
@@ -33,7 +34,8 @@
         "symfony/yaml": "Required by Check\\YamlFile",
         "guzzle/http": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
-        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ",
+        "doctrine/migrations": "Required by Check\\DoctrineMigration"
     },
     "extra": {
         "branch-alias": {
