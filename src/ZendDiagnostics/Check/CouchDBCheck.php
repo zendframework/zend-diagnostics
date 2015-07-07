@@ -10,7 +10,7 @@ use ZendDiagnostics\Result;
 /**
  * Ensures a connection to CouchDB is possible.
  */
-class CouchDB extends GuzzleHttpService
+class CouchDBCheck extends GuzzleHttpService
 {
     /**
      * @param array $couchDbSettings
