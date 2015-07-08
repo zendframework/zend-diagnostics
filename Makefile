@@ -9,4 +9,4 @@ endif
 
 test:
 	./vendor/bin/phpunit -c ./tests/ --coverage-text
-	./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 ./src
+	./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 .
