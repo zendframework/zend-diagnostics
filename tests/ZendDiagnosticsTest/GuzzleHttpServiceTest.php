@@ -9,10 +9,22 @@ use GuzzleHttp\Message\Response as Guzzle4And5Response;
 use Guzzle\Plugin\Mock\MockPlugin;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\Mock;
+use ZendDiagnostics\Check\CouchDBCheck;
 use ZendDiagnostics\Check\GuzzleHttpService;
 
 class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @param array $params
+     *
+     * @dataProvider couchDbProvider
+     */
+    public function testCouchDbCheck(array $params)
+    {
+        $check = new CouchDBCheck($params);
+        $this->assertInstanceOf('ZendDiagnostics\Check\CouchDbCheck', $check);
+    }
+
     /**
      * @dataProvider checkProvider
      */
@@ -81,6 +93,14 @@ class GuzzleHttpServiceTest extends \PHPUnit_Framework_TestCase
             array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface', 'POST', array('key' => 'value')),
             array('baz', 'foobar', 200, 'ZendDiagnostics\Result\FailureInterface', 'PUT'),
             array('baz', 'foobar', 500, 'ZendDiagnostics\Result\FailureInterface'),
+        );
+    }
+
+    public function couchDbProvider()
+    {
+        return array(
+            array(array('url' => 'http://root:party@localhost/hello')),
+            array(array('host' => '127.0.0.1', 'port' => '443', 'username' => 'test', 'password' => 'test', 'dbname' => 'database')),
         );
     }
 

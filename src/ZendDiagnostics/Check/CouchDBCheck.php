@@ -19,27 +19,11 @@ class CouchDBCheck extends GuzzleHttpService
      */
     public function __construct(array $couchDbSettings)
     {
-        $couchDbUrl = '';
-        if ($couchDbSettings['port'] === '5984' || $couchDbSettings['port'] === '80') {
-            $couchDbUrl .= 'http://';
+        if (false === array_key_exists('url', $couchDbSettings)) {
+            $couchDbUrl = $this->createUrlFromParameters($couchDbSettings);
         } else {
-            $couchDbUrl .= 'https://';
+            $couchDbUrl = $couchDbSettings['url'];
         }
-
-        if ($couchDbSettings['username'] && $couchDbSettings['password']) {
-            $couchDbUrl .= sprintf(
-                '%s:%s@',
-                $couchDbSettings['username'],
-                $couchDbSettings['password']
-            );
-        }
-
-        $couchDbUrl .= sprintf(
-            '%s:%s/%s',
-            $couchDbSettings['host'],
-            $couchDbSettings['port'],
-            $couchDbSettings['dbname']
-        );
 
         parent::__construct($couchDbUrl);
     }
@@ -60,5 +44,54 @@ class CouchDBCheck extends GuzzleHttpService
         $failure = new Result\Failure($msg, $result->getData());
 
         return $failure;
+    }
+
+    /**
+     * Assumes CouchDB defaults. Port 80 or 5984 is non-SSL, SSL otherwise.
+     * Override with 'protocol' if you run something else.
+     *
+     * Requires/Supports the following keys in the array:
+     *
+     *  - dbname
+     *  - host
+     *  - port
+     *  - protocol (optional)
+     *  - username (optional)
+     *  - password (optional)
+     *
+     * @param array $couchDbSettings
+     *
+     * @return string
+     */
+    private function createUrlFromParameters(array $couchDbSettings)
+    {
+        $couchDbUrl = '';
+
+        if (array_key_exists('protocol', $couchDbSettings)) {
+            $couchDbUrl .= $couchDbSettings['protocol'] . '://';
+        } else {
+            if ($couchDbSettings['port'] === '5984' || $couchDbSettings['port'] === '80') {
+                $couchDbUrl .= 'http://';
+            } else {
+                $couchDbUrl .= 'https://';
+            }
+        }
+
+        if ($couchDbSettings['username'] && $couchDbSettings['password']) {
+            $couchDbUrl .= sprintf(
+                '%s:%s@',
+                $couchDbSettings['username'],
+                $couchDbSettings['password']
+            );
+        }
+
+        $couchDbUrl .= sprintf(
+            '%s:%s/%s',
+            $couchDbSettings['host'],
+            $couchDbSettings['port'],
+            $couchDbSettings['dbname']
+        );
+
+        return $couchDbUrl;
     }
 }
