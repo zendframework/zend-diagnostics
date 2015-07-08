@@ -9,4 +9,4 @@ endif
 
 test:
 	./vendor/bin/phpunit -c ./tests/ --coverage-text
-	output=$(php php-cs-fixer.phar fix -v --dry-run --level=psr2 .); if [[ $output ]]; then while read -r line; do echo -e "\e[00;31m$line\e[00m"; done <<< "$output"; false; fi;
+	output=$(./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 .); if [[ $output ]]; then while read -r line; do echo -e "\e[00;31m$line\e[00m"; done <<< "$output"; false; fi;

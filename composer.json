@@ -25,7 +25,8 @@
         "guzzle/plugin-mock"         : "3.*",
         "videlalvaro/php-amqplib"    : "2.*",
         "predis/predis"              : "0.8.*",
-        "phpunit/phpunit"            : "4.7.*"
+        "phpunit/phpunit"            : "4.7.*",
+        "fabpot/php-cs-fixer"        : "1.9.*"
     },
     "suggest" : {
         "ext-bcmath" : "Required by Check\\CpuPerformance",
