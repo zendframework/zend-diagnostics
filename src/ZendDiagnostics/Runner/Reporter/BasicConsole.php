@@ -174,7 +174,6 @@ class BasicConsole implements ReporterInterface
         if ($results->getFailureCount() == 0 && $results->getWarningCount() == 0 && $results->getUnknownCount() == 0 && $results->getSkipCount() == 0) {
             $line = 'OK (' . $this->total . ' diagnostic tests)';
             $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
-
         } elseif ($results->getFailureCount() == 0) {
             $line = $results->getWarningCount() . ' warnings, ';
             $line .= $results->getSuccessCount() . ' successful tests';
@@ -190,7 +189,6 @@ class BasicConsole implements ReporterInterface
             $line .= '.';
 
             $this->consoleWrite(str_pad($line, $this->width - 1, ' ', STR_PAD_RIGHT));
-
         } else {
             $line = $results->getFailureCount() . ' failures, ';
             $line .= $results->getWarningCount() . ' warnings, ';
@@ -279,5 +277,4 @@ class BasicConsole implements ReporterInterface
     {
         echo $text . PHP_EOL;
     }
-
 }

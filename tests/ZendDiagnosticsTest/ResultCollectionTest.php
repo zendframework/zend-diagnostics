@@ -22,7 +22,9 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
         $this->collection = new Collection();
     }
 
-    public function tearDown() {}
+    public function tearDown()
+    {
+    }
 
     public static function invalidKeysProvider()
     {
@@ -56,19 +58,19 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testBasicTypesData()
     {
-        $test = new Success('foo','bar');
+        $test = new Success('foo', 'bar');
         $this->assertEquals('foo', $test->getMessage());
         $this->assertEquals('bar', $test->getData());
 
-        $test = new Warning('foo','bar');
+        $test = new Warning('foo', 'bar');
         $this->assertEquals('foo', $test->getMessage());
         $this->assertEquals('bar', $test->getData());
 
-        $test = new Failure('foo','bar');
+        $test = new Failure('foo', 'bar');
         $this->assertEquals('foo', $test->getMessage());
         $this->assertEquals('bar', $test->getData());
 
-        $test = new Unknown('foo','bar');
+        $test = new Unknown('foo', 'bar');
         $this->assertEquals('foo', $test->getMessage());
         $this->assertEquals('bar', $test->getData());
     }
@@ -231,7 +233,6 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->collection->getWarningCount());
         $this->assertEquals(0, $this->collection->getFailureCount());
         $this->assertEquals(0, $this->collection->getUnknownCount());
-
     }
 
     public function testIteration()
@@ -255,5 +256,4 @@ class ResultCollectionTest extends \PHPUnit_Framework_TestCase
             $x++;
         }
     }
-
 }

@@ -43,7 +43,6 @@ class PhpVersion extends AbstractCheck implements CheckInterface
                 );
             }
             $this->version = $expectedVersion;
-
         } elseif (!is_scalar($expectedVersion)) {
             if (!is_array($expectedVersion)) {
                 throw new InvalidArgumentException(
@@ -52,7 +51,6 @@ class PhpVersion extends AbstractCheck implements CheckInterface
             }
 
             $this->version = $expectedVersion;
-
         } else {
             $this->version = array($expectedVersion);
         }

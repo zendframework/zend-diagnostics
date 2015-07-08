@@ -11,7 +11,7 @@
 /**
  * Set error reporting to the level to which Zend Framework code must comply.
  */
-error_reporting( E_ALL | E_STRICT );
+error_reporting(E_ALL | E_STRICT);
 
 if (class_exists('PHPUnit_Runner_Version', true)) {
     $phpUnitVersion = PHPUnit_Runner_Version::id();
@@ -34,7 +34,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     include_once __DIR__ . '/../vendor/autoload.php';
 }
 // If composer autoloader is missing, try to use ZF2 loader from zend-loader package.
-elseif (false && file_exists( __DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php')) {
+elseif (false && file_exists(__DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php')) {
     require_once __DIR__ . '/../vendor/zendframework/zend-loader/Zend/Loader/StandardAutoloader.php';
     $loader = new Zend\Loader\StandardAutoloader(array(
         Zend\Loader\StandardAutoloader::LOAD_NS => array(
@@ -46,7 +46,7 @@ elseif (false && file_exists( __DIR__ . '/../vendor/zendframework/zend-loader/Ze
 }
 
 // ... or main zendframework package.
-elseif (file_exists( __DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php')) {
+elseif (file_exists(__DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php')) {
     require_once __DIR__ . '/../vendor/zendframework/zendframework/library/Zend/Loader/StandardAutoloader.php';
     $loader = new Zend\Loader\StandardAutoloader(array(
         Zend\Loader\StandardAutoloader::LOAD_NS => array(
@@ -58,7 +58,7 @@ elseif (file_exists( __DIR__ . '/../vendor/zendframework/zendframework/library/Z
 }
 
 // ... or use a simple SPL autoloader
-else{
+else {
 
     // update include path
     set_include_path(implode(PATH_SEPARATOR, array(
@@ -82,7 +82,6 @@ else{
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
         require $fileName;
     });
-
 }
 
 /**

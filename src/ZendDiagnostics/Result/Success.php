@@ -4,4 +4,6 @@
  */
 namespace ZendDiagnostics\Result;
 
-class Success extends AbstractResult implements SuccessInterface {}
+class Success extends AbstractResult implements SuccessInterface
+{
+}

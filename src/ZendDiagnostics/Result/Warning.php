@@ -4,4 +4,6 @@
  */
 namespace ZendDiagnostics\Result;
 
-class Warning extends AbstractResult implements WarningInterface {}
+class Warning extends AbstractResult implements WarningInterface
+{
+}
