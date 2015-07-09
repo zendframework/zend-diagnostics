@@ -145,7 +145,6 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
             PHP_VERSION,
         )), '!='); // explicit less than
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $check->check());
-
     }
 
     public function testCallback()
@@ -200,8 +199,8 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         // Retrieve a set of settings to test against
         $all = ini_get_all();
 
-        foreach($all as $name => $valueArray) {
-            if($valueArray['local_value'] == '0') {
+        foreach ($all as $name => $valueArray) {
+            if ($valueArray['local_value'] == '0') {
                 break;
             }
         }
@@ -213,12 +212,12 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
 
 
         $allFalse = array();
-        foreach($all as $name => $valueArray) {
-            if($valueArray['local_value'] == '0') {
+        foreach ($all as $name => $valueArray) {
+            if ($valueArray['local_value'] == '0') {
                 $allFalse[] = $name;
             }
 
-            if(count($allFalse) == 3) {
+            if (count($allFalse) == 3) {
                 break;
             }
         }
@@ -239,8 +238,8 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
 
 
         $notAllFalse = $allFalse;
-        foreach($all as $name => $valueArray) {
-            if($valueArray['local_value'] == '1') {
+        foreach ($all as $name => $valueArray) {
+            if ($valueArray['local_value'] == '1') {
                 $notAllFalse[] = $name;
                 break;
             }
@@ -290,7 +289,6 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
         $this->assertStringMatchesFormat('%simprobableName9999999999999999999999%s', $result->getMessage());
         $this->assertStringMatchesFormat('%simprobableName0000000000000000000000', $result->getMessage());
-
     }
 
     public function testDirReadable()
@@ -568,7 +566,6 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf('ZendDiagnostics\Result\Warning', $result);
-
     }
     /**
      * @depends testSecurityAdvisory
@@ -744,7 +741,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         try {
             $check = new XmlFile(2);
             $this->fail('InvalidArguementException should be thrown here!');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
         }
 
@@ -752,7 +749,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         try {
             $check = new XmlFile(true);
             $this->fail('InvalidArguementException should be thrown here!');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
         }
 
@@ -760,7 +757,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         try {
             $check = new XmlFile(new \stdClass());
             $this->fail('InvalidArguementException should be thrown here!');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
         }
     }

@@ -4,4 +4,6 @@
  */
 namespace ZendDiagnostics\Result;
 
-class Skip extends AbstractResult implements SkipInterface {}
+class Skip extends AbstractResult implements SkipInterface
+{
+}

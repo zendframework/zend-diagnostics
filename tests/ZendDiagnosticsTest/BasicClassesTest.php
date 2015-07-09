@@ -10,32 +10,32 @@ class BasicClassesTest extends \PHPUnit_Framework_TestCase
 {
     public function testCoreClassTree()
     {
-        foreach(array(
+        foreach (array(
             'ZendDiagnostics\Check\CheckInterface',
             'ZendDiagnostics\Result\SuccessInterface',
             'ZendDiagnostics\Result\FailureInterface',
             'ZendDiagnostics\Result\WarningInterface',
-        ) as $class){
+        ) as $class) {
             $this->assertTrue(interface_exists($class, true), 'Class "' . $class . '" exists.');
         }
 
-        foreach(array(
+        foreach (array(
             'ZendDiagnostics\Check\AbstractCheck',
             'ZendDiagnostics\Result\AbstractResult',
             'ZendDiagnostics\Result\Success',
             'ZendDiagnostics\Result\Failure',
             'ZendDiagnostics\Result\Warning',
-        ) as $class){
+        ) as $class) {
             $this->assertTrue(class_exists($class, true), 'Class "' . $class . '" exists.');
         }
-        foreach(array(
+        foreach (array(
             'ZendDiagnostics\Result\Success',
             'ZendDiagnostics\Result\Failure',
             'ZendDiagnostics\Result\Warning',
             'ZendDiagnostics\Result\SuccessInterface',
             'ZendDiagnostics\Result\FailureInterface',
             'ZendDiagnostics\Result\WarningInterface',
-        ) as $class){
+        ) as $class) {
             $reflection = new \ReflectionClass($class);
             $this->assertTrue($reflection->implementsInterface('ZendDiagnostics\Result\ResultInterface'));
         }

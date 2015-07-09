@@ -4,4 +4,6 @@
  */
 namespace ZendDiagnostics\Result;
 
-class Failure extends AbstractResult implements FailureInterface {}
+class Failure extends AbstractResult implements FailureInterface
+{
+}

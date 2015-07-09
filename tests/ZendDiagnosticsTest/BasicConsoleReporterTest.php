@@ -32,7 +32,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
 
     public function testProgressDots()
     {
-        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -48,7 +48,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
 
     public function testWarningSymbols()
     {
-        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -64,7 +64,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
 
     public function testFailureSymbols()
     {
-        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -80,7 +80,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
 
     public function testUnknownSymbols()
     {
-        $checks = new ArrayObject(array_fill(0,5, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 5, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -98,7 +98,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
     public function testProgressDotsNoGutter()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0,40, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 40, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -116,7 +116,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
     public function testProgressOverflow()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0,80, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 80, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -139,7 +139,7 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
     public function testProgressOverflowMatch()
     {
         $this->reporter = new BasicConsole(40);
-        $checks = new ArrayObject(array_fill(0,75, new AlwaysSuccess()));
+        $checks = new ArrayObject(array_fill(0, 75, new AlwaysSuccess()));
 
         ob_start();
         $this->reporter->onStart($checks, array());
@@ -357,5 +357,4 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         // currently unused
         $this->reporter->onBeforeRun(new AlwaysSuccess(), null);
     }
-
 }

@@ -101,7 +101,7 @@ abstract class AbstractMemoryCheck extends AbstractCheck implements CheckInterfa
     {
         $size = 'B';
 
-        foreach (array('B','KB','MB','GB') as $size) {
+        foreach (array('B', 'KB', 'MB', 'GB') as $size) {
             if ($bytes < 1024) {
                 break;
             }

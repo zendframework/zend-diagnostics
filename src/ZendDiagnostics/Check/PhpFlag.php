@@ -41,7 +41,6 @@ class PhpFlag extends AbstractCheck implements CheckInterface
                 );
             }
             $this->settings = iterator_to_array($settingName);
-
         } elseif (!is_scalar($settingName)) {
             if (!is_array($settingName)) {
                 throw new InvalidArgumentException(
@@ -49,7 +48,6 @@ class PhpFlag extends AbstractCheck implements CheckInterface
                 );
             }
             $this->settings = $settingName;
-
         } else {
             $this->settings = array($settingName);
         }
