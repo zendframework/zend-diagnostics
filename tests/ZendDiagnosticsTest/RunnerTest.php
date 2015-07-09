@@ -230,6 +230,17 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->runner->run();
     }
 
+    public function testAliasIsKeptAfterRun()
+    {
+        $checkAlias = 'foo';
+        $check = new AlwaysSuccess();
+        $this->runner->addCheck($check, $checkAlias);
+        $mock = $this->getMock('ZendDiagnosticsTest\TestAsset\Reporter\AbstractReporter', array('onAfterRun'));
+        $mock->expects($this->once())->method('onAfterRun')->with($this->identicalTo($check), $check->check(), $checkAlias);
+        $this->runner->addReporter($mock);
+        $this->runner->run($checkAlias);
+    }
+
     /**
      * @dataProvider checksAndResultsProvider
      */
