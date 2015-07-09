@@ -4,6 +4,12 @@ services:
   - redis-server
   - rabbitmq
 
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
   - 5.3
   - 5.3.3
@@ -12,14 +18,16 @@ php:
   - 5.6
 
 before_install:
- - composer self-update
- - if [[ "$TRAVIS_PHP_VERSION" != "5.3" && "$TRAVIS_PHP_VERSION" != "5.3.3" ]]; then composer require --no-update guzzlehttp/guzzle:~4; fi
- - composer install --prefer-source
- - wget http://cs.sensiolabs.org/get/php-cs-fixer.phar
+  - composer self-update
+  - phpenv config-rm xdebug.ini
+  - if [[ "$TRAVIS_PHP_VERSION" != "5.3" && "$TRAVIS_PHP_VERSION" != "5.3.3" ]]; then composer require --no-update guzzlehttp/guzzle:~4; fi
+  - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then composer require --no-update fabpot/php-cs-fixer:1.9.*; fi
+
+install: composer update $COMPOSER_FLAGS --prefer-dist
 
 script:
- - phpunit -c ./tests/ --coverage-text
- - output=$(php php-cs-fixer.phar fix -v --dry-run --level=psr2 .); if [[ $output ]]; then while read -r line; do echo -e "\e[00;31m$line\e[00m"; done <<< "$output"; false; fi;
+  - ./vendor/bin/phpunit -c ./tests/ --coverage-text
+  - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then ./vendor/bin/php-cs-fixer fix -v --dry-run --level=psr2 .; fi
 
 notifications:
   irc: "irc.freenode.org#zftalk.dev"

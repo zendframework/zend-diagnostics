@@ -193,8 +193,7 @@ class Collection extends \SplObjectStorage
         if (!$index instanceof CheckInterface) {
             $what = is_object($index) ? 'object of type ' . get_class($index) : gettype($index);
             throw new InvalidArgumentException(sprintf(
-                'Cannot use %s as index for this collection. Expected instance of CheckInterface.'
-            , $what));
+                'Cannot use %s as index for this collection. Expected instance of CheckInterface.', $what));
         }
 
         return $index;
@@ -212,8 +211,7 @@ class Collection extends \SplObjectStorage
         if (!is_object($checkResult) || !$checkResult instanceof ResultInterface) {
             $what = is_object($checkResult) ? 'object of type ' . get_class($checkResult) : gettype($checkResult);
             throw new InvalidArgumentException(sprintf(
-                'This collection cannot hold %s. Expected instance of %s\ResultInterface'
-            , $what, __NAMESPACE__));
+                'This collection cannot hold %s. Expected instance of %s\ResultInterface', $what, __NAMESPACE__));
         }
 
         return $checkResult;

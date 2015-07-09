@@ -71,5 +71,4 @@ abstract class AbstractResult implements ResultInterface
     {
         $this->message = $message;
     }
-
 }

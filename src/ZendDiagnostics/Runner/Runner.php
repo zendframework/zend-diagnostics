@@ -143,7 +143,6 @@ class Runner
                         $result
                     );
                 }
-
             } elseif (is_bool($result)) {
                 // Interpret boolean as a failure or success
                 $result = $result ? new Success() : new Failure();

@@ -17,7 +17,7 @@ class IniFile extends AbstractFileCheck
      */
     protected function validateFile($file)
     {
-        if (!is_array($ini = parse_ini_file($file)) or count($ini) < 1 ) {
+        if (!is_array($ini = parse_ini_file($file)) or count($ini) < 1) {
             return new Failure(sprintf('Could not parse INI file "%s"!', $file));
         }
 
