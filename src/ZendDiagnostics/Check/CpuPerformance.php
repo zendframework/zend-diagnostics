@@ -72,17 +72,17 @@ class CpuPerformance extends AbstractCheck implements CheckInterface
      */
     public function check()
     {
-        $timeStart = microtime(true);
-        $result = static::calcPi(1000);
-        $duration = microtime(true) - $timeStart;
-        $performance = $duration / $this->baseline;
-
         // Check if bcmath extension is present
         // @codeCoverageIgnoreStart
         if (!extension_loaded('bcmath')) {
             return new Warning('Check\CpuPerformance requires BCMath extension to be loaded.');
         }
         // @codeCoverageIgnoreEnd
+
+        $timeStart = microtime(true);
+        $result = static::calcPi(1000);
+        $duration = microtime(true) - $timeStart;
+        $performance = $duration / $this->baseline;
 
         if ($result != $this->expectedResult) {
             // Ignore code coverage here because it's impractical to test against faulty calculations.
