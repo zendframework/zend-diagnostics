@@ -26,6 +26,7 @@ It currently ships with the following Diagnostic Checks:
  * [Redis](#redis) - Validate that a Redis service is running,
  * [SecurityAdvisory](#securityadvisory) - check installed composer dependencies against SensioLabs SA database,
  * [StreamWrapperExists](#streamwrapperexists) - make sure given stream wrapper is available.
+ * [DoctrineMigration](#doctrinemigration) - make sure all migrations are applied.
 
 File validation checks:
 
@@ -576,6 +577,21 @@ $checkCompression = new StreamWrapperExists(array(
     'bzip2',
     'zip'
 ));
+````
+
+### DoctrineMigration
+
+Make sure all migrations are applied:
+
+````php
+<?php
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\ORM\EntityManager;
+use ZendDiagnostics\Check\DoctrineMigration;
+
+$em = EntityManager::create(/** config */); 
+$migrationConfig = new Configuration($em);
+$check = new DoctrineMigration($migrationConfig);
 ````
 
 ### IniFile
