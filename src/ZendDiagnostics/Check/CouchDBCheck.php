@@ -14,10 +14,12 @@ class CouchDBCheck extends GuzzleHttpService
 {
     /**
      * @param array $couchDbSettings
+     * @param array $headers    An array of headers used to create the request
+     * @param array $options    An array of guzzle options used to create the request
      *
      * @return self
      */
-    public function __construct(array $couchDbSettings)
+    public function __construct(array $couchDbSettings, array $headers = array(), array $options = array())
     {
         if (false === array_key_exists('url', $couchDbSettings)) {
             $couchDbUrl = $this->createUrlFromParameters($couchDbSettings);
@@ -25,7 +27,7 @@ class CouchDBCheck extends GuzzleHttpService
             $couchDbUrl = $couchDbSettings['url'];
         }
 
-        parent::__construct($couchDbUrl);
+        parent::__construct($couchDbUrl, $headers, $options);
     }
 
     /**
