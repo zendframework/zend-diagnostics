@@ -7,8 +7,8 @@ namespace ZendDiagnostics\Check;
 
 use Guzzle\Http\Client as Guzzle3Client;
 use Guzzle\Http\ClientInterface as Guzzle3ClientInterface;
-use GuzzleHttp\Client as Guzzle4And5Client;
-use GuzzleHttp\ClientInterface as Guzzle4And5ClientInterface;
+use GuzzleHttp\Client as Guzzle456Client;
+use GuzzleHttp\ClientInterface as Guzzle456ClientInterface;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -48,7 +48,7 @@ class GuzzleHttpService extends AbstractCheck
             $guzzle = $this->createGuzzleClient();
         }
 
-        if ((!$guzzle instanceof Guzzle3ClientInterface) && (!$guzzle instanceof Guzzle4And5ClientInterface)) {
+        if ((!$guzzle instanceof Guzzle3ClientInterface) && (!$guzzle instanceof Guzzle456ClientInterface)) {
             throw new \InvalidArgumentException('Parameter "guzzle" must be an instance of "\Guzzle\Http\ClientInterface" or "\GuzzleHttp\ClientInterface"');
         }
 
@@ -64,7 +64,7 @@ class GuzzleHttpService extends AbstractCheck
             return $this->guzzle3Check();
         }
 
-        return $this->guzzle4And5Check();
+        return $this->guzzle456Check();
     }
 
     /**
@@ -94,18 +94,30 @@ class GuzzleHttpService extends AbstractCheck
     /**
      * @return Failure|Success
      */
-    private function guzzle4And5Check()
+    private function guzzle456Check()
     {
-        $request = $this->guzzle->createRequest(
-            $this->method,
-            $this->url,
-            array_merge(
-                array('headers' => $this->headers, 'body' => $this->body, 'exceptions' => false),
-                $this->options
-            )
-        );
-
-        $response = $this->guzzle->send($request);
+        if (method_exists($this->guzzle, 'request')) {
+            // guzzle 6
+            $response = $this->guzzle->request(
+                $this->method,
+                $this->url,
+                array_merge(
+                    array('headers' => $this->headers, 'body' => $this->body, 'exceptions' => false),
+                    $this->options
+                )
+            );
+        } else {
+            // guzzle 4 and 5
+            $request = $this->guzzle->createRequest(
+                $this->method,
+                $this->url,
+                array_merge(
+                    array('headers' => $this->headers, 'body' => $this->body, 'exceptions' => false),
+                    $this->options
+                )
+            );
+            $response = $this->guzzle->send($request);
+        }
 
         if ($this->statusCode !== $statusCode = (int) $response->getStatusCode()) {
             return $this->createStatusCodeFailure($statusCode);
@@ -144,7 +156,7 @@ class GuzzleHttpService extends AbstractCheck
     private function createGuzzleClient()
     {
         if (class_exists('GuzzleHttp\Client')) {
-            return new Guzzle4And5Client();
+            return new Guzzle456Client();
         }
 
         if (!class_exists('Guzzle\Http\Client')) {
