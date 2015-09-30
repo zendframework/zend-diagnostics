@@ -52,7 +52,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Success', $result);
 
         $check = new RabbitMQ('127.0.0.250', 9999);
-        $this->setExpectedException('PhpAmqpLib\Exception\AMQPRuntimeException');
+        $this->setExpectedException('\ErrorException');
         $check->check();
     }
 
