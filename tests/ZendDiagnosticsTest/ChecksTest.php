@@ -453,7 +453,7 @@ class ChecksTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $result);
         $this->assertStringMatchesFormat('%s' . $dir1 . '%s', $result->getMessage());
         $this->assertStringMatchesFormat('%s' . $dir2 . '%s', $result->getMessage());
-        $this->assertStringMatchesFormat('%simprobabledir999999999999', $result->getMessage());
+        $this->assertStringMatchesFormat('%simprobabledir999999999999%s', $result->getMessage());
 
         chmod($dir1, 0777);
         chmod($dir2, 0777);
