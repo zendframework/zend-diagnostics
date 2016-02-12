@@ -1,6 +1,6 @@
 <?php
-
 namespace ZendDiagnosticsTest;
+
 use org\bovigo\vfs\vfsStream;
 use ZendDiagnostics\Check\DirWritable;
 
@@ -92,5 +92,4 @@ class DirWritableTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ZendDiagnostics\Result\Failure', $r);
         $this->assertEquals('The following directories are not writable: vfs://root/unwritabledir1, vfs://root/unwritabledir2.', $r->getMessage());
     }
-
 }
