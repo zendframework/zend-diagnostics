@@ -26,7 +26,8 @@
         "videlalvaro/php-amqplib"    : "2.*",
         "predis/predis"              : "0.8.*",
         "phpunit/phpunit"            : "4.7.*",
-        "doctrine/migrations"        : "~1.0@dev"
+        "doctrine/migrations"        : "~1.0@dev",
+        "mikey179/vfsStream"         : "1.6.*"
     },
     "suggest" : {
         "ext-bcmath" : "Required by Check\\CpuPerformance",
