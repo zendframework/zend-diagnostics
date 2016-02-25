@@ -74,7 +74,7 @@ class Redis extends AbstractCheck
         if (class_exists('Predis\Client')) {
             $parameters = array(
                 'host' => $this->host,
-                'port' => $this->port
+                'port' => $this->port,
             );
 
             if ($this->auth) {
