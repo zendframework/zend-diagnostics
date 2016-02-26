@@ -86,7 +86,6 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        ob_start();
         foreach ($checks as $alias => $check) {
             $result = new Unknown();
             $this->reporter->onAfterRun($check, $result, $alias);
@@ -104,7 +103,6 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        ob_start();
         foreach ($checks as $alias => $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result, $alias);
@@ -122,7 +120,6 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        ob_start();
         foreach ($checks as $alias => $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result, $alias);
@@ -145,7 +142,6 @@ class BasicConsoleReporterTest extends \PHPUnit_Framework_TestCase
         $this->reporter->onStart($checks, array());
         ob_clean();
 
-        ob_start();
         foreach ($checks as $alias => $check) {
             $result = new Success();
             $this->reporter->onAfterRun($check, $result, $alias);
