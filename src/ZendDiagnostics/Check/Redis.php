@@ -56,6 +56,7 @@ class Redis extends AbstractCheck
     /**
      * @return PredisClient|RedisExtensionClient
      *
+     * @throws \RedisException
      * @throws \RuntimeException
      */
     private function createClient()
@@ -64,8 +65,8 @@ class Redis extends AbstractCheck
             $client = new RedisExtensionClient();
             $client->connect($this->host, $this->port);
 
-            if ($this->auth) {
-                $client->auth($this->auth);
+            if ($this->auth && false === $client->auth($this->auth)) {
+                throw new \RedisException('Failed to AUTH connection');
             }
 
             return $client;
