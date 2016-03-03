@@ -28,7 +28,7 @@ class DirWritable extends AbstractCheck implements CheckInterface
     {
         if (is_object($path) && !$path instanceof Traversable) {
             throw new InvalidArgumentException(
-                'Expected a dir name (string) , an array or Traversable of strings, got ' . get_class($path)
+                'Expected a dir name (string), an array or Traversable of strings, got ' . get_class($path)
             );
         }
 
@@ -67,15 +67,15 @@ class DirWritable extends AbstractCheck implements CheckInterface
         // Construct failure message
         $failureString = '';
         if (count($nonDirs) > 1) {
-            $failureString .= 'The following paths are not valid directories: ' . join(', ', $nonDirs).' ';
+            $failureString .= sprintf('The following paths are not valid directories: %s. ', join(', ', $nonDirs));
         } elseif (count($nonDirs) == 1) {
-            $failureString .= current($nonDirs) . ' is not a valid directory. ';
+            $failureString .= sprintf('%s is not a valid directory. ', current($nonDirs));
         }
 
         if (count($unwritable) > 1) {
-            $failureString .= 'The following directories are not writable: ' . join(', ', $unwritable);
+            $failureString .= sprintf('The following directories are not writable: %s. ', join(', ', $unwritable));
         } elseif (count($unwritable) == 1) {
-            $failureString .= current($unwritable) . ' directory is not writable.';
+            $failureString .= sprintf('%s directory is not writable. ', current($unwritable));
         }
 
         // Return success or failure
@@ -83,7 +83,7 @@ class DirWritable extends AbstractCheck implements CheckInterface
             return new Failure(trim($failureString), array('nonDirs' => $nonDirs, 'unwritable' => $unwritable));
         } else {
             return new Success(
-                count($this->dir) > 1 ? 'All paths are writable directories.' : 'The path is a a writable directory.',
+                count($this->dir) > 1 ? 'All paths are writable directories.' : 'The path is a writable directory.',
                 $this->dir
             );
         }
