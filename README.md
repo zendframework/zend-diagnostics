@@ -547,7 +547,7 @@ Validate that a Redis service is running.
 <?php
 use ZendDiagnostics\Check\Redis;
 
-$redisCheck = new Redis('localhost', 6379);
+$redisCheck = new Redis('localhost', 6379, 'secret');
 ```
 
 ### SecurityAdvisory
