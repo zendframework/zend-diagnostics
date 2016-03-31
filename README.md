@@ -51,6 +51,10 @@ File validation checks:
 2. Enable diagnostic tests in [your application configuration](https://github.com/liip/LiipMonitorBundle/blob/master/README.md).
 3. In your console type `./app/console monitor:health` to run diagnostics.
 
+## Using diagnostics with PSR-7 middleware
+
+Install the [rstgroup/diagnostics-middleware](https://github.com/rstgroup/diagnostics-middleware).
+
 ## Using diagnostics in plain PHP
 
 1. Add ZendDiagnostics component to your application
@@ -593,7 +597,7 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
 use ZendDiagnostics\Check\DoctrineMigration;
 
-$em = EntityManager::create(/** config */); 
+$em = EntityManager::create(/** config */);
 $migrationConfig = new Configuration($em);
 $check = new DoctrineMigration($migrationConfig);
 ````
