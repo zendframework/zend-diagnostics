@@ -42,10 +42,12 @@ class PDOCheck implements CheckInterface
         $msg = 'Could not talk to database server';
 
         try {
-            $pdo = new PDO($this->dsn, $this->username, $this->password);
+            $options = array(
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_TIMEOUT => $this->timeout
+            );
 
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_TIMEOUT, $this->timeout);
+            $pdo = new PDO($this->dsn, $this->username, $this->password, $options);
 
             $status = $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
             if (null !== $status) {
