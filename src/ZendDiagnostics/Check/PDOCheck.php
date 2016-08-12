@@ -66,6 +66,6 @@ class PDOCheck implements CheckInterface
      */
     public function getLabel()
     {
-        return 'Check if the database server can be reached';
+        return sprintf('Check if %s can be reached', $this->dsn);
     }
 }
