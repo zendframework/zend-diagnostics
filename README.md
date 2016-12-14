@@ -438,7 +438,7 @@ $checkPageContent = new HttpService(
 ### GuzzleHttpService
 
 Attempt connection to given HTTP host or IP address and try to load a web page using
-[Guzzle](http://guzzle3.readthedocs.org/en/latest/). The check also supports checking response
+[Guzzle](http://docs.guzzlephp.org/en/latest/). The check also supports checking response
 codes and page contents.
 
 ````php
