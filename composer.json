@@ -23,7 +23,7 @@
         "symfony/yaml"               : "v2.3.11",
         "guzzle/http"                : "3.*",
         "guzzle/plugin-mock"         : "3.*",
-        "videlalvaro/php-amqplib"    : "2.*",
+        "php-amqplib/php-amqplib"    : "2.*",
         "predis/predis"              : "0.8.*",
         "phpunit/phpunit"            : "4.7.*",
         "doctrine/migrations"        : "~1.0@dev",
@@ -35,7 +35,7 @@
         "symfony/yaml": "Required by Check\\YamlFile",
         "guzzle/http": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
-        "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ",
+        "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ",
         "doctrine/migrations": "Required by Check\\DoctrineMigration"
     },
     "extra": {
