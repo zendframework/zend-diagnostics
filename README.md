@@ -22,6 +22,7 @@ It currently ships with the following Diagnostic Checks:
  * [GuzzleHttpService](#guzzlehttpservice) - check if given http host is responding using Guzzle,
  * [HttpService](#httpservice) - check if given http host is responding,
  * [Memcache](#memcache) - check if memcache extension is loaded and given server is reachable,
+ * [Mongo](#mongodb) - check if connection to MongoDb is possible,
  * [OpCacheMemory](#opcachememory) - check if the OpCache memory usage is below warning/critical thresholds,
  * [PDOCheck](#pdocheck) - check if connection is possible,
  * [PhpVersion](#phpversion) - make sure that PHP version matches constraint,
@@ -485,6 +486,18 @@ use ZendDiagnostics\Check\Memcache;
 
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
+````
+
+### MongoDb
+Check if connection to MongoDb is possible
+
+````php
+<?php
+use ZendDiagnostics\Check\Mongo;
+
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
 ````
 
 ### PhpVersion
