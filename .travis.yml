@@ -12,15 +12,21 @@ cache:
 
 php:
   - 5.3
-  - 5.3.3
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+  - 7.1
+
+matrix:
+  fast_finish: true
+  allow_failures:
+  - php: 7.1
 
 before_install:
   - composer self-update
   - phpenv config-rm xdebug.ini
-  - if [[ "$TRAVIS_PHP_VERSION" != "5.3" && "$TRAVIS_PHP_VERSION" != "5.3.3" ]]; then composer require --no-update guzzlehttp/guzzle:~4; fi
+  - if [[ "$TRAVIS_PHP_VERSION" != "5.3" ]]; then composer require --no-update guzzlehttp/guzzle:~4; fi
   - if [ "$TRAVIS_PHP_VERSION" = "5.6" ]; then composer require --no-update fabpot/php-cs-fixer:1.9.*; fi
 
 install: composer update $COMPOSER_FLAGS --prefer-dist
