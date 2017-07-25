@@ -51,7 +51,7 @@ class Mongo extends AbstractCheck
         if (class_exists('\MongoDB\Client')) {
             return (new \MongoDB\Client($this->connectionUri))->listDatabases();
         } elseif (class_exists('\MongoClient')) {
-            return (new \MongoClient($this->server))->listDBs();
+            return (new \MongoClient($this->connectionUri))->listDBs();
         }
 
         throw new \RuntimeException('Neither the mongo extension or mongodb are installed');
