@@ -127,7 +127,7 @@ class Collection extends \SplObjectStorage
      * @param mixed|null $checkResult
      * @link http://php.net/manual/en/splobjectstorage.offsetset.php
      */
-    public function offsetSet($index, $checkResult)
+    public function offsetSet($index, $checkResult = null)
     {
         $this->validateIndex($index);
         $this->validateValue($checkResult);
