@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-diagnostics for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-diagnostics/blob/master/LICENSE.md New BSD License
  */
 
@@ -12,9 +12,9 @@ use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
 /**
- * Check if MemCache extension is loaded and given server is reachable.
+ * Check if MemCached extension is loaded and given server is reachable.
  */
-class Memcache extends AbstractCheck
+class Memcached extends AbstractCheck
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ class Memcache extends AbstractCheck
             ));
         }
 
-        $port = (int) $port;
+        $port = (int)$port;
         if ($port < 1) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid port number - expecting a positive integer',
@@ -57,14 +57,14 @@ class Memcache extends AbstractCheck
      */
     public function check()
     {
-        if (! class_exists('Memcache', false)) {
-            return new Failure('Memcache extension is not loaded');
+        if (! class_exists('Memcached', false)) {
+            return new Failure('Memcached extension is not loaded');
         }
 
         try {
-            $memcache = new \Memcache();
-            $memcache->addServer($this->host, $this->port);
-            $stats = @$memcache->getExtendedStats();
+            $memcached = new \Memcached();
+            $memcached->addServer($this->host, $this->port);
+            $stats = @$memcached->getStats();
 
             if (! $stats ||
                 ! is_array($stats) ||
@@ -72,9 +72,9 @@ class Memcache extends AbstractCheck
                 ($stats[$this->host . ':' . $this->port] === false)
             ) {
                 // Attempt a connection to make sure that the server is really down
-                if (! @$memcache->connect($this->host, $this->port)) {
+                if (! @$memcached->getLastDisconnectedServer($this->host, $this->port)) {
                     return new Failure(sprintf(
-                        'No memcache server running at host %s on port %s',
+                        'No memcached server running at host %s on port %s',
                         $this->host,
                         $this->port
                     ));
@@ -85,7 +85,7 @@ class Memcache extends AbstractCheck
         }
 
         return new Success(sprintf(
-            'Memcache server running at host %s on port %s',
+            'Memcached server running at host %s on port %s',
             $this->host,
             $this->port
         ));
