@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use Guzzle\Http\Client as Guzzle3Client;
 use Guzzle\Http\ClientInterface as Guzzle3ClientInterface;
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Guzzle\Http\Exception\ServerErrorResponseException;
 use GuzzleHttp\Client as Guzzle456Client;
 use GuzzleHttp\ClientInterface as Guzzle456ClientInterface;
 use ZendDiagnostics\Result\Failure;
@@ -97,6 +98,8 @@ class GuzzleHttpService extends AbstractCheck
                 )
                 ->send();
         } catch (ClientErrorResponseException $e) {
+            $response = $e->getResponse();
+        } catch (ServerErrorResponseException $e) {
             $response = $e->getResponse();
         }
 
