@@ -10,6 +10,7 @@ namespace ZendDiagnostics\Check;
 use InvalidArgumentException;
 use Guzzle\Http\Client as Guzzle3Client;
 use Guzzle\Http\ClientInterface as Guzzle3ClientInterface;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use GuzzleHttp\Client as Guzzle456Client;
 use GuzzleHttp\ClientInterface as Guzzle456ClientInterface;
 use ZendDiagnostics\Result\Failure;
@@ -85,15 +86,19 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function guzzle3Check()
     {
-        $response = $this->guzzle
-            ->createRequest(
-                $this->method,
-                $this->url,
-                $this->headers,
-                $this->body,
-                array_merge(['exceptions' => false], $this->options)
-            )
-            ->send();
+        try {
+            $response = $this->guzzle
+                ->createRequest(
+                    $this->method,
+                    $this->url,
+                    $this->headers,
+                    $this->body,
+                    array_merge(['exceptions' => false], $this->options)
+                )
+                ->send();
+        } catch (ClientErrorResponseException $e) {
+            $response = $e->getResponse();
+        }
 
         if ($this->statusCode !== ($statusCode = $response->getStatusCode())) {
             return $this->createStatusCodeFailure($statusCode);
