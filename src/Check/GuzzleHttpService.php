@@ -7,6 +7,7 @@
 
 namespace ZendDiagnostics\Check;
 
+use InvalidArgumentException;
 use Guzzle\Http\Client as Guzzle3Client;
 use Guzzle\Http\ClientInterface as Guzzle3ClientInterface;
 use GuzzleHttp\Client as Guzzle456Client;
@@ -58,7 +59,7 @@ class GuzzleHttpService extends AbstractCheck
         }
 
         if ((! $guzzle instanceof Guzzle3ClientInterface) && (! $guzzle instanceof Guzzle456ClientInterface)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Parameter "guzzle" must be an instance of "\Guzzle\Http\ClientInterface"'
                 . ' or "\GuzzleHttp\ClientInterface"'
             );
@@ -84,15 +85,17 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function guzzle3Check()
     {
-        $response = $this->guzzle->createRequest(
-            $this->method,
-            $this->url,
-            $this->headers,
-            $this->body,
-            array_merge(['exceptions' => false], $this->options)
-        )->send();
+        $response = $this->guzzle
+            ->createRequest(
+                $this->method,
+                $this->url,
+                $this->headers,
+                $this->body,
+                array_merge(['exceptions' => false], $this->options)
+            )
+            ->send();
 
-        if ($this->statusCode !== $statusCode = $response->getStatusCode()) {
+        if ($this->statusCode !== ($statusCode = $response->getStatusCode())) {
             return $this->createStatusCodeFailure($statusCode);
         }
 
