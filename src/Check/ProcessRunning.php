@@ -20,6 +20,10 @@ class ProcessRunning extends AbstractCheck
      * @var string
      */
     private $processName;
+
+    /**
+     * @var int
+     */
     private $pid;
 
     /**
@@ -45,14 +49,14 @@ class ProcessRunning extends AbstractCheck
         }
 
         if (is_numeric($processNameOrPid)) {
-            if ((int)$processNameOrPid < 0) {
+            if ((int) $processNameOrPid < 0) {
                 throw new InvalidArgumentException(sprintf(
                     'Wrong argument provided for ProcessRunning check - ' .
                     'expected pid to be a positive number but got %s',
-                    (int)$processNameOrPid
+                    (int) $processNameOrPid
                 ));
             }
-            $this->pid = (int)$processNameOrPid;
+            $this->pid = (int) $processNameOrPid;
         } else {
             $this->processName = $processNameOrPid;
         }
@@ -65,17 +69,35 @@ class ProcessRunning extends AbstractCheck
     {
         // TODO: make more OS agnostic
         if ($this->pid) {
-            exec('ps -p ' . (int)$this->pid, $output, $return);
+            return $this->checkAgainstPid();
+        }
 
-            if ($return == 1) {
-                return new Failure(sprintf('Process with PID %s is not currently running.', $this->pid));
-            }
-        } else {
-            exec('ps -ef | grep ' . escapeshellarg($this->processName) . ' | grep -v grep', $output, $return);
+        return $this->checkAgainstProcessName();
+    }
 
-            if ($return == 1) {
-                return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
-            }
+    /**
+     * @return \ZendDiagnostics\Result\ResultInterface
+     */
+    private function checkAgainstPid()
+    {
+        exec('ps -p ' . (int) $this->pid, $output, $return);
+
+        if ($return == 1) {
+            return new Failure(sprintf('Process with PID %s is not currently running.', $this->pid));
+        }
+
+        return new Success();
+    }
+
+    /**
+     * @return \ZendDiagnostics\Result\ResultInterface
+     */
+    private function checkAgainstProcessName()
+    {
+        exec('ps -efww | grep ' . escapeshellarg($this->processName) . ' | grep -v grep', $output, $return);
+
+        if ($return > 0) {
+            return new Failure(sprintf('Could not find any running process containing "%s"', $this->processName));
         }
 
         return new Success();
