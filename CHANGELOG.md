@@ -18,7 +18,15 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Changed
 
-- Nothing.
+- [#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies what types are allowed for the `GuzzleHttpService` initial constructor
+  argument. Previously, it only allowed a URL; it now allow any valid request instance the Guzzle client
+  can accept. This change allows you to craft a custom request to send.
+
+- [#90](https://github.com/zendframework/zenddiagnostics/pull/90) modifies the behavior of `GuzzleHttpService` slightly in relation to how
+  it handles its `$body` argument. It now allows stream instances, any object implementing `__toString()`,
+  any iterator objects, any `JsonSerializable` objects, and strings and arrays. In the latter case, it
+  checks to see if the request `Content-Type` is JSON, casting the value to JSON if so, and otherwise
+  serializing it as form-encoded data.
 
 ### Deprecated
 
