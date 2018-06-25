@@ -9,12 +9,15 @@ namespace ZendDiagnosticsTest;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\MockHandler as Guzzle6MockHandler;
+use GuzzleHttp\Message\RequestInterface as GuzzleRequestInterface;
 use GuzzleHttp\Message\Response as GuzzleResponse;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\Mock as Guzzle5MockSubscriber;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use ReflectionClass;
+use ReflectionProperty;
 use ZendDiagnostics\Check\CouchDBCheck;
 use ZendDiagnostics\Check\GuzzleHttpService;
 use ZendDiagnostics\Result\FailureInterface;
@@ -71,12 +74,49 @@ EOR;
         $this->assertInstanceOf($resultClass, $result);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidClient()
     {
-        $check = new GuzzleHttpService('http://example.com', [], [], 200, null, 'not guzzle');
+        $this->expectException(InvalidArgumentException::class);
+        new GuzzleHttpService('http://example.com', [], [], 200, null, 'not guzzle');
+    }
+
+    public function testCanSendJsonRequests()
+    {
+        $diagnostic = new GuzzleHttpService(
+            'https://example.com/foobar',
+            ['Content-Type' => 'application/json'],
+            [],
+            200,
+            null,
+            null,
+            'POST',
+            ['foo' => 'bar']
+        );
+
+        $r = new ReflectionProperty($diagnostic, 'request');
+        $r->setAccessible(true);
+        $request = $r->getValue($diagnostic);
+
+        if ($request instanceof RequestInterface) {
+            $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
+        } else {
+            $this->assertSame('application/json', $request->getHeader('Content-Type'));
+        }
+
+        $body = (string) $request->getBody();
+        $this->assertSame(['foo' => 'bar'], json_decode($body, true));
+    }
+
+    public function testCanSendArbitraryRequests()
+    {
+        $toMock = interface_exists(GuzzleRequestInterface::class)
+            ? GuzzleRequestInterface::class
+            : RequestInterface::class;
+        $request = $this->prophesize($toMock)->reveal();
+
+        $diagnostic = new GuzzleHttpService($request);
+
+        $this->assertAttributeSame($request, 'request', $diagnostic);
     }
 
     public function checkProvider()

@@ -192,8 +192,37 @@ $checkPageContent = new HttpService(
 ## GuzzleHttpService
 
 Attempt connection to a given HTTP host or IP address and try to load a web page
-using [Guzzle](http://guzzle3.readthedocs.org/en/latest/). The check also
-supports checking response codes and page contents.
+using [Guzzle](http://docs.guzzlephp.org). The check also supports checking
+response codes and page contents.
+
+The constructor signature of the `GuzzleHttpService` is as follows:
+
+```php
+/**
+ * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl
+ *     The absolute url to check, or a fully-formed request instance.
+ * @param array $headers An array of headers used to create the request
+ * @param array $options An array of guzzle options to use when sending the request
+ * @param int $statusCode The response status code to check
+ * @param null $content The response content to check
+ * @param null|GuzzleHttp\ClientInterface $guzzle Instance of guzzle to use
+ * @param string $method The method of the request
+ * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)
+ * @throws InvalidArgumentException
+ */
+public function __construct(
+    $requestOrUrl,
+    array $headers = [],
+    array $options = [],
+    $statusCode = 200,
+    $content = null,
+    $guzzle = null,
+    $method = 'GET',
+    $body = null
+)
+```
+
+Examples:
 
 ```php
 <?php
@@ -227,6 +256,33 @@ $checkPageContent = new GuzzleHttpService(
     'POST',
     ['post_field' => 'post_value']
 );
+```
+
+You can send JSON data by either providing a `Content-Type` header that includes
+a JSON content type, or creating a request instance with JSON content:
+
+```php
+// Send page content
+$checkPageContent = new GuzzleHttpService(
+    'api.example.com/ping',
+    ['Content-Type' => 'application/json'],
+    [],
+    200,
+    null,
+    null,
+    'POST',
+    ['ping' => microtime()]
+);
+
+// Assuming Guzzle 6:
+use GuzzleHttp\Psr7\Request;
+$request = new Request(
+    'POST',
+    'http://api.example.com/ping',
+    ['Content-Type' => 'application/json'],
+    json_encode(['ping' => microtime()])
+);
+$checkPageContent = new GuzzleHttpService($request);
 ```
 
 ## Memcache
