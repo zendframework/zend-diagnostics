@@ -8,12 +8,10 @@
 namespace ZendDiagnostics\Check;
 
 use InvalidArgumentException;
-use Guzzle\Http\Client as Guzzle3Client;
-use Guzzle\Http\ClientInterface as Guzzle3ClientInterface;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\Exception\ServerErrorResponseException;
-use GuzzleHttp\Client as Guzzle456Client;
-use GuzzleHttp\ClientInterface as Guzzle456ClientInterface;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
@@ -33,7 +31,7 @@ class GuzzleHttpService extends AbstractCheck
      * @param array $options An array of guzzle options used to create the request
      * @param int $statusCode The response status code to check
      * @param null $content The response content to check
-     * @param \Guzzle\Http\Client|\GuzzleHttp\Client $guzzle Instance of guzzle to use
+     * @param null|\GuzzleHttp\ClientInterface $guzzle Instance of guzzle to use
      * @param string $method The method of the request
      * @param mixed $body The body of the request (used for POST, PUT and DELETE requests)
      * @throws \InvalidArgumentException
@@ -60,10 +58,9 @@ class GuzzleHttpService extends AbstractCheck
             $guzzle = $this->createGuzzleClient();
         }
 
-        if ((! $guzzle instanceof Guzzle3ClientInterface) && (! $guzzle instanceof Guzzle456ClientInterface)) {
+        if (! $guzzle instanceof GuzzleClientInterface) {
             throw new InvalidArgumentException(
-                'Parameter "guzzle" must be an instance of "\Guzzle\Http\ClientInterface"'
-                . ' or "\GuzzleHttp\ClientInterface"'
+                'Parameter "guzzle" must be an instance of \GuzzleHttp\ClientInterface'
             );
         }
 
@@ -75,57 +72,13 @@ class GuzzleHttpService extends AbstractCheck
      */
     public function check()
     {
-        if ($this->guzzle instanceof Guzzle3ClientInterface) {
-            return $this->guzzle3Check();
-        }
-
-        return $this->guzzle456Check();
-    }
-
-    /**
-     * @return Failure|Success
-     */
-    private function guzzle3Check()
-    {
-        try {
-            $response = $this->guzzle
-                ->createRequest(
-                    $this->method,
-                    $this->url,
-                    $this->headers,
-                    $this->body,
-                    array_merge(['exceptions' => false], $this->options)
-                )
-                ->send();
-        } catch (ClientErrorResponseException $e) {
-            $response = $e->getResponse();
-        } catch (ServerErrorResponseException $e) {
-            $response = $e->getResponse();
-        }
-
-        if ($this->statusCode !== ($statusCode = $response->getStatusCode())) {
-            return $this->createStatusCodeFailure($statusCode);
-        }
-
-        if ($this->content && (false === strpos($response->getBody(true), $this->content))) {
-            return $this->createContentFailure();
-        }
-
-        return new Success();
-    }
-
-    /**
-     * @return Failure|Success
-     */
-    private function guzzle456Check()
-    {
         if (method_exists($this->guzzle, 'request')) {
             // guzzle 6
             $response = $this->guzzle->request(
                 $this->method,
                 $this->url,
                 array_merge(
-                    ['headers' => $this->headers, 'body' => $this->body, 'exceptions' => false],
+                    ['headers' => $this->headers, 'form_params' => $this->body, 'exceptions' => false],
                     $this->options
                 )
             );
@@ -187,14 +140,10 @@ class GuzzleHttpService extends AbstractCheck
      */
     private function createGuzzleClient()
     {
-        if (class_exists('GuzzleHttp\Client')) {
-            return new Guzzle456Client();
-        }
-
-        if (! class_exists('Guzzle\Http\Client')) {
+        if (! class_exists(GuzzleClient::class)) {
             throw new \Exception('Guzzle is required.');
         }
 
-        return new Guzzle3Client();
+        return new GuzzleClient();
     }
 }

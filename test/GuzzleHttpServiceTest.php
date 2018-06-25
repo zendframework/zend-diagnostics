@@ -7,21 +7,29 @@
 
 namespace ZendDiagnosticsTest;
 
-use Guzzle\Http\Client as Guzzle3Client;
-use Guzzle\Http\Message\Response as Guzzle3Response;
-use GuzzleHttp\Client as Guzzle4And5Client;
-use GuzzleHttp\Message\Response as Guzzle4And5Response;
-use Guzzle\Plugin\Mock\MockPlugin;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Handler\MockHandler as Guzzle6MockHandler;
+use GuzzleHttp\Message\Response as GuzzleResponse;
 use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Subscriber\Mock as Guzzle5MockSubscriber;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use ReflectionClass;
 use ZendDiagnostics\Check\CouchDBCheck;
 use ZendDiagnostics\Check\GuzzleHttpService;
 use ZendDiagnostics\Result\FailureInterface;
 use ZendDiagnostics\Result\SuccessInterface;
 
+use function GuzzleHttp\Psr7\parse_response;
+
 class GuzzleHttpServiceTest extends TestCase
 {
+    protected $responseTemplate = <<< 'EOR'
+HTTP/1.1 %d
+
+%s
+EOR;
+
     /**
      * @param array $params
      *
@@ -36,7 +44,7 @@ class GuzzleHttpServiceTest extends TestCase
     /**
      * @dataProvider checkProvider
      */
-    public function testGuzzle3Check(
+    public function testGuzzleCheck(
         $content,
         $actualContent,
         $actualStatusCode,
@@ -44,33 +52,7 @@ class GuzzleHttpServiceTest extends TestCase
         $method = 'GET',
         $body = null
     ) {
-        $check = new GuzzleHttpService(
-            'http://www.example.com/foobar',
-            [],
-            [],
-            '200',
-            $content,
-            $this->getMockGuzzle3Client($actualStatusCode, $actualContent),
-            $method,
-            $body
-        );
-        $result = $check->check();
-
-        $this->assertInstanceOf($resultClass, $result);
-    }
-
-    /**
-     * @dataProvider checkProvider
-     */
-    public function testGuzzle4And5Check(
-        $content,
-        $actualContent,
-        $actualStatusCode,
-        $resultClass,
-        $method = 'GET',
-        $body = null
-    ) {
-        if (! class_exists(Guzzle4And5Client::class)) {
+        if (! class_exists(GuzzleClient::class)) {
             $this->markTestSkipped('guzzlehttp/guzzle not installed.');
         }
 
@@ -80,7 +62,7 @@ class GuzzleHttpServiceTest extends TestCase
             [],
             '200',
             $content,
-            $this->getMockGuzzle4And5Client($actualStatusCode, $actualContent),
+            $this->getMockGuzzleClient($actualStatusCode, $actualContent),
             $method,
             $body
         );
@@ -132,23 +114,28 @@ class GuzzleHttpServiceTest extends TestCase
         ];
     }
 
-    private function getMockGuzzle3Client($statusCode = 200, $content = null)
+    private function getMockGuzzleClient($statusCode = 200, $content = null)
     {
-        $plugin = new MockPlugin();
-        $plugin->addResponse(new Guzzle3Response($statusCode, null, $content));
+        $r = new ReflectionClass(GuzzleClient::class);
+        if ($r->hasMethod('getEmitter')) {
+            // Guzzle 4 and 5:
+            return $this->getMockLegacyGuzzleClient($statusCode, $content);
+        }
 
-        $client = new Guzzle3Client();
-        $client->addSubscriber($plugin);
+        $response = parse_response(sprintf($this->responseTemplate, $statusCode, (string) $content));
 
-        return $client;
+        $handler = new Guzzle6MockHandler();
+        $handler->append($response);
+
+        return new GuzzleClient(['handler' => $handler]);
     }
 
-    private function getMockGuzzle4And5Client($statusCode = 200, $content = null)
+    private function getMockLegacyGuzzleClient($statusCode = 200, $content = null)
     {
-        $client = new Guzzle4And5Client();
+        $response = new GuzzleResponse($statusCode, [], Stream::factory((string) $content));
+        $client = new GuzzleClient();
         $client->getEmitter()
-            ->attach(new Mock([new Guzzle4And5Response($statusCode, [], Stream::factory((string) $content))]));
-
+            ->attach(new Guzzle5MockSubscriber([$response]));
         return $client;
     }
 }

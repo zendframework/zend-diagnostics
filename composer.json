@@ -22,8 +22,7 @@
     },
     "require-dev": {
         "doctrine/migrations": "^1.0",
-        "guzzle/http": "^3.0",
-        "guzzle/plugin-mock": "^3.0",
+        "guzzlehttp/guzzle": "^4.2.4 || ^5.3.2 || ^6.3.3",
         "mikey179/vfsStream": "^1.6",
         "php-amqplib/php-amqplib": "^2.0",
         "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
@@ -37,7 +36,7 @@
         "ext-bcmath": "Required by Check\\CpuPerformance",
         "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
         "symfony/yaml": "Required by Check\\YamlFile",
-        "guzzle/http": "Required by Check\\GuzzleHttpService",
+        "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
         "predis/predis": "Required by Check\\Redis",
         "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ",
         "doctrine/migrations": "Required by Check\\DoctrineMigration"
