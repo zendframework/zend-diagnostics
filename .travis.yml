@@ -8,6 +8,7 @@ cache:
 
 services:
   - memcached
+  - mongodb
   - rabbitmq
   - redis-server
 
@@ -15,6 +16,7 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
+    - TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_RABBITMQ_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_REDIS_ENABLED=true
 
@@ -23,17 +25,20 @@ matrix:
     - php: 5.6
       env:
         - DEPS=lowest
+        - MONGO_LEGACY=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 5.6
       env:
         - DEPS=locked
+        - MONGO_LEGACY=true
         - LEGACY_DEPS="phpunit/phpunit"
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 5.6
       env:
         - DEPS=latest
+        - MONGO_LEGACY=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 7
@@ -80,12 +85,15 @@ before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+  - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+  - if [[ $MONGO_LEGACY != 'true' ]]; then echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
   - if [[ $LEGACY_DEPS != '' ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
+  - if [[ $MONGO_LEGACY != 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS mongodb/mongodb ; fi
   - stty cols 120 && composer show
 
 script:
