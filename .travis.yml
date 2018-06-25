@@ -86,6 +86,7 @@ before_install:
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+  - if [[ $MONGO_LEGACY != 'true' ]]; then pecl upgrade mongodb ; fi
   - if [[ $MONGO_LEGACY != 'true' ]]; then echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
 
 install:
@@ -94,6 +95,7 @@ install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $MONGO_LEGACY != 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS mongodb/mongodb ; fi
+  - stty cols 120 && php -m
   - stty cols 120 && composer show
 
 script:
