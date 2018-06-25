@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Diagnostic Checks - ZendDiagnostics</title>
+
+    <link rel="stylesheet" href="../css/styles-f773ae3616.css">
+</head>
+<body id="page-top">
+
+    
+    <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+
+            
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            
+            <span class="navbar-brand">
+                <a class="logo-link" href="https://framework.zend.com/" data-tooltip data-placement="bottom" title="Go to the ZF homepage">
+                    <img src="../img/zend-framework-logo.svg" height="28" alt="Zend Framework">
+                </a>
+            </span>
+        </div>
+
+        <div class="navbar-collapse collapse">
+
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://framework.zend.com/about">About</a>
+                </li>
+                <li>
+                    <a href="https://framework.zend.com/downloads">Install</a>
+                </li>
+                <li class="active">
+                    <a href="https://docs.zendframework.com">Documentation</a>
+                </li>
+                <li>
+                    <a href="https://www.zend.com/en/services/training">Training</a>
+                </li>
+                <li>
+                    <a href="https://framework.zend.com/blog">Blog</a>
+                </li>
+                <li>
+                    <a href="https://framework.zend.com/participate">Participate</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="nav navbar-nav navbar-collapse visible-xs-block ">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">ZendDiagnostics</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../usage/" class="subnavigation__link">Introduction and Usage</a>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Checks</span>
+                        <ul class="subnavigation__list">
+                            
+                                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Diagnostic Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+    </li>
+
+                            
+                        </ul>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Reference</span>
+                        <ul class="subnavigation__list">
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../custom-checks/" class="subnavigation__link">Custom Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+    </li>
+
+                            
+                        </ul>
+                    </li>
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="nav navbar-nav navbar-collapse visible-xs-block">
+                <div class="component-selector">
+    <h4 class="component-selector__title">Components</h4>
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-xs-8">
+                <h1 class="header__title">
+                    Documentation
+
+                    
+                        <small class="header__subtitle">ZendDiagnostics</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-xs-4 text-right">
+                
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/zendframework/zend-diagnostics/" class="header__link header__link--github" title="Go to repository of ZendDiagnostics">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-xs-12 content" role="main">
+            <!-- content:begin -->
+                
+                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="https://framework.zend.com/">Home</a></li>
+  <li><a href="https://docs.zendframework.com/">Docs</a></li>
+  <li><a href="..">ZendDiagnostics</a></li>
+  
+    
+      
+        <li>Checks</li>
+      
+    
+  
+  <li class="active">Diagnostic Checks</li>
+</ol>
+
+
+    
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">In This Article</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#apcfragmentation" class="toc__link">ApcFragmentation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#apcmemory" class="toc__link">ApcMemory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#callback" class="toc__link">Callback</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#classexists" class="toc__link">ClassExists</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#cpuperformance" class="toc__link">CpuPerformance</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#dirreadable" class="toc__link">DirReadable</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#dirwritable" class="toc__link">DirWritable</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#diskfree" class="toc__link">DiskFree</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#httpservice" class="toc__link">HttpService</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#guzzlehttpservice" class="toc__link">GuzzleHttpService</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#memcache" class="toc__link">Memcache</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#mongodb" class="toc__link">MongoDb</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#phpversion" class="toc__link">PhpVersion</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#phpflag" class="toc__link">PhpFlag</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#processrunning" class="toc__link">ProcessRunning</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#rabbitmq" class="toc__link">RabbitMQ</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#redis" class="toc__link">Redis</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#securityadvisory" class="toc__link">SecurityAdvisory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#streamwrapperexists" class="toc__link">StreamWrapperExists</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#doctrinemigration" class="toc__link">DoctrineMigration</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+
+    <h1 id="diagnostic-checks">Diagnostic Checks</h1>
+<p>zendframework/zenddiagnostics provides several "just add water" checks you can
+use straight away.</p>
+<p>The following built-in tests are currently available:</p>
+<h2 id="apcfragmentation">ApcFragmentation</h2>
+<p>Make sure that <a href="../www.php.net/apc/">APC memory fragmentation level</a> is below a
+given threshold:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\ApcFragmentation;
+
+// Display a warning with fragmentation &gt; 50% and failure when above 90%
+$fragmentation = new ApcFragmentation(50, 90);</code></pre>
+
+<h2 id="apcmemory">ApcMemory</h2>
+<p>Check <a href="../www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
+given threshold.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\ApcMemory;
+
+// Display a warning with memory usage is above 70% and a failure above 90%
+$checkFreeMemory = new ApcMemory(70, 90);</code></pre>
+
+<h2 id="callback">Callback</h2>
+<p>Run a function (callback) and use its return value as the result:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Callback;
+use ZendDiagnostics\Result\Success;
+use ZendDiagnostics\Result\Failure;
+
+$checkDbFile = new Callback(function() {
+    $path = __DIR__ . '/data/db.sqlite';
+    if (is_file($path) &amp;&amp; is_readable($path) &amp;&amp; filesize($path)) {
+        return new Success('Db file is ok');
+    }
+
+        return new Failure('There is something wrong with the db file');
+});</code></pre>
+
+<blockquote>
+<h3 id="callback-signature">Callback signature</h3>
+<p>The callback must return either a <code>boolean</code> (true for success, false for
+failure), or a valid instance of
+<a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php">ResultInterface</a>.
+All other objects will result in an exception, and scalars (i.e. a string) will
+be interpreted as warnings.</p>
+</blockquote>
+<h2 id="classexists">ClassExists</h2>
+<p>Check if a class (or an array of classes) exists. For example:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\ClassExists;
+
+$checkLuaClass = new ClassExists('Lua');
+$checkRbacClasses = new ClassExists([
+    'ZfcRbac\Module',
+    'ZfcRbac\Controller\Plugin\IsGranted'
+]);</code></pre>
+
+<h2 id="cpuperformance">CpuPerformance</h2>
+<p>Benchmark CPU performance and return failure if it is below the given ratio. The
+baseline for performance calculation is the speed of an Amazon EC2 Micro Instance
+(Q1 2013). You can specify the expected performance for the test, where a ratio
+of <code>1.0</code> (one) means at least the speed of EC2 Micro Instance. A ratio of <code>2</code>
+would mean "at least double the performance of EC2 Micro Instance" and a
+fraction of <code>0.5</code> means "at least half the performance of Micro Instance".</p>
+<p>The following check will test if current server has at least half the CPU power
+of EC2 Micro Instance:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\CpuPerformance;
+
+$checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance</code></pre>
+
+<h2 id="dirreadable">DirReadable</h2>
+<p>Check if a given path (or array of paths) points to a directory and it is
+readable.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\DirReadable;
+
+$checkPublic = new DirReadable('public/');
+$checkAssets = new DirReadable([
+    __DIR__ . '/assets/img',
+    __DIR__ . '/assets/js',
+]);</code></pre>
+
+<h2 id="dirwritable">DirWritable</h2>
+<p>Check if a given path (or array of paths) points to a directory and if it can be
+written to.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\DirWritable;
+
+$checkTemporary = new DirWritable('/tmp');
+$checkAssets    = new DirWritable([
+    __DIR__ . '/assets/customImages',
+    __DIR__ . '/assets/customJs',
+    __DIR__ . '/assets/uploads',
+]);</code></pre>
+
+<h2 id="diskfree">DiskFree</h2>
+<p>Check if there is enough remaining free disk space.</p>
+<p>The first parameter is the minimum disk space, which can be supplied as an
+integer (in bytes, e.g. <code>1024</code>) or as a string with a multiplier (IEC, SI or
+Jedec; e.g.  <code>"150MB"</code>). The second parameter is the path to check; on *NIX
+systems it is an ordinary path (e.g. <code>/home</code>), while on Windows systems it is a
+drive letter (e.g.  <code>"C:"</code>).</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\DiskFree;
+
+$tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
+$homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
+$dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');</code></pre>
+
+<h3 id="extensionloaded">ExtensionLoaded</h3>
+<p>Check if a PHP extension (or an array of extensions) is currently loaded.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\ExtensionLoaded;
+
+$checkMbstring    = new ExtensionLoaded('mbstring');
+$checkCompression = new ExtensionLoaded([
+    'rar',
+    'bzip2',
+    'zip',
+]);</code></pre>
+
+<h2 id="httpservice">HttpService</h2>
+<p>Attempt connection to a given HTTP host or IP address and try to load a web
+page. The check also supports checking response codes and page contents.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\HttpService;
+
+// Try to connect to google.com
+$checkGoogle = new HttpService('www.google.com');
+
+// Check port 8080 on localhost
+$checkLocal = new HttpService('127.0.0.1', 8080);
+
+// Check that the page exists (response code must equal 200)
+$checkPage = new HttpService('www.example.com', 80, '/some/page.html', 200);
+
+// Check page content
+$checkPageContent = new HttpService(
+    'www.example.com',
+    80,
+    '/some/page.html',
+    200,
+    '&lt;title&gt;Hello World&lt;/title&gt;'
+);</code></pre>
+
+<h2 id="guzzlehttpservice">GuzzleHttpService</h2>
+<p>Attempt connection to a given HTTP host or IP address and try to load a web page
+using <a href="http://guzzle3.readthedocs.org/en/latest/">Guzzle</a>. The check also
+supports checking response codes and page contents.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\GuzzleHttpService;
+
+// Try to connect to google.com
+$checkGoogle = new GuzzleHttpService('www.google.com');
+
+// Check port 8080 on localhost
+$checkLocal = new GuzzleHttpService('127.0.0.1:8080');
+
+// Check that the page exists (response code must equal 200)
+$checkPage = new GuzzleHttpService('www.example.com/some/page.html');
+
+// Check page content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/some/page.html',
+    [],
+    [],
+    200,
+    '&lt;title&gt;Hello World&lt;/title&gt;'
+);
+
+// Check that the post request returns the content
+$checkPageContent = new GuzzleHttpService(
+    'www.example.com/user/update',
+    [],
+    [],
+    200,
+    '{&quot;status&quot;:&quot;success&quot;}',
+    'POST',
+    ['post_field' =&gt; 'post_value']
+);</code></pre>
+
+<h2 id="memcache">Memcache</h2>
+<p>Attempt to connect to given Memcache server.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Memcache;
+
+$checkLocal  = new Memcache('127.0.0.1'); // default port
+$checkBackup = new Memcache('10.0.30.40', 11212);</code></pre>
+
+<h2 id="mongodb">MongoDb</h2>
+<p>Check if a connection to a given MongoDb server is possible.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Mongo;
+
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
+
+<h2 id="phpversion">PhpVersion</h2>
+<p>Check if the current PHP version matches the given requirement. The test accepts
+2 parameters: baseline version and optional
+<a href="http://www.php.net/manual/en/function.version-compare.php">comparison operator</a>.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\PhpVersion;
+
+$require545orNewer  = new PhpVersion('5.4.5');
+$rejectBetaVersions = new PhpVersion('5.5.0', '&lt;');</code></pre>
+
+<h2 id="phpflag">PhpFlag</h2>
+<p>Make sure that the provided PHP flag(s) is enabled or disabled (as defined in
+<code>php.ini</code>). You can use this test to alert the user about unsafe or
+behavior-changing PHP settings.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\PhpFlag;
+
+// This check will fail if use_only_cookies is not enabled
+$sessionOnlyUsesCookies = new PhpFlag('session.use_only_cookies', true);
+
+// This check will fail if safe_mode has been enabled
+$noSafeMode = new PhpFlag('safe_mode', false);
+
+// The following will fail if any of the flags is enabled
+$check = new PhpFlag([
+    'expose_php',
+    'ignore_user_abort',
+    'html_errors',
+], false);</code></pre>
+
+<h2 id="processrunning">ProcessRunning</h2>
+<p>Check if a given unix process is running. This check supports PIDs and process
+names.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\ProcessRunning;
+
+$checkApache = new ProcessRunning('httpd');
+$checkProcess1000 = new ProcessRunning(1000);</code></pre>
+
+<h2 id="rabbitmq">RabbitMQ</h2>
+<p>Validate that a RabbitMQ service is running.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\RabbitMQ;
+
+$rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');</code></pre>
+
+<h2 id="redis">Redis</h2>
+<p>Validate that a Redis service is running.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Redis;
+
+$redisCheck = new Redis('localhost', 6379, 'secret');</code></pre>
+
+<h2 id="securityadvisory">SecurityAdvisory</h2>
+<p>Run a security check of libraries locally installed by
+<a href="http://getcomposer.org">Composer</a> against <a href="https://security.sensiolabs.org/database">SensioLabs Security Advisory
+database</a>, and warn about potential
+security vulnerabilities.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\SecurityAdvisory;
+
+// Warn about any packages that might have security vulnerabilities
+// and require updating
+$security = new SecurityAdvisory();
+
+// Check another composer.lock
+$security = new SecurityAdvisory('/var/www/project/composer.lock');</code></pre>
+
+<h2 id="streamwrapperexists">StreamWrapperExists</h2>
+<p>Check if a given stream wrapper (or an array of wrappers) is available. For
+example:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\StreamWrapperExists;
+
+$checkOGGStream   = new StreamWrapperExists('ogg');
+$checkCompression = new StreamWrapperExists([
+    'zlib',
+    'bzip2',
+    'zip',
+]);</code></pre>
+
+<h2 id="doctrinemigration">DoctrineMigration</h2>
+<p>Make sure all migrations are applied:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\ORM\EntityManager;
+use ZendDiagnostics\Check\DoctrineMigration;
+
+$em = EntityManager::create(/* config */);
+$migrationConfig = new Configuration($em);
+$check = new DoctrineMigration($migrationConfig);</code></pre>
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../usage/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../file-validation/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+<div class="help-wanted">
+    <p>
+        Found a mistake or want to contribute to the documentation?
+        <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/diagnostics.md" target="_blank" class="help-wanted__link">
+            Edit this page on GitHub!
+        </a>
+    </p>
+</div>
+                
+            <!-- content:end -->
+            </div>
+            <div class="col-md-3 col-xs-12 sidebar">
+                
+                    <div class="component-selector">
+    <h4 class="component-selector__title">Components</h4>
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">ZendDiagnostics</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../usage/" class="subnavigation__link">Introduction and Usage</a>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Checks</span>
+                        <ul class="subnavigation__list">
+                            
+                                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Diagnostic Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+    </li>
+
+                            
+                        </ul>
+                    </li>
+                
+            
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Reference</span>
+                        <ul class="subnavigation__list">
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../custom-checks/" class="subnavigation__link">Custom Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+    </li>
+
+                            
+                        </ul>
+                    </li>
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h5>Zend Framework</h5>
+                <ul>
+                    <li><a href="https://framework.zend.com/">framework.zend.com</a></li>
+                    <li><a href="https://docs.zendframework.com">docs.zendframework.com</a></li>
+                    <li><a href="https://packages.zendframework.com">packages.zendframework.com</a></li>
+                    <li><a href="https://apigility.org">apigility.org</a></li>
+                    <li><a href="https://getexpressive.org/">getexpressive.org</a></li>
+                </ul>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-9">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>&copy; 2006-2018 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        var base_url = '..',
+            siteName = 'ZendDiagnostics';
+    </script>
+    <script src="../js/scripts-5141b2abfe.js"></script>
+        <script src="../search/require.js"></script>
+        <script src="../search/search.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+</html>
