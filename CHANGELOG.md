@@ -42,5 +42,9 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Fixed
 
+- [#92](https://github.com/zendframework/zenddiagnostics/pull/92) fixes how the `ProcessRunning` diagnostic works when given
+  a process name, but the current window is too small to display it (a problem
+  that only occurs on some operating systems).
+
 - [#80](https://github.com/zendframework/zenddiagnostics/pull/80) fixes how the `MongoDB\Client` instance is created when using ext-mongodb + mongodb/mongodb,
   ensuring it uses the provided connection URI.
