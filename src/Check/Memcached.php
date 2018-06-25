@@ -7,6 +7,8 @@
 
 namespace ZendDiagnostics\Check;
 
+use Exception;
+use Memcached as MemcachedService;
 use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
@@ -29,7 +31,8 @@ class Memcached extends AbstractCheck
     /**
      * @param string $host
      * @param int    $port
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException if host is not a string value
+     * @throws InvalidArgumentException if port is less than 1
      */
     public function __construct($host = '127.0.0.1', $port = 11211)
     {
@@ -40,7 +43,7 @@ class Memcached extends AbstractCheck
             ));
         }
 
-        $port = (int)$port;
+        $port = (int) $port;
         if ($port < 1) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid port number - expecting a positive integer',
@@ -53,7 +56,7 @@ class Memcached extends AbstractCheck
     }
 
     /**
-     * @see ZendDiagnostics\CheckInterface::check()
+     * @see CheckInterface::check()
      */
     public function check()
     {
@@ -62,14 +65,16 @@ class Memcached extends AbstractCheck
         }
 
         try {
-            $memcached = new \Memcached();
+            $memcached = new MemcachedService();
             $memcached->addServer($this->host, $this->port);
             $stats = @$memcached->getStats();
 
-            if (! $stats ||
-                ! is_array($stats) ||
-                ! isset($stats[$this->host . ':' . $this->port]) ||
-                ($stats[$this->host . ':' . $this->port] === false)
+            $authority = sprintf('%s:%d', $this->host, $this->port);
+
+            if (! $stats
+                || ! is_array($stats)
+                || ! isset($stats[$authority])
+                || false === $stats[$authority]
             ) {
                 // Attempt a connection to make sure that the server is really down
                 if (! @$memcached->getLastDisconnectedServer($this->host, $this->port)) {
@@ -80,7 +85,7 @@ class Memcached extends AbstractCheck
                     ));
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new Failure($e->getMessage());
         }
 

@@ -7,6 +7,8 @@
 
 namespace ZendDiagnostics\Check;
 
+use Exception;
+use Memcache as MemcacheService;
 use InvalidArgumentException;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
@@ -29,7 +31,7 @@ class Memcache extends AbstractCheck
     /**
      * @param string $host
      * @param int    $port
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($host = '127.0.0.1', $port = 11211)
     {
@@ -53,7 +55,7 @@ class Memcache extends AbstractCheck
     }
 
     /**
-     * @see ZendDiagnostics\CheckInterface::check()
+     * @see CheckInterface::check()
      */
     public function check()
     {
@@ -62,14 +64,16 @@ class Memcache extends AbstractCheck
         }
 
         try {
-            $memcache = new \Memcache();
+            $memcache = new MemcacheService();
             $memcache->addServer($this->host, $this->port);
             $stats = @$memcache->getExtendedStats();
 
-            if (! $stats ||
-                ! is_array($stats) ||
-                ! isset($stats[$this->host . ':' . $this->port]) ||
-                ($stats[$this->host . ':' . $this->port] === false)
+            $authority = sprintf('%s:%d', $this->host, $this->port);
+
+            if (! $stats
+                || ! is_array($stats)
+                || ! isset($stats[$authority])
+                || false === $stats[$authority]
             ) {
                 // Attempt a connection to make sure that the server is really down
                 if (! @$memcache->connect($this->host, $this->port)) {
@@ -80,7 +84,7 @@ class Memcache extends AbstractCheck
                     ));
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new Failure($e->getMessage());
         }
 
