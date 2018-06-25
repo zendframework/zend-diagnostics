@@ -8,6 +8,8 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
+- [#88](https://github.com/zendframework/zenddiagnostics/pull/88) adds a new `Memcached` diagnostic check.
+
 - [#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds full documentation at https://docs.zendframework.com/zend-diagnostics
 
 - [#89](https://github.com/zendframework/zenddiagnostics/pull/89) adds support for Guzzle 6. While support was previously

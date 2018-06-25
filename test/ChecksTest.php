@@ -22,6 +22,8 @@ use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\ExtensionLoaded;
 use ZendDiagnostics\Check\IniFile;
 use ZendDiagnostics\Check\JsonFile;
+use ZendDiagnostics\Check\Memcache;
+use ZendDiagnostics\Check\Memcached;
 use ZendDiagnostics\Check\PhpFlag;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
@@ -61,6 +63,10 @@ class ChecksTest extends TestCase
 
     public function testRabbitMQ()
     {
+        if (getenv('TESTS_ZEND_DIAGNOSTICS_RABBITMQ_ENABLED') !== 'true') {
+            $this->markTestSkipped('RabbitMQ tests are not enabled; enable them in phpunit.xml');
+        }
+
         $check = new RabbitMQ();
         $result = $check->check();
         $this->assertInstanceOf(Success::class, $result);
@@ -75,6 +81,10 @@ class ChecksTest extends TestCase
 
     public function testRedis()
     {
+        if (getenv('TESTS_ZEND_DIAGNOSTICS_REDIS_ENABLED') !== 'true') {
+            $this->markTestSkipped('Redis tests are not enabled; enable them in phpunit.xml');
+        }
+
         $check = new Redis();
         $result = $check->check();
         $this->assertInstanceOf(Success::class, $result);
@@ -82,6 +92,36 @@ class ChecksTest extends TestCase
         $check = new Redis('127.0.0.250', 9999);
         $this->expectException(Exception::class);
         $check->check();
+    }
+
+    public function testMemcache()
+    {
+        if (getenv('TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED') !== 'true') {
+            $this->markTestSkipped('Memcache tests are not enabled; enable them in phpunit.xml');
+        }
+
+        $check = new Memcache();
+        $result = $check->check();
+        $this->assertInstanceOf(Success::class, $result);
+
+        $check = new Memcache('127.0.0.250', 9999);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
+    }
+
+    public function testMemcached()
+    {
+        if (getenv('TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED') !== 'true') {
+            $this->markTestSkipped('Memcached tests are not enabled; enable them in phpunit.xml');
+        }
+
+        $check = new Memcached();
+        $result = $check->check();
+        $this->assertInstanceOf(Success::class, $result);
+
+        $check = new Memcached('127.0.0.250', 9999);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
     }
 
     public function testClassExists()

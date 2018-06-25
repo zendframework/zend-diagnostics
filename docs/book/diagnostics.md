@@ -240,6 +240,32 @@ use ZendDiagnostics\Check\Memcache;
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);
 ```
+   
+## Memcached
+
+Attempt to connect to the given Memcached server.
+
+```php
+<?php
+use ZendDiagnostics\Check\Memcached;
+
+$checkLocal  = new Memcached('127.0.0.1'); // default port
+$checkBackup = new Memcached('10.0.30.40', 11212);
+```
+
+### MongoDb
+Check if connection to MongoDb is possible
+
+````php
+<?php
+use ZendDiagnostics\Check\Mongo;
+
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');
+````
+
+
 
 ## MongoDb
 
