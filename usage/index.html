@@ -313,7 +313,11 @@ $runner-&gt;addCheck(new Check\DiskFree(100000000, '/tmp'));
 $runner-&gt;addReporter(new BasicConsole(80, true));
 
 // Run all checks
-$runner-&gt;run();</code></pre>
+$results = $runner-&gt;run();
+
+// Emit an appropriate exit code
+$status = ($results-&gt;getFailureCount() + $results-&gt;getWarningCount()) &gt; 0 ? 1 : 0;
+exit($status);</code></pre>
 
 <p>You can now run the file in your console (command line):</p>
 <pre class="codehilite"><code class="language-bash">$ php run_diagnostics.php
