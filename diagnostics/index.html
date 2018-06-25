@@ -254,7 +254,11 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#mongodb" class="toc__link">MongoDb</a>
+                        <a href="#memcached" class="toc__link">Memcached</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#mongodb_1" class="toc__link">MongoDb</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -484,7 +488,24 @@ use ZendDiagnostics\Check\Memcache;
 $checkLocal  = new Memcache('127.0.0.1'); // default port
 $checkBackup = new Memcache('10.0.30.40', 11212);</code></pre>
 
-<h2 id="mongodb">MongoDb</h2>
+<h2 id="memcached">Memcached</h2>
+<p>Attempt to connect to the given Memcached server.</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Memcached;
+
+$checkLocal  = new Memcached('127.0.0.1'); // default port
+$checkBackup = new Memcached('10.0.30.40', 11212);</code></pre>
+
+<h3 id="mongodb">MongoDb</h3>
+<p>Check if connection to MongoDb is possible</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+use ZendDiagnostics\Check\Mongo;
+
+$mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
+// and with user/password
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
+
+<h2 id="mongodb_1">MongoDb</h2>
 <p>Check if a connection to a given MongoDb server is possible.</p>
 <pre class="codehilite"><code class="language-php">&lt;?php
 use ZendDiagnostics\Check\Mongo;
