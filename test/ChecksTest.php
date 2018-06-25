@@ -24,6 +24,7 @@ use ZendDiagnostics\Check\IniFile;
 use ZendDiagnostics\Check\JsonFile;
 use ZendDiagnostics\Check\Memcache;
 use ZendDiagnostics\Check\Memcached;
+use ZendDiagnostics\Check\Mongo;
 use ZendDiagnostics\Check\PhpFlag;
 use ZendDiagnostics\Check\PhpVersion;
 use ZendDiagnostics\Check\ProcessRunning;
@@ -116,6 +117,21 @@ class ChecksTest extends TestCase
         }
 
         $check = new Memcached();
+        $result = $check->check();
+        $this->assertInstanceOf(Success::class, $result);
+
+        $check = new Memcached('127.0.0.250', 9999);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
+    }
+
+    public function testMongo()
+    {
+        if (getenv('TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED') !== 'true') {
+            $this->markTestSkipped('Mongo tests are not enabled; enable them in phpunit.xml');
+        }
+
+        $check = new Mongo();
         $result = $check->check();
         $this->assertInstanceOf(Success::class, $result);
 

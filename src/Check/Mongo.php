@@ -7,6 +7,10 @@
 
 namespace ZendDiagnostics\Check;
 
+use Exception;
+use MongoClient;
+use MongoDB\Client as MongoDBClient;
+use RuntimeException;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Failure;
 
@@ -20,7 +24,7 @@ class Mongo extends AbstractCheck
     /**
      * @param string $connectionUri
      */
-    public function __construct($connectionUri)
+    public function __construct($connectionUri = 'mongodb://127.0.0.1/')
     {
         $this->connectionUri = $connectionUri;
     }
@@ -32,8 +36,11 @@ class Mongo extends AbstractCheck
     {
         try {
             $this->getListDBs();
-        } catch (\Exception $e) {
-            return new Failure(sprintf('Failed to connect to MongoDB server. Reason: `%s`', $e->getMessage()));
+        } catch (Exception $e) {
+            return new Failure(sprintf(
+                'Failed to connect to MongoDB server. Reason: `%s`',
+                $e->getMessage()
+            ));
         }
 
         return new Success();
@@ -48,12 +55,14 @@ class Mongo extends AbstractCheck
      */
     private function getListDBs()
     {
-        if (class_exists('\MongoDB\Client')) {
-            return (new \MongoDB\Client($this->connectionUri))->listDatabases();
-        } elseif (class_exists('\MongoClient')) {
-            return (new \MongoClient($this->server))->listDBs();
+        if (class_exists(MongoDBClient::class)) {
+            return (new MongoDBClient($this->connectionUri))->listDatabases();
         }
 
-        throw new \RuntimeException('Neither the mongo extension or mongodb are installed');
+        if (class_exists(MongoClient::class)) {
+            return (new MongoClient($this->connectionUri))->listDBs();
+        }
+
+        throw new RuntimeException('Neither the mongo extension or mongodb are installed');
     }
 }

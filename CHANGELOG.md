@@ -34,4 +34,5 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Fixed
 
-- Nothing.
+- [#80](https://github.com/zendframework/zenddiagnostics/pull/80) fixes how the `MongoDB\Client` instance is created when using ext-mongodb + mongodb/mongodb,
+  ensuring it uses the provided connection URI.

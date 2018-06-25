@@ -18,6 +18,7 @@
     <php>
         <env name="TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED" value="false" />
         <env name="TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED" value="false" />
+        <env name="TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED" value="false" />
         <env name="TESTS_ZEND_DIAGNOSTICS_RABBITMQ_ENABLED" value="false" />
         <env name="TESTS_ZEND_DIAGNOSTICS_REDIS_ENABLED" value="false" />
     </php>
