@@ -58,7 +58,7 @@ class Mongo extends AbstractCheck
         if (class_exists(MongoDBClient::class)) {
             return (new MongoDBClient($this->connectionUri))->listDatabases();
         }
-        
+
         if (class_exists(MongoClient::class)) {
             return (new MongoClient($this->connectionUri))->listDBs();
         }
