@@ -88,7 +88,11 @@ $runner->addCheck(new Check\DiskFree(100000000, '/tmp'));
 $runner->addReporter(new BasicConsole(80, true));
 
 // Run all checks
-$runner->run();
+$results = $runner->run();
+
+// Emit an appropriate exit code
+$status = ($results->getFailureCount() + $results->getWarningCount()) > 0 ? 1 : 0;
+exit($status);
 ```
 
 You can now run the file in your console (command line):
