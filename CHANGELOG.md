@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
-## 1.2.0 - TBD
+## 1.2.0 - 2018-06-25
 
 ### Added
 
