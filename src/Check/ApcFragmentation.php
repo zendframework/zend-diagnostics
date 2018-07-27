@@ -90,11 +90,12 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
             return new Skip('APC has not been enabled in CLI.');
         }
 
-        if (! function_exists('apc_sma_info')) {
+        $memoryAllocationMethod = \PHP_VERSION_ID < 70000 ? 'apc_sma_info' : 'apcu_sma_info';
+        if (! function_exists($memoryAllocationMethod)) {
             return new Warning('APC extension is not available');
         }
 
-        if (! $info = apc_sma_info()) {
+        if (! $info = $memoryAllocationMethod()) {
             return new Warning('Unable to retrieve APC memory status information.');
         }
 
