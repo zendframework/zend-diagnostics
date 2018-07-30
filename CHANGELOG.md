@@ -4,33 +4,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
-## 1.3.0 - TBD
+## 1.3.0 - 2018-07-30
 
 ### Added
 
 - [#93](https://github.com/zendframework/zenddiagnostics/pull/93) adds compatibility for apcu
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.2.1 - TBD
-
-### Added
-
-- Nothing.
 
 ### Changed
 
