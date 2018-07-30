@@ -14,9 +14,9 @@ use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 
 /**
- * Checks to see if the APC fragmentation is below warning/critical thresholds
+ * Checks to see if the APCu fragmentation is below warning/critical thresholds
  *
- * APC memory logic borrowed from APC project:
+ * APCu memory logic borrowed from APC project:
  *
  *      https://github.com/php/pecl-caching-apc/blob/master/apc.php
  *      authors:   Ralf Becker <beckerr@php.net>, Rasmus Lerdorf <rasmus@php.net>, Ilia Alshanetsky <ilia@prohost.org>
@@ -90,11 +90,11 @@ class ApcFragmentation extends AbstractCheck implements CheckInterface
             return new Skip('APC has not been enabled in CLI.');
         }
 
-        if (! function_exists('apc_sma_info')) {
-            return new Warning('APC extension is not available');
+        if (! function_exists('apcu_sma_info')) {
+            return new Warning('APCu extension is not available');
         }
 
-        if (! $info = apc_sma_info()) {
+        if (! $info = apcu_sma_info()) {
             return new Warning('Unable to retrieve APC memory status information.');
         }
 

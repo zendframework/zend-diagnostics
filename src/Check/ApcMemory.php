@@ -13,9 +13,9 @@ use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Warning;
 
 /**
- * Checks to see if the APC memory usage is below warning/critical thresholds
+ * Checks to see if the APCu memory usage is below warning/critical thresholds
  *
- * APC memory logic borrowed from APC project:
+ * APCu memory logic borrowed from APC project:
  *      https://github.com/php/pecl-caching-apc/blob/master/apc.php
  *      authors:   Ralf Becker <beckerr@php.net>, Rasmus Lerdorf <rasmus@php.net>, Ilia Alshanetsky <ilia@prohost.org>
  *      license:   The PHP License, version 3.01
@@ -46,11 +46,14 @@ class ApcMemory extends AbstractMemoryCheck
             return new Skip('APC has not been enabled in CLI.');
         }
 
-        if (! function_exists('apc_sma_info')) {
-            return new Warning('APC extension is not available');
+        if (! function_exists('apcu_sma_info')) {
+            return new Warning(sprintf(
+                '%s extension is not available',
+                PHP_VERSION_ID < 70000 ? 'APC' : 'APCu'
+            ));
         }
 
-        if (! $this->apcInfo = apc_sma_info()) {
+        if (! $this->apcInfo = apcu_sma_info()) {
             return new Warning('Unable to retrieve APC memory status information.');
         }
 
