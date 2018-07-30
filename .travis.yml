@@ -16,6 +16,7 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
+    - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_RABBITMQ_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_REDIS_ENABLED=true
@@ -26,6 +27,7 @@ matrix:
       env:
         - DEPS=lowest
         - MONGO_LEGACY=true
+        - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 5.6
@@ -33,12 +35,14 @@ matrix:
         - DEPS=locked
         - MONGO_LEGACY=true
         - LEGACY_DEPS="phpunit/phpunit"
+        - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 5.6
       env:
         - DEPS=latest
         - MONGO_LEGACY=true
+        - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
     - php: 7
@@ -83,6 +87,7 @@ matrix:
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - if [[ $TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED == 'true' ]]; then echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
