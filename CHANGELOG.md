@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
+## 1.3.2 - 2018-09-16
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- AbstractResult message default value is empty string.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.3.1 - TBD
 
 ### Added
