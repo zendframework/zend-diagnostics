@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
+## 1.3.2 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.3.1 - 2018-09-17
 
 ### Added
