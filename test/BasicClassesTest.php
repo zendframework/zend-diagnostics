@@ -77,7 +77,7 @@ class BasicClassesTest extends TestCase
     public function testSetters()
     {
         $result = new Success();
-        $this->assertSame(null, $result->getMessage());
+        $this->assertSame('', $result->getMessage());
         $this->assertSame(null, $result->getData());
 
         $result->setMessage('foo');

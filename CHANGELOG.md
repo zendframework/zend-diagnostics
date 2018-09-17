@@ -26,7 +26,7 @@ Releases prior to 1.2.0 did not have entries.
 
 - Nothing.
 
-## 1.3.1 - TBD
+## 1.3.1 - 2018-09-17
 
 ### Added
 
@@ -46,7 +46,11 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Fixed
 
-- Nothing.
+- [#94](https://github.com/zendframework/zenddiagnostics/pull/94) updates the
+  `AbstractResult::$message` property to default to an empty string instead of
+  `null`. Since both `ResultInterface` and `AbstractResult` document that the
+  return type for `getMessage()` is a string, and all reporters expect a string,
+  this ensures type safety for the method.
 
 ## 1.3.0 - 2018-07-30
 

@@ -13,7 +13,7 @@ namespace ZendDiagnostics\Result;
 abstract class AbstractResult implements ResultInterface
 {
     /**
-     * @var string|null
+     * @var string
      */
     protected $message;
 
@@ -25,14 +25,12 @@ abstract class AbstractResult implements ResultInterface
     /**
      * Create new result
      *
-     * @param string|null $message
+     * @param string      $message
      * @param mixed|null  $data
      */
-    public function __construct($message = null, $data = null)
+    public function __construct($message = '', $data = null)
     {
-        if ($message !== null) {
-            $this->setMessage($message);
-        }
+        $this->setMessage($message);
 
         if ($data !== null) {
             $this->setData($data);
@@ -68,7 +66,7 @@ abstract class AbstractResult implements ResultInterface
     }
 
     /**
-     * @param null|string $message
+     * @param string $message
      */
     public function setMessage($message)
     {
