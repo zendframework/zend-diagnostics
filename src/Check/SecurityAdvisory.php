@@ -8,6 +8,7 @@
 namespace ZendDiagnostics\Check;
 
 use InvalidArgumentException;
+use SensioLabs\Security\Result;
 use SensioLabs\Security\SecurityChecker;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
@@ -40,6 +41,12 @@ class SecurityAdvisory extends AbstractCheck
                 'SensioLabs\Security\SecurityChecker',
                 'sensiolabs/security-checker'
             ));
+        }
+
+        if (! class_exists('SensioLabs\Security\Result')) {
+            throw new InvalidArgumentException(
+                'You must have sensiolabs/security-checker version 5+ to use this check.'
+            );
         }
 
         if (! $lockFilePath) {
@@ -78,9 +85,7 @@ class SecurityAdvisory extends AbstractCheck
 
             $advisories = $this->securityChecker->check($this->lockFilePath, 'json');
 
-            if (is_string($advisories)) {
-                $advisories = @json_decode($advisories);
-            }
+            $advisories = @json_decode((string) $advisories, true);
 
             if (! is_array($advisories)) {
                 return new Warning('Could not parse response from security advisory service.');
