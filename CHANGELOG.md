@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
-## 1.3.2 - TBD
+## 1.4.0 - 2019-01-09
 
 ### Added
 
@@ -12,7 +12,7 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Changed
 
-- Nothing.
+- [#95](https://github.com/zendframework/zenddiagnostics/pull/95) changes the minimum supported version of sensiolabs/security-checker from 1.3 to 5.0.
 
 ### Deprecated
 
