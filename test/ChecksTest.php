@@ -12,6 +12,7 @@ use ErrorException;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use SensioLabs\Security\Result;
 use SensioLabs\Security\SecurityChecker;
 use stdClass;
 use ZendDiagnostics\Check\Callback;
@@ -614,12 +615,13 @@ class ChecksTest extends TestCase
         $checker->expects($this->once())
             ->method('check')
             ->with($this->equalTo($secureComposerLock))
-            ->will($this->returnValue('[{"a":1},{"b":2},{"c":3}]'));
+            ->will($this->returnValue(new Result(3, '[{"a":1},{"b":2},{"c":3}]', 'json')));
 
         $check = new SecurityAdvisory($secureComposerLock);
         $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf(Failure::class, $result);
+        $this->assertSame('Found security advisories for 3 composer package(s)', $result->getMessage());
     }
 
     /**
@@ -653,6 +655,23 @@ class ChecksTest extends TestCase
         $check->setSecurityChecker($checker);
         $result = $check->check();
         $this->assertInstanceOf(Warning::class, $result);
+    }
+
+    /**
+     * @depends testSecurityAdvisory
+     */
+    public function testSecurityAdvisoryCheckerSuccess()
+    {
+        $secureComposerLock = __DIR__ . '/TestAsset/secure-composer.lock';
+        $checker = $this->createMock(SecurityChecker::class);
+        $checker->expects($this->once())
+            ->method('check')
+            ->with($this->equalTo($secureComposerLock))
+            ->will($this->returnValue(new Result(0, '[]', 'json')));
+        $check = new SecurityAdvisory($secureComposerLock);
+        $check->setSecurityChecker($checker);
+        $result = $check->check();
+        $this->assertInstanceOf(Success::class, $result);
     }
 
     public function testPhpVersionInvalidVersion()
