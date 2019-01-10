@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 cache:
@@ -81,6 +79,18 @@ matrix:
         - DEPS=locked
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.2
+      env:
+        - DEPS=latest
+        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: 7.3
+      env:
+        - DEPS=lowest
+        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: 7.3
+      env:
+        - DEPS=locked
+        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
+    - php: 7.3
       env:
         - DEPS=latest
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
