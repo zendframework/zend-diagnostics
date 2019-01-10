@@ -7,7 +7,7 @@
 
 namespace ZendDiagnostics\Check;
 
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Configuration;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
