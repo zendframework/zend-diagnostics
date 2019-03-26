@@ -8,7 +8,7 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
-- Nothing.
+- [#96](https://github.com/zendframework/zenddiagnostics/pull/96) adds support for PHP 7.3.
 
 ### Changed
 
