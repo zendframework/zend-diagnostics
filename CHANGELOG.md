@@ -8,6 +8,8 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
+- [#97](https://github.com/zendframework/zenddiagnostics/pull/97) adds support for doctrine/migrations v2 releases.
+
 - [#96](https://github.com/zendframework/zenddiagnostics/pull/96) adds support for PHP 7.3.
 
 ### Changed
