@@ -23,7 +23,7 @@
     "require-dev": {
         "doctrine/migrations": "^1.0 || ^2.0",
         "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
-        "mikey179/vfsStream": "^1.6",
+        "mikey179/vfsstream": "^1.6",
         "php-amqplib/php-amqplib": "^2.0",
         "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
         "predis/predis": "^1.0",
