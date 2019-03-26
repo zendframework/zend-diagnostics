@@ -21,9 +21,9 @@
         "php": "^5.6 || ^7.0"
     },
     "require-dev": {
-        "doctrine/migrations": "^1.0",
-        "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3",
-        "mikey179/vfsStream": "^1.6",
+        "doctrine/migrations": "^1.0 || ^2.0",
+        "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
+        "mikey179/vfsstream": "^1.6",
         "php-amqplib/php-amqplib": "^2.0",
         "phpunit/phpunit": "^5.7.27 || 6.5.8 || ^7.1.2",
         "predis/predis": "^1.0",
@@ -42,6 +42,9 @@
         "doctrine/migrations": "Required by Check\\DoctrineMigration"
     },
     "autoload": {
+        "files": [
+            "src/autoload.php"
+        ],
         "psr-4": {
             "ZendDiagnostics\\": "src/"
         }
@@ -54,10 +57,13 @@
     "config": {
         "sort-packages": true
     },
+    "conflict": {
+        "guzzlehttp/ringphp": "<1.1.1"
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.4.x-dev",
-            "dev-develop": "1.5.x-dev"
+            "dev-master": "1.5.x-dev",
+            "dev-develop": "1.6.x-dev"
         }
     },
     "scripts": {

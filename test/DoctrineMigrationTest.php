@@ -7,7 +7,7 @@
 
 namespace ZendDiagnosticsTest;
 
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Configuration;
 use PHPUnit\Framework\TestCase;
 use ZendDiagnostics\Check\DoctrineMigration;
 use ZendDiagnostics\Result\FailureInterface;

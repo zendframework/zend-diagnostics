@@ -451,7 +451,7 @@ Make sure all migrations are applied:
 
 ```php
 <?php
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
 use ZendDiagnostics\Check\DoctrineMigration;
 
