@@ -4,35 +4,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
-## 1.5.0 - TBD
+## 1.5.0 - 2019-03-26
 
 ### Added
 
 - [#97](https://github.com/zendframework/zenddiagnostics/pull/97) adds support for doctrine/migrations v2 releases.
 
 - [#96](https://github.com/zendframework/zenddiagnostics/pull/96) adds support for PHP 7.3.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.4.1 - TBD
-
-### Added
-
-- Nothing.
 
 ### Changed
 
