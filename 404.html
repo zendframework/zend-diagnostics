@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="shortcut icon" href="//img/favicon.ico">
 
-    <title>Custom Checks - ZendDiagnostics - Zend Framework Docs</title>
+    <title>ZendDiagnostics - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-f3b53f5ceb.css">
+    <link rel="stylesheet" href="//css/styles-f3b53f5ceb.css">
 </head>
 <body id="page-top">
 
@@ -31,7 +31,7 @@
             
             <span class="navbar-brand">
                 <a class="logo-link" href="https://framework.zend.com/" data-tooltip data-placement="bottom" title="Go to the ZF homepage">
-                    <img src="../img/zend-framework-logo.svg" height="28" alt="Zend Framework">
+                    <img src="//img/zend-framework-logo.svg" height="28" alt="Zend Framework">
                 </a>
             </span>
         </div>
@@ -66,7 +66,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">ZendDiagnostics</a>
+            <a href="/.">ZendDiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,7 +75,7 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../usage/" class="subnavigation__link">Introduction and Usage</a>
+                        <a href="/usage/" class="subnavigation__link">Introduction and Usage</a>
                     </li>
                 
             
@@ -86,13 +86,13 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
+        <a href="/diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+        <a href="/file-validation/" class="subnavigation__link">File Validation Checks</a>
     </li>
 
                             
@@ -107,19 +107,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../architecture/" class="subnavigation__link">Architecture</a>
-    </li>
-
-                            
-                                
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Custom Checks</a>
+        <a href="/architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="/custom-checks/" class="subnavigation__link">Custom Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="/custom-reporters/" class="subnavigation__link">Custom Reporters</a>
     </li>
 
                             
@@ -196,129 +196,18 @@
             <div class="col-md-9 col-xs-12 content" role="main">
             <!-- content:begin -->
                 
-                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-    <li><a href="https://framework.zend.com/">Home</a></li>
 
-    
-        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
+<h1 class="content__title">404</h1>
+<blockquote>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
+</blockquote>
 
-        
-            <li><a href="..">ZendDiagnostics</a></li>
-
-            
-                
-                    <li>Reference</li>
-                
-            
-
-            <li class="active">Custom Checks</li>
-        
-    
-</ol>
+<a href="/" class="btn btn-default" role="button">Go to homepage</a>
 
 
-    
-        <h2 class="chapter__headline">Reference</h2>
-    
-
-    
-    
-
-    
-    
-
-
-    <h1 id="writing-custom-checks">Writing Custom Checks</h1>
-<p>A Check class MUST implement <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Check/CheckInterface.php">Check</a>
-and provide the following methods:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-namespace ZendDiagnostics\Check;
-
-use ZendDiagnostics\Result\ResultInterface;
-
-interface CheckInterface
-{
-    /**
-     * @return ResultInterface
-     */
-    public function check();
-
-    /**
-     * Return a label describing this test instance.
-     *
-     * @return string
-     */
-    public function getLabel();
-}</code></pre>
-
-<p>The main <code>check()</code> method is responsible for performing the actual check, and is
-expected to return a <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php">Result</a>.
-It is recommended to use the built-in result classes for compatibility with the
-diagnostics Runner and other checks.</p>
-<p>Below is an example class that checks if the PHP default timezone is set to UTC.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-namespace MyApp\Diagnostics\Check;
-
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
-
-class TimezoneSetToUTC implements CheckInterface
-{
-    public function check()
-    {
-        $tz = date_default_timezone_get();
-
-        if ($tz === 'UTC') {
-            return new Success('Default timezone is UTC');
-        }
-
-        return new Failure('Default timezone is not UTC! It is actually ' . $tz);
-    }
-
-    public function getLabel()
-    {
-        return 'Check if PHP default timezone is set to UTC';
-    }
-}</code></pre>
-
-
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../architecture/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../custom-reporters/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/custom-checks.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
@@ -334,7 +223,7 @@ class TimezoneSetToUTC implements CheckInterface
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">ZendDiagnostics</a>
+            <a href="/.">ZendDiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -343,7 +232,7 @@ class TimezoneSetToUTC implements CheckInterface
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../usage/" class="subnavigation__link">Introduction and Usage</a>
+                        <a href="/usage/" class="subnavigation__link">Introduction and Usage</a>
                     </li>
                 
             
@@ -354,13 +243,13 @@ class TimezoneSetToUTC implements CheckInterface
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
+        <a href="/diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+        <a href="/file-validation/" class="subnavigation__link">File Validation Checks</a>
     </li>
 
                             
@@ -375,19 +264,19 @@ class TimezoneSetToUTC implements CheckInterface
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../architecture/" class="subnavigation__link">Architecture</a>
-    </li>
-
-                            
-                                
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Custom Checks</a>
+        <a href="/architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="/custom-checks/" class="subnavigation__link">Custom Checks</a>
+    </li>
+
+                            
+                                
+    <li class="subnavigation__list-item ">
+        <a href="/custom-reporters/" class="subnavigation__link">Custom Reporters</a>
     </li>
 
                             
@@ -466,11 +355,11 @@ class TimezoneSetToUTC implements CheckInterface
 </footer>
 
     <script>
-        var base_url = '..',
+        var base_url = '/',
             siteName = 'ZendDiagnostics';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="//js/scripts-8d7ae56abf.js"></script>
+        <script src="/search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
