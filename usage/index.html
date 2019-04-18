@@ -12,6 +12,7 @@
     <title>Introduction and Usage - ZendDiagnostics</title>
 
     <link rel="stylesheet" href="../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">ZendDiagnostics</a>
+            <a href="">ZendDiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,7 +76,7 @@
             
                 
                     <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Introduction and Usage</a>
+                        <a href="usage/" class="subnavigation__link">Introduction and Usage</a>
                     </li>
                 
             
@@ -86,13 +87,13 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
+        <a href="diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+        <a href="file-validation/" class="subnavigation__link">File Validation Checks</a>
     </li>
 
                             
@@ -107,19 +108,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+        <a href="architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-checks/" class="subnavigation__link">Custom Checks</a>
+        <a href="custom-checks/" class="subnavigation__link">Custom Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="custom-reporters/" class="subnavigation__link">Custom Reporters</a>
     </li>
 
                             
@@ -203,7 +204,7 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="..">ZendDiagnostics</a></li>
+            <li><a href="">ZendDiagnostics</a></li>
 
             
 
@@ -364,15 +365,15 @@ $runner-&gt;addCheck($checkTemp);
 // Run all checks
 $results = $runner-&gt;run();
 
-echo &quot;Number of successful tests: &quot; . $results-&gt;getSuccessCount() . &quot;\n&quot;;
-echo &quot;Number of failed tests:     &quot; . $results-&gt;getFailureCount() . &quot;\n&quot;;
+echo "Number of successful tests: " . $results-&gt;getSuccessCount() . "\n";
+echo "Number of failed tests:     " . $results-&gt;getFailureCount() . "\n";
 
 if ($results[$checkSpace] instanceof Result\FailureInterface) {
-    echo &quot;Oooops! We're running out of space on temp.\n&quot;;
+    echo "Oooops! We're running out of space on temp.\n";
 }
 
 if ($results[$checkTemp] instanceof Result\FailureInterface) {
-    echo &quot;It seems that /tmp is not writable - this is a serious problem!\n&quot;;
+    echo "It seems that /tmp is not writable - this is a serious problem!\n";
 }</code></pre>
 
 
@@ -383,7 +384,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -392,7 +393,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../diagnostics/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="diagnostics/">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -427,7 +428,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">ZendDiagnostics</a>
+            <a href="">ZendDiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -436,7 +437,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
             
                 
                     <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Introduction and Usage</a>
+                        <a href="usage/" class="subnavigation__link">Introduction and Usage</a>
                     </li>
                 
             
@@ -447,13 +448,13 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
+        <a href="diagnostics/" class="subnavigation__link">Diagnostic Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../file-validation/" class="subnavigation__link">File Validation Checks</a>
+        <a href="file-validation/" class="subnavigation__link">File Validation Checks</a>
     </li>
 
                             
@@ -468,19 +469,19 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../architecture/" class="subnavigation__link">Architecture</a>
+        <a href="architecture/" class="subnavigation__link">Architecture</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-checks/" class="subnavigation__link">Custom Checks</a>
+        <a href="custom-checks/" class="subnavigation__link">Custom Checks</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="custom-reporters/" class="subnavigation__link">Custom Reporters</a>
     </li>
 
                             
@@ -562,9 +563,8 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
         var base_url = '..',
             siteName = 'ZendDiagnostics';
     </script>
-    <script src="../js/scripts-0bcb0a3bb3.js"></script>
-        <script src="../search/require.js"></script>
-        <script src="../search/search.js"></script>
+    <script src="../js/scripts-edc4cfa790.js"></script>
+        <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -593,6 +593,14 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 
