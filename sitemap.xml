@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/usage/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/usage/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/diagnostics/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/diagnostics/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/file-validation/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/file-validation/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/architecture/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/architecture/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/custom-checks/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/custom-checks/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/custom-reporters/</loc>
-     <lastmod>2019-04-29</lastmod>
+     <loc>https://docs.zendframework.com/zenddiagnostics/custom-reporters/</loc>
+     <lastmod>2019-10-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

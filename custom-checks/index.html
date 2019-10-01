@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/custom-checks/">
+    <link rel="canonical" href="https://docs.zendframework.com/zenddiagnostics/custom-checks/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Custom Checks - ZendDiagnostics - Zend Framework Docs</title>
@@ -268,7 +268,7 @@
     <h1 id="writing-custom-checks">Writing Custom Checks</h1>
 <p>A Check class MUST implement <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Check/CheckInterface.php">Check</a>
 and provide the following methods:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 namespace ZendDiagnostics\Check;
 
 use ZendDiagnostics\Result\ResultInterface;
@@ -286,14 +286,13 @@ interface CheckInterface
      * @return string
      */
     public function getLabel();
-}</code></pre>
-
+}</code></pre></p>
 <p>The main <code>check()</code> method is responsible for performing the actual check, and is
 expected to return a <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php">Result</a>.
 It is recommended to use the built-in result classes for compatibility with the
 diagnostics Runner and other checks.</p>
 <p>Below is an example class that checks if the PHP default timezone is set to UTC.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 namespace MyApp\Diagnostics\Check;
 
 use ZendDiagnostics\Check\CheckInterface;
@@ -317,7 +316,7 @@ class TimezoneSetToUTC implements CheckInterface
     {
         return 'Check if PHP default timezone is set to UTC';
     }
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -351,7 +350,7 @@ class TimezoneSetToUTC implements CheckInterface
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/custom-checks.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/custom-checks.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/diagnostics/">
+    <link rel="canonical" href="https://docs.zendframework.com/zenddiagnostics/diagnostics/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Diagnostic Checks - ZendDiagnostics - Zend Framework Docs</title>
@@ -315,7 +315,7 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#mongodb_1" class="toc__link">MongoDb</a>
+                        <a href="#mongodb" class="toc__link">MongoDb</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -363,24 +363,22 @@ use straight away.</p>
 <h2 id="apcfragmentation">ApcFragmentation</h2>
 <p>Make sure that <a href="www.php.net/apc/">APC memory fragmentation level</a> is below a
 given threshold:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\ApcFragmentation;
 
 // Display a warning with fragmentation &gt; 50% and failure when above 90%
-$fragmentation = new ApcFragmentation(50, 90);</code></pre>
-
+$fragmentation = new ApcFragmentation(50, 90);</code></pre></p>
 <h2 id="apcmemory">ApcMemory</h2>
 <p>Check <a href="www.php.net/apc/">APC memory usage percent</a> and make sure it's below a
 given threshold.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\ApcMemory;
 
 // Display a warning with memory usage is above 70% and a failure above 90%
-$checkFreeMemory = new ApcMemory(70, 90);</code></pre>
-
+$checkFreeMemory = new ApcMemory(70, 90);</code></pre></p>
 <h2 id="callback">Callback</h2>
 <p>Run a function (callback) and use its return value as the result:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Callback;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Failure;
@@ -392,10 +390,9 @@ $checkDbFile = new Callback(function() {
     }
 
         return new Failure('There is something wrong with the db file');
-});</code></pre>
-
+});</code></pre></p>
 <blockquote>
-<h3 id="callback-signature">Callback signature</h3>
+<h3>Callback signature</h3>
 <p>The callback must return either a <code>boolean</code> (true for success, false for
 failure), or a valid instance of
 <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Result/ResultInterface.php">ResultInterface</a>.
@@ -404,15 +401,14 @@ be interpreted as warnings.</p>
 </blockquote>
 <h2 id="classexists">ClassExists</h2>
 <p>Check if a class (or an array of classes) exists. For example:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\ClassExists;
 
 $checkLuaClass = new ClassExists('Lua');
 $checkRbacClasses = new ClassExists([
     'ZfcRbac\Module',
     'ZfcRbac\Controller\Plugin\IsGranted'
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="cpuperformance">CpuPerformance</h2>
 <p>Benchmark CPU performance and return failure if it is below the given ratio. The
 baseline for performance calculation is the speed of an Amazon EC2 Micro Instance
@@ -422,27 +418,25 @@ would mean "at least double the performance of EC2 Micro Instance" and a
 fraction of <code>0.5</code> means "at least half the performance of Micro Instance".</p>
 <p>The following check will test if current server has at least half the CPU power
 of EC2 Micro Instance:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\CpuPerformance;
 
-$checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance</code></pre>
-
+$checkMinCPUSpeed = new CpuPerformance(0.5); // at least 50% of EC2 micro instance</code></pre></p>
 <h2 id="dirreadable">DirReadable</h2>
 <p>Check if a given path (or array of paths) points to a directory and it is
 readable.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\DirReadable;
 
 $checkPublic = new DirReadable('public/');
 $checkAssets = new DirReadable([
     __DIR__ . '/assets/img',
     __DIR__ . '/assets/js',
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="dirwritable">DirWritable</h2>
 <p>Check if a given path (or array of paths) points to a directory and if it can be
 written to.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\DirWritable;
 
 $checkTemporary = new DirWritable('/tmp');
@@ -450,8 +444,7 @@ $checkAssets    = new DirWritable([
     __DIR__ . '/assets/customImages',
     __DIR__ . '/assets/customJs',
     __DIR__ . '/assets/uploads',
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="diskfree">DiskFree</h2>
 <p>Check if there is enough remaining free disk space.</p>
 <p>The first parameter is the minimum disk space, which can be supplied as an
@@ -459,16 +452,15 @@ integer (in bytes, e.g. <code>1024</code>) or as a string with a multiplier (IEC
 Jedec; e.g.  <code>"150MB"</code>). The second parameter is the path to check; on *NIX
 systems it is an ordinary path (e.g. <code>/home</code>), while on Windows systems it is a
 drive letter (e.g.  <code>"C:"</code>).</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\DiskFree;
 
 $tempHasAtLeast100Megs  = new DiskFree('100MB', '/tmp');
 $homeHasAtLeast1TB      = new DiskFree('1TiB',  '/home');
-$dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');</code></pre>
-
-<h3 id="extensionloaded">ExtensionLoaded</h3>
+$dataHasAtLeast900Bytes = new DiskFree(900, __DIR__ . '/data/');</code></pre></p>
+<h3>ExtensionLoaded</h3>
 <p>Check if a PHP extension (or an array of extensions) is currently loaded.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\ExtensionLoaded;
 
 $checkMbstring    = new ExtensionLoaded('mbstring');
@@ -476,12 +468,11 @@ $checkCompression = new ExtensionLoaded([
     'rar',
     'bzip2',
     'zip',
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="httpservice">HttpService</h2>
 <p>Attempt connection to a given HTTP host or IP address and try to load a web
 page. The check also supports checking response codes and page contents.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\HttpService;
 
 // Try to connect to google.com
@@ -500,14 +491,13 @@ $checkPageContent = new HttpService(
     '/some/page.html',
     200,
     '&lt;title&gt;Hello World&lt;/title&gt;'
-);</code></pre>
-
+);</code></pre></p>
 <h2 id="guzzlehttpservice">GuzzleHttpService</h2>
 <p>Attempt connection to a given HTTP host or IP address and try to load a web page
 using <a href="http://docs.guzzlephp.org">Guzzle</a>. The check also supports checking
 response codes and page contents.</p>
 <p>The constructor signature of the <code>GuzzleHttpService</code> is as follows:</p>
-<pre class="codehilite"><code class="language-php">/**
+<p> <pre class=codehilite><code class=language-php>/**
  * @param string|Psr\Http\Message\RequestInterface|GuzzleHttp\Message\RequestInterface $requestOrUrl
  *     The absolute url to check, or a fully-formed request instance.
  * @param array $headers An array of headers used to create the request
@@ -528,10 +518,9 @@ public function __construct(
     $guzzle = null,
     $method = 'GET',
     $body = null
-)</code></pre>
-
+)</code></pre></p>
 <p>Examples:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\GuzzleHttpService;
 
 // Try to connect to google.com
@@ -558,14 +547,13 @@ $checkPageContent = new GuzzleHttpService(
     [],
     [],
     200,
-    '{"status":"success"}',
+    '{&quot;status&quot;:&quot;success&quot;}',
     'POST',
     ['post_field' =&gt; 'post_value']
-);</code></pre>
-
+);</code></pre></p>
 <p>You can send JSON data by either providing a <code>Content-Type</code> header that includes
 a JSON content type, or creating a request instance with JSON content:</p>
-<pre class="codehilite"><code class="language-php">// Send page content
+<p> <pre class=codehilite><code class=language-php>// Send page content
 $checkPageContent = new GuzzleHttpService(
     'api.example.com/ping',
     ['Content-Type' =&gt; 'application/json'],
@@ -585,57 +573,51 @@ $request = new Request(
     ['Content-Type' =&gt; 'application/json'],
     json_encode(['ping' =&gt; microtime()])
 );
-$checkPageContent = new GuzzleHttpService($request);</code></pre>
-
+$checkPageContent = new GuzzleHttpService($request);</code></pre></p>
 <h2 id="memcache">Memcache</h2>
 <p>Attempt to connect to given Memcache server.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Memcache;
 
 $checkLocal  = new Memcache('127.0.0.1'); // default port
-$checkBackup = new Memcache('10.0.30.40', 11212);</code></pre>
-
+$checkBackup = new Memcache('10.0.30.40', 11212);</code></pre></p>
 <h2 id="memcached">Memcached</h2>
 <p>Attempt to connect to the given Memcached server.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Memcached;
 
 $checkLocal  = new Memcached('127.0.0.1'); // default port
-$checkBackup = new Memcached('10.0.30.40', 11212);</code></pre>
-
-<h3 id="mongodb">MongoDb</h3>
+$checkBackup = new Memcached('10.0.30.40', 11212);</code></pre></p>
+<h3>MongoDb</h3>
 <p>Check if connection to MongoDb is possible</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Mongo;
 
 $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 // and with user/password
-$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
-
-<h2 id="mongodb_1">MongoDb</h2>
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre></p>
+<h2 id="mongodb">MongoDb</h2>
 <p>Check if a connection to a given MongoDb server is possible.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Mongo;
 
 $mongoCheck = new Mongo('mongodb://127.0.0.1:27017');
 // and with user/password
-$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre>
-
+$mongoCheck = new Mongo('mongodb://user:password@127.0.0.1:27017');</code></pre></p>
 <h2 id="phpversion">PhpVersion</h2>
 <p>Check if the current PHP version matches the given requirement. The test accepts
 2 parameters: baseline version and optional
 <a href="http://www.php.net/manual/en/function.version-compare.php">comparison operator</a>.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\PhpVersion;
 
 $require545orNewer  = new PhpVersion('5.4.5');
-$rejectBetaVersions = new PhpVersion('5.5.0', '&lt;');</code></pre>
-
+$rejectBetaVersions = new PhpVersion('5.5.0', '&lt;');</code></pre></p>
 <h2 id="phpflag">PhpFlag</h2>
 <p>Make sure that the provided PHP flag(s) is enabled or disabled (as defined in
 <code>php.ini</code>). You can use this test to alert the user about unsafe or
 behavior-changing PHP settings.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\PhpFlag;
 
 // This check will fail if use_only_cookies is not enabled
@@ -649,37 +631,33 @@ $check = new PhpFlag([
     'expose_php',
     'ignore_user_abort',
     'html_errors',
-], false);</code></pre>
-
+], false);</code></pre></p>
 <h2 id="processrunning">ProcessRunning</h2>
 <p>Check if a given unix process is running. This check supports PIDs and process
 names.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\ProcessRunning;
 
 $checkApache = new ProcessRunning('httpd');
-$checkProcess1000 = new ProcessRunning(1000);</code></pre>
-
+$checkProcess1000 = new ProcessRunning(1000);</code></pre></p>
 <h2 id="rabbitmq">RabbitMQ</h2>
 <p>Validate that a RabbitMQ service is running.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\RabbitMQ;
 
-$rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');</code></pre>
-
+$rabbitMQCheck = new RabbitMQ('localhost', 5672, 'guest', 'guest', '/');</code></pre></p>
 <h2 id="redis">Redis</h2>
 <p>Validate that a Redis service is running.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\Redis;
 
-$redisCheck = new Redis('localhost', 6379, 'secret');</code></pre>
-
+$redisCheck = new Redis('localhost', 6379, 'secret');</code></pre></p>
 <h2 id="securityadvisory">SecurityAdvisory</h2>
 <p>Run a security check of libraries locally installed by
 <a href="http://getcomposer.org">Composer</a> against <a href="https://security.sensiolabs.org/database">SensioLabs Security Advisory
 database</a>, and warn about potential
 security vulnerabilities.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\SecurityAdvisory;
 
 // Warn about any packages that might have security vulnerabilities
@@ -687,12 +665,11 @@ use ZendDiagnostics\Check\SecurityAdvisory;
 $security = new SecurityAdvisory();
 
 // Check another composer.lock
-$security = new SecurityAdvisory('/var/www/project/composer.lock');</code></pre>
-
+$security = new SecurityAdvisory('/var/www/project/composer.lock');</code></pre></p>
 <h2 id="streamwrapperexists">StreamWrapperExists</h2>
 <p>Check if a given stream wrapper (or an array of wrappers) is available. For
 example:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check\StreamWrapperExists;
 
 $checkOGGStream   = new StreamWrapperExists('ogg');
@@ -700,18 +677,17 @@ $checkCompression = new StreamWrapperExists([
     'zlib',
     'bzip2',
     'zip',
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="doctrinemigration">DoctrineMigration</h2>
 <p>Make sure all migrations are applied:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
 use ZendDiagnostics\Check\DoctrineMigration;
 
 $em = EntityManager::create(/* config */);
 $migrationConfig = new Configuration($em);
-$check = new DoctrineMigration($migrationConfig);</code></pre>
+$check = new DoctrineMigration($migrationConfig);</code></pre></p>
 
 
 
@@ -745,7 +721,7 @@ $check = new DoctrineMigration($migrationConfig);</code></pre>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/diagnostics.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/diagnostics.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

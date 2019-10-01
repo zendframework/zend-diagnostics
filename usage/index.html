@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/usage/">
+    <link rel="canonical" href="https://docs.zendframework.com/zenddiagnostics/usage/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Introduction and Usage - ZendDiagnostics - Zend Framework Docs</title>
@@ -346,7 +346,7 @@ framework version.</p>
 <li>Run diagnostics <code>Runner::run()</code>.</li>
 </ol>
 <p>For example:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 // run_diagnostics.php
 
 use ZendDiagnostics\Check;
@@ -370,23 +370,21 @@ $results = $runner-&gt;run();
 
 // Emit an appropriate exit code
 $status = ($results-&gt;getFailureCount() + $results-&gt;getWarningCount()) &gt; 0 ? 1 : 0;
-exit($status);</code></pre>
-
+exit($status);</code></pre></p>
 <p>You can now run the file in your console (command line):</p>
-<pre class="codehilite"><code class="language-bash">$ php run_diagnostics.php
+<p> <pre class=codehilite><code class=language-bash>$ php run_diagnostics.php
 Starting diagnostics:
 
 ..
 
-OK (2 diagnostic tests)</code></pre>
-
+OK (2 diagnostic tests)</code></pre></p>
 <h2 id="using-a-result-collection">Using a result collection</h2>
 <p>The diagnostics runner will always return a
 <a href="https://github.com/zendframework/zend-diagnostics/src/Result/Collection.php">ZendDiagnostics\Result\Collection</a>,
 even when no reporter is attached. This collection contains results for all
 tests and failure counters.</p>
 <p>As an example:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 use ZendDiagnostics\Check;
 use ZendDiagnostics\Result;
 use ZendDiagnostics\Runner\Runner;
@@ -400,16 +398,16 @@ $runner-&gt;addCheck($checkTemp);
 // Run all checks
 $results = $runner-&gt;run();
 
-echo "Number of successful tests: " . $results-&gt;getSuccessCount() . "\n";
-echo "Number of failed tests:     " . $results-&gt;getFailureCount() . "\n";
+echo &quot;Number of successful tests: &quot; . $results-&gt;getSuccessCount() . &quot;\n&quot;;
+echo &quot;Number of failed tests:     &quot; . $results-&gt;getFailureCount() . &quot;\n&quot;;
 
 if ($results[$checkSpace] instanceof Result\FailureInterface) {
-    echo "Oooops! We're running out of space on temp.\n";
+    echo &quot;Oooops! We're running out of space on temp.\n&quot;;
 }
 
 if ($results[$checkTemp] instanceof Result\FailureInterface) {
-    echo "It seems that /tmp is not writable - this is a serious problem!\n";
-}</code></pre>
+    echo &quot;It seems that /tmp is not writable - this is a serious problem!\n&quot;;
+}</code></pre></p>
 
 
 
@@ -443,7 +441,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/usage.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/usage.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/custom-reporters/">
+    <link rel="canonical" href="https://docs.zendframework.com/zenddiagnostics/custom-reporters/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Custom Reporters - ZendDiagnostics - Zend Framework Docs</title>
@@ -268,7 +268,7 @@
     <h1 id="writing-custom-reporters">Writing Custom Reporters</h1>
 <p>A reporter is a class implementing
   <a href="https://github.com/zendframework/zend-diagnostics/tree/master/src/Runner/Reporter/ReporterInterface.php">ReporterInterface</a>.</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 namespace ZendDiagnostics\Runner\Reporter;
 
 use ArrayObject;
@@ -283,8 +283,7 @@ interface ReporterInterface
     public function onAfterRun(Check $check, Result $result);
     public function onStop(ResultCollection $results);
     public function onFinish(ResultCollection $results);
-}</code></pre>
-
+}</code></pre></p>
 <p>A Runner invokes the above methods while running diagnostics in the following order:</p>
 <ul>
 <li><code>onStart</code> - right after calling <code>Runner::run()</code></li>
@@ -338,7 +337,7 @@ that can serve as an example of how to write your own reporters.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/custom-reporters.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/custom-reporters.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
