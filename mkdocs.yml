@@ -13,4 +13,3 @@ pages:
 site_name: ZendDiagnostics
 site_description: 'A set of components for performing diagnostic tests in PHP applications.'
 repo_url: 'https://github.com/zendframework/zend-diagnostics'
-copyright: 'Copyright (c) 2013-2018 <a href="https://www.zend.com/">Zend Technologies USA Inc.</a>'
