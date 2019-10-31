@@ -1,8 +1,8 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
     - index.md
     - usage.md
+nav:
     - Checks:
         - "Diagnostic Checks": diagnostics.md
         - "File Validation Checks": file-validation.md
