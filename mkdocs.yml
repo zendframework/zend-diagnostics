@@ -10,7 +10,7 @@ nav:
     - Reference:
         - Architecture: architecture.md
         - "Writing Custom Checks": custom-checks.md
-site_name: ZendDiagnostics
         - "Writing Custom Reporters": custom-reporters.md
+site_name: zenddiagnostics
 site_description: 'Universal set of diagnostic tests for PHP applications.'
 repo_url: 'https://github.com/zendframework/zend-diagnostics'
