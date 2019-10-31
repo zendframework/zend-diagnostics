@@ -1,15 +1,16 @@
 docs_dir: docs/book
 site_dir: docs/html
-    - index.md
-    - usage.md
 nav:
+    - Home: index.md
+    - Introduction: introduction.md
+    - 'Basic Usage': usage.md
     - Checks:
         - "Diagnostic Checks": diagnostics.md
         - "File Validation Checks": file-validation.md
     - Reference:
         - Architecture: architecture.md
-        - "Custom Checks": custom-checks.md
-        - "Custom Reporters": custom-reporters.md
+        - "Writing Custom Checks": custom-checks.md
 site_name: ZendDiagnostics
 site_description: 'A set of components for performing diagnostic tests in PHP applications.'
+        - "Writing Custom Reporters": custom-reporters.md
 repo_url: 'https://github.com/zendframework/zend-diagnostics'
