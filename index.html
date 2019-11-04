@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A set of components for performing diagnostic tests in PHP applications.">  
+    <meta name="description" content="Universal set of diagnostic tests for PHP applications.">  
     <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/">
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <title>ZendDiagnostics - Zend Framework Docs</title>
+    <title>zenddiagnostics - Zend Framework Docs</title>
 
     <link rel="stylesheet" href="css/styles-5cfabd53ee.css">
 </head>
@@ -67,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">ZendDiagnostics</a>
+            <a href=".">zenddiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -82,7 +82,21 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="usage/" class="subnavigation__link">Introduction and Usage</a>
+                                <a href="introduction/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="usage/" class="subnavigation__link">Basic Usage</a>
                             </li>
                         
                     
@@ -136,13 +150,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="custom-checks/" class="subnavigation__link">Custom Checks</a>
+        <a href="custom-checks/" class="subnavigation__link">Writing Custom Checks</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="custom-reporters/" class="subnavigation__link">Writing Custom Reporters</a>
     </li>
 
                                     
@@ -184,7 +198,7 @@
                     Documentation
 
                     
-                        <small class="header__subtitle">ZendDiagnostics</small>
+                        <small class="header__subtitle">zenddiagnostics</small>
                     
                 </h1>
             </div>
@@ -197,7 +211,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/zendframework/zend-diagnostics/" class="header__link header__link--github" title="Go to repository of ZendDiagnostics">
+                    <a href="https://github.com/zendframework/zend-diagnostics/" class="header__link header__link--github" title="Go to repository of zenddiagnostics">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -221,20 +235,68 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-xs-12 content" role="main">
-            <h2>Installation</h2>
+            <!-- content:begin -->
+                
+                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+    <li><a href="https://framework.zend.com/">Home</a></li>
 
-<h3>Using Composer</h3>
+    
+        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
-<pre><code class="language-bash">$ composer require zendframework/zenddiagnostics</code></pre>
+        
+            <li>zenddiagnostics</li>
+        
+    
+</ol>
+
+
+
+
+
+    <h1>zenddiagnostics</h1>
+<p>Universal set of diagnostic tests for PHP applications.</p>
+
+
+    <h2>Installation</h2>
+    <h3>Using Composer</h3>
+    <pre><code class="language-bash">$ composer require zendframework/zenddiagnostics</code></pre>
+
 
 <h2>Support</h2>
 <ul>
-    <li>Issues: <a href="https://github.com/zendframework/zend-diagnostics/issues/">github.com/zendframework/zend-diagnostics/issues</a></li>
-    <li>Source: <a href="https://github.com/zendframework/zend-diagnostics/">github.com/zendframework/zend-diagnostics</a></li>
+    <li>Issues: <a href="https://github.com/zendframework/zenddiagnostics/issues/">github.com/zendframework/zenddiagnostics/issues</a></li>
+    <li>Source: <a href="https://github.com/zendframework/zenddiagnostics/">github.com/zendframework/zenddiagnostics</a></li>
     <li>Chat: <a href="https://zendframework-slack.herokuapp.com">zendframework-slack.herokuapp.com</a></li>
     <li>Forum: <a href="https://discourse.zendframework.com/">discourse.zendframework.com</a></li>
 </ul>
 
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="introduction/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+                
+            <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
                 
@@ -249,7 +311,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">ZendDiagnostics</a>
+            <a href=".">zenddiagnostics</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -264,7 +326,21 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="usage/" class="subnavigation__link">Introduction and Usage</a>
+                                <a href="introduction/" class="subnavigation__link">Introduction</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href="usage/" class="subnavigation__link">Basic Usage</a>
                             </li>
                         
                     
@@ -318,13 +394,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="custom-checks/" class="subnavigation__link">Custom Checks</a>
+        <a href="custom-checks/" class="subnavigation__link">Writing Custom Checks</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="custom-reporters/" class="subnavigation__link">Custom Reporters</a>
+        <a href="custom-reporters/" class="subnavigation__link">Writing Custom Reporters</a>
     </li>
 
                                     
@@ -406,7 +482,7 @@
 
     <script>
         var base_url = '.',
-            siteName = 'ZendDiagnostics';
+            siteName = 'zenddiagnostics';
     </script>
     <script src="js/scripts-8d7ae56abf.js"></script>
         <script src="search/main.js"></script>
@@ -448,5 +524,5 @@
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-10-25 17:36:38
+Build Date UTC : 2019-11-04 09:30:20
 -->

@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Universal set of diagnostic tests for PHP applications.">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/usage/">
+    <link rel="canonical" href="https://docs.zendframework.com/zend-diagnostics/introduction/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>Basic Usage - zenddiagnostics - Zend Framework Docs</title>
+    <title>Introduction - zenddiagnostics - Zend Framework Docs</title>
 
     <link rel="stylesheet" href="../css/styles-5cfabd53ee.css">
 </head>
@@ -81,8 +81,8 @@
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href="../introduction/" class="subnavigation__link">Introduction</a>
+                            <li class="subnavigation__list-item subnavigation__list-item--active">
+                                <a href="./" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
@@ -95,8 +95,8 @@
                     
                     
                         
-                            <li class="subnavigation__list-item subnavigation__list-item--active">
-                                <a href="./" class="subnavigation__link">Basic Usage</a>
+                            <li class="subnavigation__list-item ">
+                                <a href="../usage/" class="subnavigation__link">Basic Usage</a>
                             </li>
                         
                     
@@ -248,7 +248,7 @@
 
             
 
-            <li class="active">Basic Usage</li>
+            <li class="active">Introduction</li>
         
     
 </ol>
@@ -267,124 +267,46 @@
 
     
     
-        <div class="toc">
-            <h6 class="toc__headline">In This Article</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#performing-diagnostics-with-zend-framework-2" class="toc__link">Performing diagnostics with Zend Framework 2</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#using-diagnostics-with-symfony-2" class="toc__link">Using diagnostics with Symfony 2</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#using-diagnostics-with-psr-7-middleware" class="toc__link">Using diagnostics with PSR-7 middleware</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#using-diagnostics-in-plain-php" class="toc__link">Using diagnostics in plain PHP</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#using-a-result-collection" class="toc__link">Using a result collection</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
 
     </div>
 
-    <h1 id="basic-usage">Basic Usage</h1>
-<h2 id="performing-diagnostics-with-zend-framework-2">Performing diagnostics with Zend Framework 2</h2>
-<ol>
-<li>Install the <a href="https://github.com/zendframework/ZFTool">ZFTool module</a>.</li>
-<li>Enable diagnostic tests in <a href="https://github.com/zendframework/ZFTool/blob/master/docs/DIAGNOSTICS.md">your application config.php</a>.</li>
-<li>In your console type <code>php public/index.php diag</code> to run diagnostics.</li>
-</ol>
-<p>Note: this does not work with Zend Framework 3; use the <a href="#using-diagnostics-in-plain-php">plain PHP
-diagnostics</a> instructions below when using that
-framework version.</p>
-<h2 id="using-diagnostics-with-symfony-2">Using diagnostics with Symfony 2</h2>
-<ol>
-<li>Install the <a href="https://github.com/liip/LiipMonitorBundle">LiipMonitorBundle</a>.</li>
-<li>Enable diagnostic tests in <a href="https://github.com/liip/LiipMonitorBundle/blob/master/README.md">your application configuration</a>.</li>
-<li>In your console type <code>./app/console monitor:health</code> to run diagnostics.</li>
-</ol>
-<h2 id="using-diagnostics-with-psr-7-middleware">Using diagnostics with PSR-7 middleware</h2>
-<p>Install the <a href="https://github.com/rstgroup/diagnostics-middleware">rstgroup/diagnostics-middleware</a>.</p>
-<h2 id="using-diagnostics-in-plain-php">Using diagnostics in plain PHP</h2>
-<ol>
-<li>Create an instance of <code>ZendDiagnostics\Runner</code>.</li>
-<li>Add tests using <code>Runner::addTest()</code>.</li>
-<li>Optionally add a reporter to display progress using <code>Runner::addReporter()</code>.</li>
-<li>Run diagnostics <code>Runner::run()</code>.</li>
-</ol>
-<p>For example:</p>
-<p> <pre class=codehilite><code class=language-php>&lt;?php
-// run_diagnostics.php
-
-use ZendDiagnostics\Check;
-use ZendDiagnostics\Runner\Runner;
-use ZendDiagnostics\Runner\Reporter\BasicConsole;
-
-include 'vendor/autoload.php';
-
-// Create Runner instance
-$runner = new Runner();
-
-// Add checks
-$runner-&gt;addCheck(new Check\DirWritable('/tmp'));
-$runner-&gt;addCheck(new Check\DiskFree(100000000, '/tmp'));
-
-// Add console reporter
-$runner-&gt;addReporter(new BasicConsole(80, true));
-
-// Run all checks
-$results = $runner-&gt;run();
-
-// Emit an appropriate exit code
-$status = ($results-&gt;getFailureCount() + $results-&gt;getWarningCount()) &gt; 0 ? 1 : 0;
-exit($status);</code></pre></p>
-<p>You can now run the file in your console (command line):</p>
-<p> <pre class=codehilite><code class=language-bash>$ php run_diagnostics.php
-Starting diagnostics:
-
-..
-
-OK (2 diagnostic tests)</code></pre></p>
-<h2 id="using-a-result-collection">Using a result collection</h2>
-<p>The diagnostics runner will always return a
-<a href="https://github.com/zendframework/zend-diagnostics/src/Result/Collection.php">ZendDiagnostics\Result\Collection</a>,
-even when no reporter is attached. This collection contains results for all
-tests and failure counters.</p>
-<p>As an example:</p>
-<p> <pre class=codehilite><code class=language-php>&lt;?php
-use ZendDiagnostics\Check;
-use ZendDiagnostics\Result;
-use ZendDiagnostics\Runner\Runner;
-
-$runner = new Runner();
-$checkSpace = new Check\DiskFree(100000000, '/tmp');
-$checkTemp  = new Check\DirWritable('/tmp');
-$runner-&gt;addCheck($checkSpace);
-$runner-&gt;addCheck($checkTemp);
-
-// Run all checks
-$results = $runner-&gt;run();
-
-echo &quot;Number of successful tests: &quot; . $results-&gt;getSuccessCount() . &quot;\n&quot;;
-echo &quot;Number of failed tests:     &quot; . $results-&gt;getFailureCount() . &quot;\n&quot;;
-
-if ($results[$checkSpace] instanceof Result\FailureInterface) {
-    echo &quot;Oooops! We're running out of space on temp.\n&quot;;
-}
-
-if ($results[$checkTemp] instanceof Result\FailureInterface) {
-    echo &quot;It seems that /tmp is not writable - this is a serious problem!\n&quot;;
-}</code></pre></p>
+    <h1 id="introduction">Introduction</h1>
+<p>zenddiagnostics provides diagnostic tests for real-world PHP applications.</p>
+<p>It currently ships with the following diagnostic checks:</p>
+<ul>
+<li><a href="../diagnostics/#apcfragmentation">ApcFragmentation</a> - check if APC memory fragmentation is below given threshold,</li>
+<li><a href="../diagnostics/#apcmemory">ApcMemory</a> - check available APC memory,</li>
+<li><a href="../diagnostics/#callback">Callback</a> - call a user-defined diagnostic function,</li>
+<li><a href="../diagnostics/#classexists">ClassExists</a> - make sure class exists in current environment,</li>
+<li><a href="../diagnostics/#couchdbcheck">CouchDBCheck</a> - check if connection is possible,</li>
+<li><a href="../diagnostics/#cpuperformance">CpuPerformance</a> - check server CPU performance is above baseline,</li>
+<li><a href="../diagnostics/#dirreadable">DirReadable</a> - make sure given path is readable,</li>
+<li><a href="../diagnostics/#dirwritable">DirWritable</a> - make sure given path is writable,</li>
+<li><a href="../diagnostics/#diskfree">DiskFree</a> - check there's enough free space on given path,</li>
+<li><a href="../diagnostics/#diskusage">DiskUsage</a> - check if the disk usage is below warning/critical percent thresholds,</li>
+<li><a href="../diagnostics/#doctrinemigration">DoctrineMigration</a> - make sure all migrations are applied.</li>
+<li><a href="../diagnostics/#extensionloaded">ExtensionLoaded</a> - make sure extension is loaded,</li>
+<li><a href="../diagnostics/#guzzlehttpservice">GuzzleHttpService</a> - check if given http host is responding using Guzzle,</li>
+<li><a href="../diagnostics/#httpservice">HttpService</a> - check if given http host is responding,</li>
+<li><a href="../diagnostics/#memcache">Memcache</a> - check if memcache extension is loaded and given server is reachable,</li>
+<li><a href="../diagnostics/#mongodb">Mongo</a> - check if connection to MongoDb is possible,</li>
+<li><a href="../diagnostics/#opcachememory">OpCacheMemory</a> - check if the OpCache memory usage is below warning/critical thresholds,</li>
+<li><a href="../diagnostics/#pdocheck">PDOCheck</a> - check if connection is possible,</li>
+<li><a href="../diagnostics/#phpversion">PhpVersion</a> - make sure that PHP version matches constraint,</li>
+<li><a href="../diagnostics/#phpflag">PhpFlag</a> - make sure that given PHP flag (feature) is turned on or off.</li>
+<li><a href="../diagnostics/#processrunning">ProcessRunning</a> - check if a process with given name or ID is currently running,</li>
+<li><a href="../diagnostics/#rabbitmq">RabbitMQ</a> - Validate that a RabbitMQ service is running,</li>
+<li><a href="../diagnostics/#redis">Redis</a> - Validate that a Redis service is running,</li>
+<li><a href="../diagnostics/#securityadvisory">SecurityAdvisory</a> - check installed composer dependencies against SensioLabs SA database,</li>
+<li><a href="../diagnostics/#streamwrapperexists">StreamWrapperExists</a> - make sure given stream wrapper is available.</li>
+</ul>
+<p>It also provides the following file validation checks:</p>
+<ul>
+<li><a href="../file-validation/#inifile">IniFile</a> - check if given INI file is available and valid,</li>
+<li><a href="../file-validation/#jsonfile">JsonFile</a> - check if given JSON file is available and valid,</li>
+<li><a href="../file-validation/#xmlfile">XmlFile</a> - check if given XML file is available and valid,</li>
+<li><a href="../file-validation/#yamlfile">YamlFile</a> - check if given YAML file is available and valid</li>
+</ul>
 
 
 
@@ -395,7 +317,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../introduction/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -404,7 +326,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../diagnostics/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../usage/">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -418,7 +340,7 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/usage.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-diagnostics/edit/master/docs/book/introduction.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
@@ -454,8 +376,8 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href="../introduction/" class="subnavigation__link">Introduction</a>
+                            <li class="subnavigation__list-item subnavigation__list-item--active">
+                                <a href="./" class="subnavigation__link">Introduction</a>
                             </li>
                         
                     
@@ -468,8 +390,8 @@ if ($results[$checkTemp] instanceof Result\FailureInterface) {
                     
                     
                         
-                            <li class="subnavigation__list-item subnavigation__list-item--active">
-                                <a href="./" class="subnavigation__link">Basic Usage</a>
+                            <li class="subnavigation__list-item ">
+                                <a href="../usage/" class="subnavigation__link">Basic Usage</a>
                             </li>
                         
                     
