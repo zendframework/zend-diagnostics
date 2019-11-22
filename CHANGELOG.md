@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Releases prior to 1.2.0 did not have entries.
 
+## 1.6.0 - TBD
+
+### Added
+
+- [#101](https://github.com/zendframework/zend-diagnostics/pull/101) adds compatibility with symfony/yaml `^5.0`.
+
+- [#101](https://github.com/zendframework/zend-diagnostics/pull/101) adds compatibility with sensiolabs/security-checker `^6.0`.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.5.1 - TBD
 
 ### Added
