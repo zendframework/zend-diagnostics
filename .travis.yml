@@ -12,7 +12,7 @@ services:
 
 env:
   global:
-    - COMPOSER_ARGS="--no-interaction"
+    - COMPOSER_ARGS="--no-interaction --no-plugins"
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
     - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=true
     - TESTS_ZEND_DIAGNOSTICS_MONGO_ENABLED=true
