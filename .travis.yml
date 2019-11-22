@@ -32,7 +32,7 @@ matrix:
       env:
         - DEPS=locked
         - MONGO_LEGACY=true
-        - LEGACY_DEPS="phpunit/phpunit"
+        - LEGACY_DEPS="doctrine/migrations phpunit/phpunit sensiolabs/security-checker symfony/yaml"
         - TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED=false
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED=true
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=false
@@ -50,7 +50,7 @@ matrix:
     - php: 7
       env:
         - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit"
+        - LEGACY_DEPS="doctrine/migrations phpunit/phpunit sensiolabs/security-checker symfony/yaml"
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7
       env:
@@ -63,6 +63,7 @@ matrix:
     - php: 7.1
       env:
         - DEPS=locked
+        - LEGACY_DEPS="symfony/yaml"
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
         - CS_CHECK=true
         - TEST_COVERAGE=true
