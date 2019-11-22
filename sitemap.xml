@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/introduction/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/usage/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/diagnostics/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/file-validation/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/architecture/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/custom-checks/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.zendframework.com/zend-diagnostics/custom-reporters/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <lastmod>2019-11-22</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
