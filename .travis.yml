@@ -7,8 +7,12 @@ cache:
 services:
   - memcached
   - mongodb
-  - rabbitmq
   - redis-server
+
+addons:
+  apt:
+    packages:
+      - rabbitmq-server
 
 env:
   global:
