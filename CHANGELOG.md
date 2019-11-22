@@ -8,7 +8,9 @@ Releases prior to 1.2.0 did not have entries.
 
 ### Added
 
-- Nothing.
+- [#101](https://github.com/zendframework/zend-diagnostics/pull/101) adds compatibility with symfony/yaml `^5.0`.
+
+- [#101](https://github.com/zendframework/zend-diagnostics/pull/101) adds compatibility with sensiolabs/security-checker `^6.0`.
 
 ### Changed
 
