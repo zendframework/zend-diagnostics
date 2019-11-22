@@ -49,11 +49,6 @@ matrix:
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="doctrine/migrations phpunit/phpunit sensiolabs/security-checker symfony/yaml"
-        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7
-      env:
         - DEPS=latest
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.1
@@ -62,22 +57,13 @@ matrix:
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.1
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="symfony/yaml"
-        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
+        - DEPS=latest
         - CS_CHECK=true
         - TEST_COVERAGE=true
-    - php: 7.1
-      env:
-        - DEPS=latest
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.2
       env:
         - DEPS=lowest
-        - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
-    - php: 7.2
-      env:
-        - DEPS=locked
         - TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED=true
     - php: 7.2
       env:
@@ -99,7 +85,7 @@ matrix:
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_APCU_ENABLED == 'true' ]]; then echo "extension = apcu.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
-  - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
+  - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHE_ENABLED == 'true' ]]; then yes|CFLAGS="-fgnu89-inline" pecl install -f memcache ; fi
   - if [[ $TESTS_ZEND_DIAGNOSTICS_MEMCACHED_ENABLED == 'true' ]]; then echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $MONGO_LEGACY == 'true' ]]; then echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
   - if [[ $MONGO_LEGACY != 'true' ]]; then pecl upgrade mongodb ; fi
