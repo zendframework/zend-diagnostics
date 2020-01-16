@@ -5,10 +5,6 @@ ZendDiagnostics
 >
 > This repository has moved to laminas/laminas-diagnostics.
 
-> ## Repository abandoned 2019-12-31
->
-> This repository has moved to laminas/laminas-diagnostics.
-
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-diagnostics.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-diagnostics)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-diagnostics/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-diagnostics?branch=master)
 
