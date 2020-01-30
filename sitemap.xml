@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/introduction/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/introduction/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/usage/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/usage/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/diagnostics/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/diagnostics/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/file-validation/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/file-validation/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/architecture/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/architecture/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/custom-checks/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/custom-checks/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-diagnostics/custom-reporters/</loc>
-     <lastmod>2019-11-22</lastmod>
+     <loc>https://docs.zendframework.com/custom-reporters/</loc>
+     <lastmod>2020-01-30</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
